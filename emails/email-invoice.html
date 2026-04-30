@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Your Pressd invoice</title>
+<!--[if mso]><style>* { font-family: Arial, sans-serif !important; }</style><![endif]-->
+<style>
+  @media only screen and (max-width: 600px) {
+    .container { width: 100% !important; max-width: 100% !important; }
+    .px { padding-left: 24px !important; padding-right: 24px !important; }
+    .h1 { font-size: 32px !important; line-height: 1.1 !important; }
+    .balance-amt { font-size: 44px !important; }
+    .summary-row td { font-size: 13px !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#FAF6EE; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#2A1F1F;">
+<div style="display:none; max-height:0; overflow:hidden;">{{#if isPaidInFull}}Your laundry is being processed. No further action needed.{{/if}}{{#unless isPaidInFull}}Final laundry cost ready. Outstanding: {{outstandingFmt}}.{{/unless}}</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FAF6EE;">
+  <tr><td align="center">
+    <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+      <!-- Header -->
+      <tr>
+        <td align="left" style="background:#643C3C; padding:22px 32px;" class="px">
+          <a href="{{siteUrl}}" style="text-decoration:none;"><img src="{{logoUrl}}" alt="Pressd" width="100" style="display:block; height:auto; border:0; max-width:100px;"></a>
+        </td>
+      </tr>
+
+      <!-- Headline (state-aware) -->
+      <tr>
+        <td style="background:#FAF6EE; padding:48px 32px 8px;" class="px">
+          {{#if isPaidInFull}}
+          <div style="display:inline-block; background:#D2E6B4; color:#643C3C; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px;">Paid in full ✓</div>
+          <h1 class="h1" style="margin:0 0 12px; font-size:42px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#643C3C;">
+            We've got your <em style="font-family:Georgia,serif; font-style:italic; font-weight:400;">laundry.</em>
+          </h1>
+          <p style="margin:0 0 32px; font-size:17px; line-height:1.55; color:#7C6A6A;">
+            Hi {{name}}, we've weighed and sorted everything. You're fully covered — nothing more to pay.
+          </p>
+          {{/if}}
+          {{#unless isPaidInFull}}
+          <div style="display:inline-block; background:#FFF6E5; color:#6B4C00; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px;">Balance due</div>
+          <h1 class="h1" style="margin:0 0 12px; font-size:42px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#643C3C;">
+            Your final cost is <em style="font-family:Georgia,serif; font-style:italic; font-weight:400;">ready.</em>
+          </h1>
+          <p style="margin:0 0 32px; font-size:17px; line-height:1.55; color:#7C6A6A;">
+            Hi {{name}}, we've weighed and sorted your laundry. There's a small balance to settle before we wash and deliver.
+          </p>
+          {{/unless}}
+        </td>
+      </tr>
+
+      <!-- Big balance card (only when balance due) -->
+      {{#unless isPaidInFull}}
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 16px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#643C3C; border-radius:24px;">
+            <tr><td align="center" style="padding:32px 24px; color:#D2E6B4;">
+              <div style="font-size:11px; text-transform:uppercase; letter-spacing:2px; opacity:0.75; margin-bottom:8px;">Balance to pay</div>
+              <div class="balance-amt" style="font-family:Georgia,serif; font-size:56px; font-weight:600; letter-spacing:-1.5px; line-height:1; margin-bottom:24px;">{{outstandingFmt}}</div>
+              {{#if paymentLink}}
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr><td style="background:#D2E6B4; border-radius:999px;">
+                  <a href="{{paymentLink}}" style="display:inline-block; padding:16px 36px; font-size:16px; font-weight:600; color:#643C3C; text-decoration:none; border-radius:999px;">Pay balance now →</a>
+                </td></tr>
+              </table>
+              <p style="margin:14px 0 0; font-size:12px; color:rgba(210,230,180,0.7);">Secure payment via Paystack</p>
+              {{/if}}
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+      {{/unless}}
+
+      <!-- Cost breakdown -->
+      <tr>
+        <td style="background:#FAF6EE; padding:16px 32px;" class="px">
+          <h2 style="margin:8px 0 12px; font-size:18px; font-weight:600; color:#643C3C; letter-spacing:-0.3px;">Cost breakdown</h2>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FFFFFF; border:1px solid #E8DFD4; border-radius:16px;">
+            <tr><td style="padding:8px 24px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr class="summary-row"><td style="padding:12px 0 4px; border-bottom:1px solid #E8DFD4;" colspan="2"><div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#7C6A6A; font-weight:600;">Already paid at booking</div></td></tr>
+                <tr class="summary-row"><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Pickup &amp; delivery <span style="opacity:0.6;">(separate)</span></td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{pickupFeeFmt}}</td></tr>
+                <tr class="summary-row"><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Toward laundry</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{additionalCostPaidFmt}}</td></tr>
+
+                <tr class="summary-row"><td style="padding:16px 0 4px; border-bottom:1px solid #E8DFD4;" colspan="2"><div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#7C6A6A; font-weight:600;">After weighing</div></td></tr>
+                <tr class="summary-row"><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Final laundry cost</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{finalLaundryCostFmt}}</td></tr>
+
+                {{#if isPaidInFull}}
+                <tr><td style="padding:14px 0 12px; font-size:16px; font-weight:600; color:#5A8C3F;">Status</td><td align="right" style="padding:14px 0 12px; font-size:16px; font-weight:600; color:#5A8C3F;">Covered ✓</td></tr>
+                {{/if}}
+                {{#unless isPaidInFull}}
+                <tr><td style="padding:14px 0 12px; font-size:16px; font-weight:600; color:#643C3C;">Outstanding</td><td align="right" style="padding:14px 0 12px; font-family:Georgia,serif; font-size:24px; font-weight:600; color:#C44545; letter-spacing:-0.5px;">{{outstandingFmt}}</td></tr>
+                {{/unless}}
+
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- What happens next -->
+      <tr>
+        <td style="background:#FAF6EE; padding:16px 32px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#D2E6B4; border-radius:16px;">
+            <tr><td style="padding:24px 28px;">
+              <h3 style="margin:0 0 12px; font-size:16px; font-weight:600; color:#643C3C;">What happens next</h3>
+              {{#if isPaidInFull}}
+              <p style="margin:0; font-size:14px; line-height:1.6; color:#4D2E2E;">
+                We'll wash, dry, and have everything ready for delivery within 48–72 hours. Your <strong>Delivery PIN</strong> is <strong style="font-family:monospace; letter-spacing:2px;">{{deliveryPin}}</strong> — share it with the rider when they drop off.
+              </p>
+              {{/if}}
+              {{#unless isPaidInFull}}
+              <p style="margin:0; font-size:14px; line-height:1.6; color:#4D2E2E;">
+                Once your balance is paid, we'll wash, dry, and deliver back within 48–72 hours. Your <strong>Delivery PIN</strong> is <strong style="font-family:monospace; letter-spacing:2px;">{{deliveryPin}}</strong> — share it with the rider when they drop off.
+              </p>
+              {{/unless}}
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Closing -->
+      <tr>
+        <td style="background:#FAF6EE; padding:24px 32px 40px;" class="px">
+          <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:#7C6A6A;">
+            {{#unless isPaidInFull}}Questions about the total? Just reply to this email and we'll walk you through it.{{/unless}}
+            {{#if isPaidInFull}}Questions? Just reply to this email or message us on <a href="{{whatsappUrl}}" style="color:#643C3C; font-weight:500;">WhatsApp</a>.{{/if}}
+          </p>
+          <p style="margin:0; font-size:15px; color:#643C3C; font-weight:500;">— The Pressd team</p>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="background:#643C3C; padding:32px; text-align:center;" class="px">
+          <p style="margin:0 0 8px; font-family:Georgia,serif; font-style:italic; font-size:14px; color:#D2E6B4; letter-spacing:0.5px;">washed • dried • pressd</p>
+          <p style="margin:0; font-size:12px; color:rgba(210,230,180,0.6);">
+            <a href="mailto:{{supportEmail}}" style="color:#D2E6B4; text-decoration:underline;">{{supportEmail}}</a> &nbsp;·&nbsp;
+            <a href="{{whatsappUrl}}" style="color:#D2E6B4; text-decoration:underline;">WhatsApp us</a>
+          </p>
+          <p style="margin:16px 0 0; font-size:11px; color:rgba(210,230,180,0.45);">Order {{orderId}} · © {{year}} Pressd</p>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Payment received</title>
+<!--[if mso]><style>* { font-family: Arial, sans-serif !important; }</style><![endif]-->
+<style>
+  @media only screen and (max-width: 600px) {
+    .container { width: 100% !important; max-width: 100% !important; }
+    .px { padding-left: 24px !important; padding-right: 24px !important; }
+    .h1 { font-size: 32px !important; line-height: 1.1 !important; }
+    .amount { font-size: 40px !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#FAF6EE; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#2A1F1F;">
+<div style="display:none; max-height:0; overflow:hidden;">{{bookingTotalFmt}} confirmed for order {{orderId}}.</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FAF6EE;">
+  <tr><td align="center">
+    <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+      <!-- Header -->
+      <tr>
+        <td align="left" style="background:#643C3C; padding:22px 32px;" class="px">
+          <a href="{{siteUrl}}" style="text-decoration:none;"><img src="{{logoUrl}}" alt="Pressd" width="100" style="display:block; height:auto; border:0; max-width:100px;"></a>
+        </td>
+      </tr>
+
+      <!-- Big check -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:48px 32px 24px;" class="px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td width="72" height="72" align="center" valign="middle" style="background:#5A8C3F; border-radius:50%;">
+              <span style="display:inline-block; color:#FFFFFF; font-size:36px; font-weight:700; line-height:1;">✓</span>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Headline -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:0 32px 8px;" class="px">
+          <h1 class="h1" style="margin:0 0 12px; font-size:42px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#643C3C;">
+            Payment <em style="font-family:Georgia,serif; font-style:italic; font-weight:400;">received.</em>
+          </h1>
+          <p style="margin:0 0 32px; font-size:17px; line-height:1.55; color:#7C6A6A;">
+            Hi {{name}}, we've got it. You're all set for pickup.
+          </p>
+        </td>
+      </tr>
+
+      <!-- Receipt card -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FFFFFF; border:1px solid #E8DFD4; border-radius:24px;">
+            <tr><td style="padding:32px;">
+
+              <!-- Big amount -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+                <tr><td align="center" style="background:#F2EBDC; border-radius:16px; padding:24px;">
+                  <div style="font-size:11px; text-transform:uppercase; letter-spacing:2px; color:#7C6A6A; font-weight:600; margin-bottom:8px;">Amount paid</div>
+                  <div class="amount" style="font-family:Georgia,serif; font-size:48px; font-weight:600; color:#643C3C; letter-spacing:-1px; line-height:1;">{{bookingTotalFmt}}</div>
+                </td></tr>
+              </table>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Order ID</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{orderId}}</td></tr>
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Reference</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:13px; font-weight:500; color:#2A1F1F; font-family:monospace;">{{bookingPaymentRef}}</td></tr>
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Date</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{bookingPaidAtFmt}}</td></tr>
+                <tr><td style="padding:10px 0; font-size:14px; color:#7C6A6A;">Pickup window</td><td align="right" style="padding:10px 0; font-size:14px; font-weight:500; color:#2A1F1F;">{{pickupWindowLabel}}</td></tr>
+              </table>
+
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Reminder of PINs -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#D2E6B4; border-radius:16px;">
+            <tr><td style="padding:20px 24px;">
+              <div style="font-size:13px; color:#643C3C; line-height:1.55;">
+                <strong>Quick reminder:</strong> Your Pickup PIN is <strong style="font-family:monospace; letter-spacing:2px;">{{pickupPin}}</strong> and your Delivery PIN is <strong style="font-family:monospace; letter-spacing:2px;">{{deliveryPin}}</strong>. Share them only when our rider arrives.
+              </div>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Closing -->
+      <tr>
+        <td style="background:#FAF6EE; padding:8px 32px 40px;" class="px">
+          <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:#7C6A6A;">
+            A rider will reach out on WhatsApp the day before pickup. We deliver back to the same address within 48–72 hours.
+          </p>
+          <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:#7C6A6A;">
+            Questions? Just reply to this email or message us on
+            <a href="{{whatsappUrl}}" style="color:#643C3C; font-weight:500;">WhatsApp</a>.
+          </p>
+          <p style="margin:0; font-size:15px; color:#643C3C; font-weight:500;">— The Pressd team</p>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="background:#643C3C; padding:32px; text-align:center;" class="px">
+          <p style="margin:0 0 8px; font-family:Georgia,serif; font-style:italic; font-size:14px; color:#D2E6B4; letter-spacing:0.5px;">washed • dried • pressd</p>
+          <p style="margin:0; font-size:12px; color:rgba(210,230,180,0.6);">
+            <a href="mailto:{{supportEmail}}" style="color:#D2E6B4; text-decoration:underline;">{{supportEmail}}</a> &nbsp;·&nbsp;
+            <a href="{{whatsappUrl}}" style="color:#D2E6B4; text-decoration:underline;">WhatsApp us</a>
+          </p>
+          <p style="margin:16px 0 0; font-size:11px; color:rgba(210,230,180,0.45);">© {{year}} Pressd. All rights reserved.</p>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>
