@@ -14,7 +14,7 @@
 
 window.PRESSD_CONFIG = {
   /* Google Apps Script web app /exec URL */
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz6hfBZ4WVZGtdJMbfD_iLLTPBFh4XVAvtupIGZ4hV4fesItnEekJaSWvnodzedCeJd/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxDzkHroLDSHhP3Qn9MJf3EpV-zuKsnvtRmzzWwscsMHPpaKieYkea5jKjeL7MUpARl/exec',
 
   /* Paystack public key (safe to expose — it's the publishable key, not the secret) */
   PAYSTACK_PUBLIC_KEY: 'pk_test_64329b33e79d10e1d5679a3e8fc2a09a205a9bce',
