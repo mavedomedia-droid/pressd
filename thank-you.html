@@ -350,46 +350,82 @@
 </div>
 
 <script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6hfBZ4WVZGtdJMbfD_iLLTPBFh4XVAvtupIGZ4hV4fesItnEekJaSWvnodzedCeJd/exec';
+
+  /* Paystack passes back ?reference=...&trxref=... and our backend adds ?order=...
+     Read order ID from any of these (Paystack uses the same string for all three
+     since we set our reference equal to the order ID). */
   const params = new URLSearchParams(window.location.search);
-  const orderId = params.get('order');
-  const windowKey = params.get('window');
-  const zone = params.get('zone');
-  const total = params.get('total');
-  const pickupOnly = params.get('pickup_only') === '1';
-  const ref = params.get('ref');
+  const orderId = params.get('order') || params.get('reference') || params.get('trxref');
+  const ref = params.get('reference') || params.get('trxref');
 
   function fmtNaira(n) {
     if (n == null || isNaN(n)) return '—';
     return '₦' + Math.round(n).toLocaleString('en-NG');
   }
 
-  if (!orderId) {
+  function showError() {
     document.getElementById('thank-you-content').style.display = 'none';
     document.getElementById('error-state').style.display = 'block';
-  } else {
-    document.getElementById('order-id').textContent = orderId;
+  }
+
+  function renderOrder(order) {
+    document.getElementById('order-id').textContent = order.orderId || '—';
 
     const winLabels = {
-      morning: 'Morning · 8 AM – 11 AM',
+      morning:   'Morning · 8 AM – 11 AM',
       afternoon: 'Afternoon · 12 PM – 3 PM',
-      evening: 'Evening · 4 PM – 7 PM',
+      evening:   'Evening · 4 PM – 7 PM',
     };
-    document.getElementById('pickup-window-display').textContent = winLabels[windowKey] || '—';
+    document.getElementById('pickup-window-display').textContent = winLabels[order.pickupWindow] || '—';
 
     const zoneLabels = { mainland: 'Mainland', island: 'Island' };
-    document.getElementById('zone-display').textContent = zoneLabels[zone] || '—';
+    document.getElementById('zone-display').textContent = zoneLabels[order.zone] || '—';
 
-    document.getElementById('total-display').textContent = total ? fmtNaira(parseInt(total, 10)) : '—';
+    document.getElementById('total-display').textContent = fmtNaira(order.bookingTotal);
 
     if (ref) {
       document.getElementById('ref-row').style.display = '';
       document.getElementById('ref-display').textContent = ref;
     }
 
-    if (pickupOnly) {
+    if (order.pickupOnly) {
       document.getElementById('billing-warning').style.display = '';
     }
   }
+
+  async function loadOrder() {
+    if (!orderId) { showError(); return; }
+    try {
+      const url = APPS_SCRIPT_URL + '?action=getOrder&orderId=' + encodeURIComponent(orderId);
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data && data.ok && data.order) {
+        renderOrder(data.order);
+      } else {
+        /* Fallback: still show what we can from the URL */
+        renderOrder({
+          orderId: orderId,
+          pickupWindow: '',
+          zone: '',
+          bookingTotal: 0,
+          pickupOnly: false,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      /* Fallback: show order ID at least so the page isn't useless */
+      renderOrder({
+        orderId: orderId,
+        pickupWindow: '',
+        zone: '',
+        bookingTotal: 0,
+        pickupOnly: false,
+      });
+    }
+  }
+
+  loadOrder();
 </script>
 
 </body>
