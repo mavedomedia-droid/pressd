@@ -4,8 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <meta name="theme-color" content="#643C3C" />
-<title>Pressd — Booking confirmed</title>
-<meta name="description" content="Your Pressd pickup is booked. We'll see you soon." />
+<title>Pressd — Thank you</title>
+<meta name="description" content="Your Pressd order is confirmed." />
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
+<link rel="apple-touch-icon" sizes="192x192" href="assets/icon-192.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,10 +49,7 @@
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
 
-  .nav {
-    background: var(--brand-primary);
-    padding: 0 var(--s-5);
-  }
+  .nav { background: var(--brand-primary); padding: 0 var(--s-5); }
   .nav-inner {
     max-width: 1120px; margin: 0 auto;
     height: 68px; display: flex; align-items: center; justify-content: space-between;
@@ -63,11 +64,24 @@
   }
   .nav-back:hover { opacity: 1; }
 
-  .wrap {
-    max-width: 640px; margin: 0 auto;
-    padding: var(--s-12) var(--s-5) var(--s-16);
-  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: var(--s-12) var(--s-5) var(--s-16); }
 
+  /* Loader (shown briefly while we verify with the backend) */
+  .loader {
+    text-align: center; padding: var(--s-16) 0;
+  }
+  .spinner-big {
+    width: 48px; height: 48px;
+    border: 3px solid var(--brand-line);
+    border-top-color: var(--brand-primary);
+    border-radius: 50%;
+    margin: 0 auto var(--s-4);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text { color: var(--brand-muted); font-size: 14px; }
+
+  /* Success icon */
   .success-icon {
     width: 80px; height: 80px; border-radius: 50%;
     background: var(--brand-success);
@@ -132,9 +146,7 @@
     position: relative; line-height: 1;
   }
 
-  .order-body {
-    padding: var(--s-6);
-  }
+  .order-body { padding: var(--s-6); }
   .order-row {
     display: flex; justify-content: space-between; align-items: flex-start;
     padding: var(--s-3) 0;
@@ -144,13 +156,11 @@
   .order-row:last-child { border-bottom: none; }
   .order-row .label {
     color: var(--brand-muted); font-size: 14px;
-    font-weight: 400;
-    flex-shrink: 0;
+    font-weight: 400; flex-shrink: 0;
   }
   .order-row .value {
     color: var(--brand-ink); font-size: 14px; font-weight: 500;
-    text-align: right;
-    word-break: break-word;
+    text-align: right; word-break: break-word;
   }
   .order-row.highlight {
     background: var(--brand-cream-deep);
@@ -166,6 +176,34 @@
   .order-row.highlight .value {
     color: var(--brand-primary); font-size: 16px; font-weight: 600;
   }
+
+  /* PIN block */
+  .pins {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s-3); margin-bottom: var(--s-6);
+  }
+  .pin-card {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    text-align: center;
+  }
+  .pin-label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--brand-muted);
+    font-weight: 600; margin-bottom: 8px;
+  }
+  .pin-value {
+    font-family: monospace;
+    font-size: 28px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: 6px; line-height: 1;
+  }
+  .pins-note {
+    font-size: 13px; color: var(--brand-muted);
+    line-height: 1.5; margin-bottom: var(--s-6);
+  }
+  .pins-note strong { color: var(--brand-primary); }
 
   .next-card {
     background: var(--brand-accent);
@@ -216,8 +254,7 @@
     width: 100%;
   }
   .btn-primary {
-    background: var(--brand-primary);
-    color: var(--brand-accent);
+    background: var(--brand-primary); color: var(--brand-accent);
     box-shadow: var(--shadow-md);
   }
   .btn-primary:hover { background: var(--brand-primary-deep); transform: translateY(-1px); }
@@ -228,27 +265,19 @@
   .btn-ghost:hover { background: var(--brand-primary); color: var(--brand-accent); }
 
   .footer-note {
-    text-align: center;
-    margin-top: var(--s-10);
-    color: var(--brand-muted);
-    font-size: 13px;
+    text-align: center; margin-top: var(--s-10);
+    color: var(--brand-muted); font-size: 13px;
   }
-  .footer-note a {
-    color: var(--brand-primary);
-    text-decoration: underline;
-  }
+  .footer-note a { color: var(--brand-primary); text-decoration: underline; }
 
-  /* Error state — when no order param */
-  .error-state {
-    text-align: center;
-    padding: var(--s-12) 0;
-  }
+  .error-state { text-align: center; padding: var(--s-12) 0; }
   .error-state h1 {
     font-family: var(--font-display); font-weight: 600;
     font-size: 28px; color: var(--brand-primary);
     margin: 0 0 var(--s-3);
   }
   .error-state p { color: var(--brand-muted); margin: 0 0 var(--s-6); }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -267,7 +296,14 @@
 
 <div class="wrap">
 
-  <div id="thank-you-content">
+  <!-- Loader: shown while we verify the payment with the backend -->
+  <div id="loader" class="loader">
+    <div class="spinner-big"></div>
+    <div class="loader-text" id="loader-text">Verifying your payment…</div>
+  </div>
+
+  <!-- Booking confirmation state -->
+  <div id="booking-confirmed" class="hidden">
     <div class="success-icon">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
     </div>
@@ -278,16 +314,16 @@
     <div class="order-card">
       <div class="order-head">
         <div class="order-head-label">Order ID</div>
-        <div class="order-head-id" id="order-id">PRSD00000</div>
+        <div class="order-head-id" id="bc-order-id">PRSD00000</div>
       </div>
       <div class="order-body">
         <div class="order-row highlight">
           <span class="label">Pickup window</span>
-          <span class="value" id="pickup-window-display">—</span>
+          <span class="value" id="bc-pickup-window">—</span>
         </div>
         <div class="order-row">
           <span class="label">Zone</span>
-          <span class="value" id="zone-display">—</span>
+          <span class="value" id="bc-zone">—</span>
         </div>
         <div class="order-row">
           <span class="label">Pickup days</span>
@@ -297,18 +333,33 @@
           <span class="label">Delivery</span>
           <span class="value">48–72 hrs after pickup</span>
         </div>
-        <div class="order-row" id="ref-row" style="display:none;">
+        <div class="order-row" id="bc-ref-row" style="display:none;">
           <span class="label">Payment ref</span>
-          <span class="value" id="ref-display">—</span>
+          <span class="value" id="bc-ref">—</span>
         </div>
         <div class="order-row">
           <span class="label">Amount paid</span>
-          <span class="value" id="total-display">—</span>
+          <span class="value" id="bc-total">—</span>
         </div>
       </div>
     </div>
 
-    <div class="billing-warning" id="billing-warning" style="display:none;">
+    <!-- PINs -->
+    <div class="pins" id="bc-pins" style="display:none;">
+      <div class="pin-card">
+        <div class="pin-label">Pickup PIN</div>
+        <div class="pin-value" id="bc-pickup-pin">—</div>
+      </div>
+      <div class="pin-card">
+        <div class="pin-label">Delivery PIN</div>
+        <div class="pin-value" id="bc-delivery-pin">—</div>
+      </div>
+    </div>
+    <p class="pins-note" id="bc-pins-note" style="display:none;">
+      Your rider will ask for the <strong>Pickup PIN</strong> when they arrive. The <strong>Delivery PIN</strong> confirms drop-off. Don't share them in advance.
+    </p>
+
+    <div class="billing-warning" id="bc-billing-warning" style="display:none;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>
       <div>
         <strong>You chose pickup-only.</strong> Once we collect and sort your laundry, we'll send a payment link by email so you can settle the laundry cost.
@@ -319,115 +370,327 @@
       <h3>What happens next</h3>
       <ul>
         <li>You'll get a confirmation email at the address you provided</li>
-        <li>A rider will reach out before your pickup window</li>
-        <li>For anything before then, message Donut on Telegram</li>
+        <li>A rider will reach out via WhatsApp the day before pickup</li>
         <li>Have your laundry ready by the start of your window</li>
+        <li>Share your Pickup PIN with the rider on arrival</li>
         <li>We deliver back to the same address within 48–72 hours</li>
       </ul>
     </div>
 
     <div class="actions">
       <a href="index.html" class="btn btn-primary">Back to home</a>
-      <a href="https://t.me/pressdlagosbot" class="btn btn-ghost" target="_blank" rel="noopener">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.938z"/></svg>
-        Chat with Donut on Telegram
+      <a id="bc-whatsapp" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.05 4 7.94 7.94 0 004.1 11.93a7.86 7.86 0 001.06 3.96L4 20l4.21-1.1a7.94 7.94 0 003.84.98h.01a7.94 7.94 0 007.95-7.94 7.86 7.86 0 00-2.4-5.62m-5.55 12.2h-.01a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.55 6.55 0 01-1-3.49 6.6 6.6 0 0111.27-4.67 6.55 6.55 0 011.93 4.67 6.6 6.6 0 01-6.6 6.58m3.62-4.93c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.45.1-.13.2-.5.65-.62.78-.11.13-.23.15-.43.05a5.42 5.42 0 01-1.6-.99 6 6 0 01-1.1-1.38c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.1-.62-1.5-.16-.4-.33-.34-.45-.34a8.39 8.39 0 00-.38-.01c-.13 0-.35.05-.53.25s-.7.69-.7 1.67c0 .98.71 1.93.81 2.06.1.13 1.4 2.13 3.4 2.99a11.4 11.4 0 001.13.42 2.71 2.71 0 001.25.08c.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.08-.18-.13-.38-.23"/></svg>
+        Message us on WhatsApp
+      </a>
+    </div>
+
+    <p class="footer-note" id="bc-footer-note">
+      Questions? Email <a id="bc-support-email" href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a>
+    </p>
+  </div>
+
+  <!-- Balance paid state -->
+  <div id="balance-paid" class="hidden">
+    <div class="success-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+
+    <h1 class="headline">All <em>paid up.</em></h1>
+    <p class="lede">Balance settled. Now we get to work.</p>
+
+    <div class="order-card">
+      <div class="order-head">
+        <div class="order-head-label">Order ID</div>
+        <div class="order-head-id" id="bp-order-id">PRSD00000</div>
+      </div>
+      <div class="order-body">
+        <div class="order-row highlight">
+          <span class="label">Balance paid</span>
+          <span class="value" id="bp-total">—</span>
+        </div>
+        <div class="order-row" id="bp-ref-row" style="display:none;">
+          <span class="label">Payment ref</span>
+          <span class="value" id="bp-ref">—</span>
+        </div>
+        <div class="order-row">
+          <span class="label">Status</span>
+          <span class="value" style="color:var(--brand-success);font-weight:600;">Fully paid ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <h3>What happens next</h3>
+      <ul>
+        <li>We're washing and ironing your laundry now</li>
+        <li>Delivery within 48–72 hours of pickup</li>
+        <li>Share your <strong>Delivery PIN</strong> with the rider when they drop off</li>
+        <li>You'll get a final receipt by email shortly</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <a href="index.html" class="btn btn-primary">Back to home</a>
+      <a id="bp-whatsapp" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.05 4 7.94 7.94 0 004.1 11.93a7.86 7.86 0 001.06 3.96L4 20l4.21-1.1a7.94 7.94 0 003.84.98h.01a7.94 7.94 0 007.95-7.94 7.86 7.86 0 00-2.4-5.62m-5.55 12.2h-.01a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.55 6.55 0 01-1-3.49 6.6 6.6 0 0111.27-4.67 6.55 6.55 0 011.93 4.67 6.6 6.6 0 01-6.6 6.58m3.62-4.93c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.45.1-.13.2-.5.65-.62.78-.11.13-.23.15-.43.05a5.42 5.42 0 01-1.6-.99 6 6 0 01-1.1-1.38c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.1-.62-1.5-.16-.4-.33-.34-.45-.34a8.39 8.39 0 00-.38-.01c-.13 0-.35.05-.53.25s-.7.69-.7 1.67c0 .98.71 1.93.81 2.06.1.13 1.4 2.13 3.4 2.99a11.4 11.4 0 001.13.42 2.71 2.71 0 001.25.08c.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.08-.18-.13-.38-.23"/></svg>
+        Message us on WhatsApp
       </a>
     </div>
 
     <p class="footer-note">
-      Questions? Email <a href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a>
+      Questions? Email <a id="bp-support-email" href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a>
     </p>
   </div>
 
-  <div class="error-state" id="error-state" style="display:none;">
-    <h1>No booking found</h1>
-    <p>This thank-you page is for completed bookings. If you got here by mistake, head back to the home page to start a pickup.</p>
-    <div class="actions">
-      <a href="index.html" class="btn btn-primary">Back to home</a>
+  <!-- Error / no-order state -->
+  <div id="error-state" class="hidden">
+    <div class="error-state">
+      <h1>No booking found</h1>
+      <p>This thank-you page is for completed bookings. If you got here by mistake, head back to the home page to start a pickup.</p>
+      <div class="actions">
+        <a href="index.html" class="btn btn-primary">Back to home</a>
+      </div>
     </div>
   </div>
 
 </div>
 
+<!-- Central config (APPS_SCRIPT_URL, WHATSAPP_URL, SUPPORT_EMAIL) -->
 <script src="pressd-config.js"></script>
-<script>
-  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
 
-  /* Paystack passes back ?reference=...&trxref=... and our backend adds ?order=...
-     Read order ID from any of these (Paystack uses the same string for all three
-     since we set our reference equal to the order ID). */
+<script>
+  /* =============================================================================
+   * Thank-you page logic
+   *   Handles three flows depending on what's in the URL:
+   *
+   *   1. Returning from Paystack after a BOOKING payment:
+   *      ?reference=PRSDABC12&order=PRSDABC12     (and/or &trxref=)
+   *      → Calls confirmPayment to verify, then renders booking-confirmed view
+   *
+   *   2. Returning from Paystack after a BALANCE payment:
+   *      ?reference=PRSDABC12-2&order=PRSDABC12   (the -2 suffix marks balance)
+   *      → Calls confirmSecondPayment to verify, then renders balance-paid view
+   *
+   *   3. Linked directly from the booking flow (no payment yet, e.g.
+   *      pickup-only orders that skip Paystack):
+   *      ?order=PRSDABC12&window=morning&zone=island&total=4500&pickup_only=1
+   *      → Renders booking-confirmed view from the URL params directly
+   *
+   *   The discriminator: presence of &reference= triggers a backend verify;
+   *   the suffix on the reference tells us booking vs balance.
+   * ============================================================================= */
+
+  const C = (window.PRESSD_CONFIG || {});
+  const APPS_SCRIPT_URL = C.APPS_SCRIPT_URL || '';
+  const WHATSAPP_URL = C.WHATSAPP_URL || 'https://wa.me/2348162373553';
+  const SUPPORT_EMAIL = C.SUPPORT_EMAIL || 'pressdonline@gmail.com';
+
+  // Wire up the contact links on both states
+  ['bc-whatsapp', 'bp-whatsapp'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = WHATSAPP_URL;
+  });
+  ['bc-support-email', 'bp-support-email'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.href = 'mailto:' + SUPPORT_EMAIL;
+      el.textContent = SUPPORT_EMAIL;
+    }
+  });
+
   const params = new URLSearchParams(window.location.search);
-  const orderId = params.get('order') || params.get('reference') || params.get('trxref');
-  const ref = params.get('reference') || params.get('trxref');
+  const reference = params.get('reference') || params.get('trxref') || '';
+  const orderFromUrl = params.get('order') || '';
+  const windowKey = params.get('window');
+  const zone = params.get('zone');
+  const totalParam = params.get('total');
+  const pickupOnly = params.get('pickup_only') === '1';
 
   function fmtNaira(n) {
     if (n == null || isNaN(n)) return '—';
     return '₦' + Math.round(n).toLocaleString('en-NG');
   }
 
-  function showError() {
-    document.getElementById('thank-you-content').style.display = 'none';
-    document.getElementById('error-state').style.display = 'block';
+  function show(stateId) {
+    ['loader', 'booking-confirmed', 'balance-paid', 'error-state'].forEach(id => {
+      document.getElementById(id).classList.toggle('hidden', id !== stateId);
+    });
   }
 
-  function renderOrder(order) {
-    document.getElementById('order-id').textContent = order.orderId || '—';
+  function setLoaderText(t) {
+    const el = document.getElementById('loader-text');
+    if (el) el.textContent = t;
+  }
+
+  async function callBackend(action, payload) {
+    if (!APPS_SCRIPT_URL) throw new Error('Backend URL not configured');
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action }, payload || {})),
+    });
+    if (!res.ok) throw new Error('Backend ' + res.status);
+    return res.json();
+  }
+
+  /* -------------------------------------------------------------------------
+   * Render booking-confirmed view from a server response (preferred)
+   * or from URL params (fallback for pickup-only / direct links)
+   * ------------------------------------------------------------------------- */
+  function renderBookingConfirmed(opts) {
+    const orderId = opts.orderId || orderFromUrl;
+    if (!orderId) return show('error-state');
+
+    document.getElementById('bc-order-id').textContent = orderId;
 
     const winLabels = {
-      morning:   'Morning · 8 AM – 11 AM',
+      morning: 'Morning · 8 AM – 11 AM',
       afternoon: 'Afternoon · 12 PM – 3 PM',
-      evening:   'Evening · 4 PM – 7 PM',
+      evening: 'Evening · 4 PM – 7 PM',
     };
-    document.getElementById('pickup-window-display').textContent = winLabels[order.pickupWindow] || '—';
+    document.getElementById('bc-pickup-window').textContent =
+      winLabels[opts.pickupWindow || windowKey] || '—';
 
     const zoneLabels = { mainland: 'Mainland', island: 'Island' };
-    document.getElementById('zone-display').textContent = zoneLabels[order.zone] || '—';
+    document.getElementById('bc-zone').textContent =
+      zoneLabels[opts.zone || zone] || '—';
 
-    document.getElementById('total-display').textContent = fmtNaira(order.bookingTotal);
+    const total = opts.total != null ? opts.total : (totalParam ? parseInt(totalParam, 10) : null);
+    document.getElementById('bc-total').textContent = total ? fmtNaira(total) : '—';
 
-    if (ref) {
-      document.getElementById('ref-row').style.display = '';
-      document.getElementById('ref-display').textContent = ref;
+    if (reference) {
+      document.getElementById('bc-ref-row').style.display = '';
+      document.getElementById('bc-ref').textContent = reference;
     }
 
-    if (order.pickupOnly) {
-      document.getElementById('billing-warning').style.display = '';
+    const isPickupOnly = (opts.pickupOnly != null) ? opts.pickupOnly : pickupOnly;
+    if (isPickupOnly) {
+      document.getElementById('bc-billing-warning').style.display = '';
     }
+
+    // PINs — only render if we got them from the backend
+    if (opts.pickupPin && opts.deliveryPin) {
+      document.getElementById('bc-pickup-pin').textContent = opts.pickupPin;
+      document.getElementById('bc-delivery-pin').textContent = opts.deliveryPin;
+      document.getElementById('bc-pins').style.display = 'grid';
+      document.getElementById('bc-pins-note').style.display = 'block';
+    }
+
+    show('booking-confirmed');
   }
 
-  async function loadOrder() {
-    if (!orderId) { showError(); return; }
-    try {
-      const url = APPS_SCRIPT_URL + '?action=getOrder&orderId=' + encodeURIComponent(orderId);
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data && data.ok && data.order) {
-        renderOrder(data.order);
-      } else {
-        /* Fallback: still show what we can from the URL */
-        renderOrder({
-          orderId: orderId,
-          pickupWindow: '',
-          zone: '',
-          bookingTotal: 0,
-          pickupOnly: false,
-        });
+  /* -------------------------------------------------------------------------
+   * Render balance-paid view
+   * ------------------------------------------------------------------------- */
+  function renderBalancePaid(opts) {
+    const orderId = opts.orderId || orderFromUrl;
+    if (!orderId) return show('error-state');
+
+    document.getElementById('bp-order-id').textContent = orderId;
+    document.getElementById('bp-total').textContent = opts.total ? fmtNaira(opts.total) : '—';
+
+    if (reference) {
+      document.getElementById('bp-ref-row').style.display = '';
+      document.getElementById('bp-ref').textContent = reference;
+    }
+
+    show('balance-paid');
+  }
+
+  /* -------------------------------------------------------------------------
+   * Main router
+   * ------------------------------------------------------------------------- */
+  async function init() {
+    // Case A: returning from Paystack with a reference
+    if (reference) {
+      const isBalance = reference.indexOf('-2') === reference.length - 2;
+      const orderId = orderFromUrl || (isBalance ? reference.slice(0, -2) : reference);
+
+      if (isBalance) {
+        setLoaderText('Confirming your balance payment…');
+        try {
+          const res = await callBackend('confirmSecondPayment', {
+            orderId: orderId,
+            reference: reference,
+          });
+          if (res && res.ok) {
+            renderBalancePaid({ orderId: res.orderId || orderId, total: res.total });
+          } else {
+            // Verification failed — show booking-confirmed-style page so they
+            // at least see something useful, with the ref visible for support.
+            renderBookingConfirmed({ orderId: orderId });
+          }
+        } catch (err) {
+          console.error(err);
+          renderBookingConfirmed({ orderId: orderId });
+        }
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      /* Fallback: show order ID at least so the page isn't useless */
-      renderOrder({
-        orderId: orderId,
-        pickupWindow: '',
-        zone: '',
-        bookingTotal: 0,
-        pickupOnly: false,
-      });
+
+      // Booking payment
+      setLoaderText('Confirming your booking payment…');
+      try {
+        await callBackend('confirmPayment', {
+          orderId: orderId,
+          reference: reference,
+        });
+      } catch (err) {
+        console.error(err);
+        // Continue anyway — the order exists, we just couldn't verify in real-time
+      }
+
+      // Fetch order details so we can show PINs etc.
+      try {
+        const res = await callBackend('getOrder', { orderId: orderId });
+        if (res && res.ok && res.order) {
+          renderBookingConfirmed({
+            orderId: res.order.orderId,
+            pickupWindow: res.order.pickupWindow,
+            zone: res.order.zone,
+            total: res.order.bookingTotal,
+            pickupPin: res.order.pickupPin,
+            deliveryPin: res.order.deliveryPin,
+            pickupOnly: res.order.pickupOnly,
+          });
+          return;
+        }
+      } catch (err) { console.error(err); }
+
+      // Fallback to URL params
+      renderBookingConfirmed({ orderId: orderId });
+      return;
     }
+
+    // Case B: no reference — likely linked directly (pickup-only) or pasted URL
+    if (orderFromUrl) {
+      // Try to fetch full order details for richer display
+      try {
+        const res = await callBackend('getOrder', { orderId: orderFromUrl });
+        if (res && res.ok && res.order) {
+          renderBookingConfirmed({
+            orderId: res.order.orderId,
+            pickupWindow: res.order.pickupWindow,
+            zone: res.order.zone,
+            total: res.order.bookingTotal,
+            pickupPin: res.order.pickupPin,
+            deliveryPin: res.order.deliveryPin,
+            pickupOnly: res.order.pickupOnly,
+          });
+          return;
+        }
+      } catch (err) { console.error(err); }
+      // Fallback to URL params
+      renderBookingConfirmed({ orderId: orderFromUrl });
+      return;
+    }
+
+    // Case C: nothing useful in URL
+    show('error-state');
   }
 
-  loadOrder();
+  init();
 </script>
 
 </body>
-</html>
+</html>s
