@@ -333,6 +333,98 @@
   .service-card.load .service-tag { background: rgba(210,230,180,0.15); color: var(--brand-accent); }
   .service-card.care .service-tag { background: rgba(100,60,60,0.12); color: var(--brand-primary); }
 
+  /* DONUT — Telegram support bot section */
+  .donut-block {
+    display: grid; grid-template-columns: 1fr; gap: var(--s-10);
+    align-items: center;
+  }
+  @media (min-width: 880px) { .donut-block { grid-template-columns: 1fr 1fr; gap: var(--s-12); } }
+  .donut-card {
+    background: linear-gradient(140deg, var(--brand-primary) 0%, var(--brand-primary-deep) 100%);
+    color: var(--brand-accent);
+    border-radius: var(--r-xl);
+    padding: var(--s-10) var(--s-8);
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    min-height: 360px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .donut-card::before {
+    content: ''; position: absolute;
+    top: -30%; right: -20%;
+    width: 70%; height: 70%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .18; pointer-events: none;
+  }
+  .donut-avatar {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: var(--brand-accent);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    font-family: var(--font-editorial); font-style: italic;
+    font-size: 38px; font-weight: 600;
+    margin-bottom: var(--s-5);
+    position: relative;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  }
+  .donut-avatar::after {
+    content: ''; position: absolute;
+    bottom: 4px; right: 4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--brand-success);
+    border: 3px solid var(--brand-primary);
+  }
+  .donut-card h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(28px, 4vw, 38px);
+    letter-spacing: -0.03em; line-height: 1.05;
+    margin: 0 0 var(--s-3); color: var(--brand-accent);
+    position: relative;
+  }
+  .donut-card h3 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .donut-card .donut-tagline {
+    font-size: 16px; line-height: 1.55;
+    color: rgba(210,230,180,0.8);
+    margin: 0 0 var(--s-6); position: relative;
+    max-width: 360px;
+  }
+  .donut-cta {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    background: var(--brand-accent); color: var(--brand-primary);
+    padding: 14px 22px; border-radius: var(--r-pill);
+    font-weight: 600; font-size: 15px;
+    align-self: flex-start;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+  .donut-cta:hover { background: var(--brand-accent-deep); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+  .donut-features { display: flex; flex-direction: column; gap: var(--s-4); }
+  .donut-feature {
+    display: flex; gap: var(--s-4);
+    padding: var(--s-5);
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .donut-feature:hover { border-color: var(--brand-primary); transform: translateY(-2px); }
+  .donut-feature-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--brand-accent);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .donut-feature-text { flex: 1; }
+  .donut-feature-text strong {
+    display: block; font-size: 15px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .donut-feature-text span { font-size: 13px; color: var(--brand-muted); line-height: 1.5; }
+
   /* FAQ */
   .faq-list { display: flex; flex-direction: column; gap: var(--s-3); }
   .faq-item {
@@ -1204,6 +1296,73 @@
   </div>
 </section>
 
+<!-- DONUT (Telegram support) -->
+<section class="section" id="donut">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Support</div>
+      <h2>Meet <em>Donut.</em></h2>
+      <p>Your 24/7 support agent on Telegram. Book pickups, ask questions, get answers — without ever leaving your chat.</p>
+    </div>
+
+    <div class="donut-block">
+      <div class="donut-card reveal">
+        <div>
+          <div class="donut-avatar">D</div>
+          <h3>Always <em>on.</em></h3>
+          <p class="donut-tagline">Donut handles the small stuff so you don't have to wait. For anything else, your message goes straight to the team.</p>
+        </div>
+        <a href="https://t.me/pressdlagosbot" class="donut-cta" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.938z"/></svg>
+          Chat with Donut on Telegram
+        </a>
+      </div>
+
+      <div class="donut-features reveal">
+        <div class="donut-feature">
+          <div class="donut-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div class="donut-feature-text">
+            <strong>Book a pickup</strong>
+            <span>Walk through the same flow without opening the website.</span>
+          </div>
+        </div>
+
+        <div class="donut-feature">
+          <div class="donut-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          </div>
+          <div class="donut-feature-text">
+            <strong>Ask questions, get answers</strong>
+            <span>Pickup days, delivery windows, pricing, the whole FAQ.</span>
+          </div>
+        </div>
+
+        <div class="donut-feature">
+          <div class="donut-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 14h2M12 14h4"/></svg>
+          </div>
+          <div class="donut-feature-text">
+            <strong>Calculate your laundry cost</strong>
+            <span>Add up loads or Care items before you book — no surprises.</span>
+          </div>
+        </div>
+
+        <div class="donut-feature">
+          <div class="donut-feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div class="donut-feature-text">
+            <strong>Skip to a real human</strong>
+            <span>Anything Donut can't handle goes straight to support.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="section" id="faq" style="background: var(--brand-cream-deep);">
   <div class="container">
@@ -1236,6 +1395,11 @@
       <details class="faq-item reveal">
         <summary>Are the laundry services optional?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq-content">Yes. Pickup is the only required step. You can add Pressd Load and/or Pressd Care while requesting your pickup, or skip them and let the rider sort the rest in person.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>How do I get help?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Talk to <strong>Donut</strong>, our 24/7 support agent on Telegram — <a href="https://t.me/pressdlagosbot" target="_blank" rel="noopener" style="color:var(--brand-primary);text-decoration:underline;">@pressdlagosbot</a>. Donut can take orders, answer questions, calculate costs, and pass anything tricky straight to support.</div>
       </details>
     </div>
   </div>
@@ -1276,7 +1440,7 @@
         <ul>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a></li>
-          <li><a href="https://wa.me/2348000000000">WhatsApp</a></li>
+          <li><a href="https://t.me/pressdlagosbot" target="_blank" rel="noopener">Chat with Donut</a></li>
         </ul>
       </div>
       <div>
@@ -1568,7 +1732,7 @@
        - createOrder({ ...orderData })  → { orderId, paymentLink? }
        - confirmPayment({ orderId, reference })
      ============================================================ */
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZY6Q8Mq3Oy-HVXmiHKU5y8-oSzdrM8HadswgJ4YLioWEgsjBDPDK_11wVlttI26aX/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6hfBZ4WVZGtdJMbfD_iLLTPBFh4XVAvtupIGZ4hV4fesItnEekJaSWvnodzedCeJd/exec';
   const PAYSTACK_PUBLIC_KEY = 'pk_test_64329b33e79d10e1d5679a3e8fc2a09a205a9bce';
 
   /* PRICING — fallback used if backend fetch fails. Values mirror the Pricing & Care Pricing sheet tabs. */
