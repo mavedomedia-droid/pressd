@@ -1724,6 +1724,7 @@
   </div>
 </div>
 
+<script src="pressd-config.js"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 <script>
@@ -1736,8 +1737,8 @@
        - createOrder({ ...orderData })  → { orderId, paymentLink? }
        - confirmPayment({ orderId, reference })
      ============================================================ */
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHxqtncxf7jwoZ3Qz0E6z0o-SxvvPCguhBHrjvHJO8nQEvetfNYnmJtnvS0cQy48im/exec';
-  const PAYSTACK_PUBLIC_KEY = 'pk_test_64329b33e79d10e1d5679a3e8fc2a09a205a9bce';
+  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
+  const PAYSTACK_PUBLIC_KEY = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.PAYSTACK_PUBLIC_KEY) || '';
 
   /* PRICING — fallback used if backend fetch fails. Values mirror the Pricing & Care Pricing sheet tabs. */
   const PRICING_FALLBACK = {
