@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#643C3C" />
+<title>Pressd — Booking confirmed</title>
+<meta name="description" content="Your Pressd pickup is booked. We'll see you soon." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brand-primary: #643C3C;
+    --brand-primary-deep: #4D2E2E;
+    --brand-accent: #D2E6B4;
+    --brand-accent-deep: #BAD49A;
+    --brand-cream: #FAF6EE;
+    --brand-cream-deep: #F2EBDC;
+    --brand-ink: #2A1F1F;
+    --brand-muted: #7C6A6A;
+    --brand-line: #E8DFD4;
+    --brand-surface: #FFFFFF;
+    --brand-success: #5A8C3F;
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+    --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
+    --shadow-md: 0 8px 24px rgba(100,60,60,0.10);
+    --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+    --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-display);
+    background: var(--brand-cream);
+    color: var(--brand-ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .nav {
+    background: var(--brand-primary);
+    padding: 0 var(--s-5);
+  }
+  .nav-inner {
+    max-width: 1120px; margin: 0 auto;
+    height: 68px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo img { height: 28px; width: auto; }
+  @media (min-width: 768px) { .nav-logo img { height: 32px; } }
+  .nav-back {
+    color: var(--brand-accent);
+    font-size: 14px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    opacity: .85; transition: opacity .2s ease;
+  }
+  .nav-back:hover { opacity: 1; }
+
+  .wrap {
+    max-width: 640px; margin: 0 auto;
+    padding: var(--s-12) var(--s-5) var(--s-16);
+  }
+
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--brand-success);
+    display: grid; place-items: center;
+    margin: 0 auto var(--s-6);
+    color: #fff;
+    box-shadow: 0 12px 32px rgba(90,140,63,0.25);
+    animation: pop .6s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  }
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .headline {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(36px, 6vw, 56px);
+    color: var(--brand-primary);
+    text-align: center;
+    line-height: 1.05; letter-spacing: -0.035em;
+    margin: 0 0 var(--s-3);
+  }
+  .headline em {
+    font-family: var(--font-editorial);
+    font-style: italic; font-weight: 400;
+  }
+  .lede {
+    text-align: center;
+    font-size: 17px; color: var(--brand-muted);
+    margin: 0 auto var(--s-10);
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .order-card {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--s-6);
+  }
+  .order-head {
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: var(--s-6);
+    position: relative; overflow: hidden;
+  }
+  .order-head::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, var(--brand-accent), transparent 70%);
+    opacity: .12;
+  }
+  .order-head-label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.14em; opacity: .75;
+    margin-bottom: 6px; position: relative;
+  }
+  .order-head-id {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 600; letter-spacing: 0.02em;
+    position: relative; line-height: 1;
+  }
+
+  .order-body {
+    padding: var(--s-6);
+  }
+  .order-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--brand-line);
+    gap: var(--s-4);
+  }
+  .order-row:last-child { border-bottom: none; }
+  .order-row .label {
+    color: var(--brand-muted); font-size: 14px;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+  .order-row .value {
+    color: var(--brand-ink); font-size: 14px; font-weight: 500;
+    text-align: right;
+    word-break: break-word;
+  }
+  .order-row.highlight {
+    background: var(--brand-cream-deep);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    margin: var(--s-4) 0;
+    border: none;
+  }
+  .order-row.highlight .label {
+    color: var(--brand-primary); font-weight: 600;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .order-row.highlight .value {
+    color: var(--brand-primary); font-size: 16px; font-weight: 600;
+  }
+
+  .next-card {
+    background: var(--brand-accent);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    margin-bottom: var(--s-6);
+    color: var(--brand-primary);
+  }
+  .next-card h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; letter-spacing: -0.02em;
+    margin: 0 0 var(--s-3);
+  }
+  .next-card ul {
+    margin: 0; padding-left: var(--s-5);
+    font-size: 14px; line-height: 1.65;
+    color: var(--brand-primary-deep);
+  }
+  .next-card ul li { margin-bottom: 6px; }
+  .next-card ul li:last-child { margin-bottom: 0; }
+
+  .billing-warning {
+    background: #FFF6E5;
+    border: 1px solid #F0D88A;
+    border-left: 4px solid #C28B0E;
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    margin-bottom: var(--s-6);
+    display: flex; gap: var(--s-3); align-items: flex-start;
+    color: #6B4C00;
+    font-size: 14px; line-height: 1.55;
+  }
+  .billing-warning svg { flex-shrink: 0; color: #C28B0E; margin-top: 2px; }
+  .billing-warning strong { color: #6B4C00; }
+
+  .actions {
+    display: flex; flex-direction: column; gap: var(--s-3);
+    max-width: 360px; margin: 0 auto;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--s-2);
+    padding: 16px 26px;
+    border-radius: var(--r-pill);
+    font-weight: 500; font-size: 16px;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+    letter-spacing: -0.01em;
+    width: 100%;
+  }
+  .btn-primary {
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-primary:hover { background: var(--brand-primary-deep); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--brand-primary);
+    border: 1.5px solid var(--brand-primary);
+  }
+  .btn-ghost:hover { background: var(--brand-primary); color: var(--brand-accent); }
+
+  .footer-note {
+    text-align: center;
+    margin-top: var(--s-10);
+    color: var(--brand-muted);
+    font-size: 13px;
+  }
+  .footer-note a {
+    color: var(--brand-primary);
+    text-decoration: underline;
+  }
+
+  /* Error state — when no order param */
+  .error-state {
+    text-align: center;
+    padding: var(--s-12) 0;
+  }
+  .error-state h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 28px; color: var(--brand-primary);
+    margin: 0 0 var(--s-3);
+  }
+  .error-state p { color: var(--brand-muted); margin: 0 0 var(--s-6); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Pressd home">
+      <img src="assets/logo-light.png" alt="Pressd" />
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Home
+    </a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div id="thank-you-content">
+    <div class="success-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+
+    <h1 class="headline">Booking <em>confirmed.</em></h1>
+    <p class="lede">Your pickup is locked in. We'll send a reminder before we head over.</p>
+
+    <div class="order-card">
+      <div class="order-head">
+        <div class="order-head-label">Order ID</div>
+        <div class="order-head-id" id="order-id">PRSD00000</div>
+      </div>
+      <div class="order-body">
+        <div class="order-row highlight">
+          <span class="label">Pickup window</span>
+          <span class="value" id="pickup-window-display">—</span>
+        </div>
+        <div class="order-row">
+          <span class="label">Zone</span>
+          <span class="value" id="zone-display">—</span>
+        </div>
+        <div class="order-row">
+          <span class="label">Pickup days</span>
+          <span class="value">Tue · Thu · Sat</span>
+        </div>
+        <div class="order-row">
+          <span class="label">Delivery</span>
+          <span class="value">48–72 hrs after pickup</span>
+        </div>
+        <div class="order-row" id="ref-row" style="display:none;">
+          <span class="label">Payment ref</span>
+          <span class="value" id="ref-display">—</span>
+        </div>
+        <div class="order-row">
+          <span class="label">Amount paid</span>
+          <span class="value" id="total-display">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="billing-warning" id="billing-warning" style="display:none;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>
+      <div>
+        <strong>You chose pickup-only.</strong> Once we collect and sort your laundry, we'll send a payment link by email so you can settle the laundry cost.
+      </div>
+    </div>
+
+    <div class="next-card">
+      <h3>What happens next</h3>
+      <ul>
+        <li>You'll get a confirmation email at the address you provided</li>
+        <li>A rider will reach out via WhatsApp the day before pickup</li>
+        <li>Have your laundry ready by the start of your window</li>
+        <li>We deliver back to the same address within 48–72 hours</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <a href="index.html" class="btn btn-primary">Back to home</a>
+      <a href="https://wa.me/2348000000000" class="btn btn-ghost" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0012.05 4 7.94 7.94 0 004.1 11.93a7.86 7.86 0 001.06 3.96L4 20l4.21-1.1a7.94 7.94 0 003.84.98h.01a7.94 7.94 0 007.95-7.94 7.86 7.86 0 00-2.4-5.62m-5.55 12.2h-.01a6.6 6.6 0 01-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.55 6.55 0 01-1-3.49 6.6 6.6 0 0111.27-4.67 6.55 6.55 0 011.93 4.67 6.6 6.6 0 01-6.6 6.58m3.62-4.93c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.45.1-.13.2-.5.65-.62.78-.11.13-.23.15-.43.05a5.42 5.42 0 01-1.6-.99 6 6 0 01-1.1-1.38c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.1-.62-1.5-.16-.4-.33-.34-.45-.34a8.39 8.39 0 00-.38-.01c-.13 0-.35.05-.53.25s-.7.69-.7 1.67c0 .98.71 1.93.81 2.06.1.13 1.4 2.13 3.4 2.99a11.4 11.4 0 001.13.42 2.71 2.71 0 001.25.08c.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.08-.18-.13-.38-.23"/></svg>
+        Message us on WhatsApp
+      </a>
+    </div>
+
+    <p class="footer-note">
+      Questions? Email <a href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a>
+    </p>
+  </div>
+
+  <div class="error-state" id="error-state" style="display:none;">
+    <h1>No booking found</h1>
+    <p>This thank-you page is for completed bookings. If you got here by mistake, head back to the home page to start a pickup.</p>
+    <div class="actions">
+      <a href="index.html" class="btn btn-primary">Back to home</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get('order');
+  const windowKey = params.get('window');
+  const zone = params.get('zone');
+  const total = params.get('total');
+  const pickupOnly = params.get('pickup_only') === '1';
+  const ref = params.get('ref');
+
+  function fmtNaira(n) {
+    if (n == null || isNaN(n)) return '—';
+    return '₦' + Math.round(n).toLocaleString('en-NG');
+  }
+
+  if (!orderId) {
+    document.getElementById('thank-you-content').style.display = 'none';
+    document.getElementById('error-state').style.display = 'block';
+  } else {
+    document.getElementById('order-id').textContent = orderId;
+
+    const winLabels = {
+      morning: 'Morning · 8 AM – 11 AM',
+      afternoon: 'Afternoon · 12 PM – 3 PM',
+      evening: 'Evening · 4 PM – 7 PM',
+    };
+    document.getElementById('pickup-window-display').textContent = winLabels[windowKey] || '—';
+
+    const zoneLabels = { mainland: 'Mainland', island: 'Island' };
+    document.getElementById('zone-display').textContent = zoneLabels[zone] || '—';
+
+    document.getElementById('total-display').textContent = total ? fmtNaira(parseInt(total, 10)) : '—';
+
+    if (ref) {
+      document.getElementById('ref-row').style.display = '';
+      document.getElementById('ref-display').textContent = ref;
+    }
+
+    if (pickupOnly) {
+      document.getElementById('billing-warning').style.display = '';
+    }
+  }
+</script>
+
+</body>
+</html>

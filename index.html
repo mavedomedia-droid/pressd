@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#643C3C" />
+<title>Pressd — Laundry, picked up and delivered.</title>
+<meta name="description" content="No stress. No movement. Just clean clothes. Laundry pickup and delivery in a few clicks." />
+
+<!-- =================================================================
+     LOGO ASSETS — drop these into an /assets folder next to this file:
+
+       assets/logo-light.png     ← pistachio wordmark on transparent
+                                   (used in dark navbar + footer)
+                                   Use the file you uploaded as: logo_dark_mode_full.png
+
+       assets/logo-dark.png      ← maroon wordmark on transparent
+                                   (used on light/cream backgrounds, if needed)
+                                   Use the file you uploaded as: logo_bare.png
+
+       assets/logo-tagline.png   ← optional: wordmark + "washed • dried • pressd"
+                                   Use the file you uploaded as:
+                                   logo_with_slogan_light_mode_no_bck_full.png
+     ================================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Sora: rounded geometric sans, closest free match to your wordmark vibe.
+     Fraunces: used sparingly for italic accents only. -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  /* ===========================================================
+     PRESSD — DESIGN TOKENS (sampled from brand logos)
+     =========================================================== */
+  :root {
+    --brand-primary: #643C3C;
+    --brand-primary-deep: #4D2E2E;
+    --brand-primary-soft: #7A4848;
+    --brand-accent: #D2E6B4;
+    --brand-accent-deep: #BAD49A;
+    --brand-cream: #FAF6EE;
+    --brand-cream-deep: #F2EBDC;
+    --brand-ink: #2A1F1F;
+    --brand-muted: #7C6A6A;
+    --brand-line: #E8DFD4;
+    --brand-surface: #FFFFFF;
+    --brand-success: #5A8C3F;
+    --brand-danger: #C44545;
+
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+
+    --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
+
+    --shadow-sm: 0 1px 2px rgba(100,60,60,0.06);
+    --shadow-md: 0 8px 24px rgba(100,60,60,0.10);
+    --shadow-lg: 0 24px 48px rgba(100,60,60,0.16);
+
+    --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
+    --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px;
+    --s-16: 64px; --s-20: 80px;
+
+    --container: 1120px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--brand-ink);
+    background: var(--brand-cream);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  input, select, textarea { font-family: inherit; font-size: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--s-5);
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo img { height: 28px; width: auto; }
+  @media (min-width: 768px) { .nav-logo img { height: 32px; } }
+  .nav-links {
+    display: none; gap: var(--s-8);
+    font-size: 14px; color: rgba(210,230,180,0.75); font-weight: 400;
+  }
+  .nav-links a { transition: color .2s ease; }
+  .nav-links a:hover { color: var(--brand-accent); }
+  @media (min-width: 768px) { .nav-links { display: flex; } }
+  .nav-cta {
+    background: var(--brand-accent); color: var(--brand-primary);
+    padding: 10px 18px; border-radius: var(--r-pill);
+    font-size: 14px; font-weight: 600;
+    transition: transform .2s ease, background .2s ease;
+  }
+  .nav-cta:hover { background: var(--brand-accent-deep); transform: translateY(-1px); }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--s-2);
+    padding: 16px 26px;
+    border-radius: var(--r-pill);
+    font-weight: 500; font-size: 16px;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+    white-space: nowrap; letter-spacing: -0.01em;
+  }
+  .btn-primary {
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-primary:hover { background: var(--brand-primary-deep); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent; color: var(--brand-primary);
+    border: 1.5px solid var(--brand-primary);
+  }
+  .btn-ghost:hover { background: var(--brand-primary); color: var(--brand-accent); }
+  .btn-accent { background: var(--brand-accent); color: var(--brand-primary); }
+  .btn-accent:hover { background: var(--brand-accent-deep); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .btn-block { width: 100%; }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none !important; }
+
+  /* HERO */
+  .hero { position: relative; padding: var(--s-12) 0 var(--s-16); overflow: hidden; }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(210,230,180,0.4) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid; grid-template-columns: 1fr;
+    gap: var(--s-10); align-items: center;
+  }
+  @media (min-width: 960px) {
+    .hero { padding: var(--s-20) 0; }
+    .hero-grid { grid-template-columns: 1.15fr 1fr; gap: var(--s-12); }
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    padding: 6px 14px; border-radius: var(--r-pill);
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--brand-muted); margin-bottom: var(--s-6);
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand-success);
+    box-shadow: 0 0 0 3px rgba(90,140,63,0.18);
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(40px, 7.5vw, 72px);
+    line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--brand-primary); margin: 0 0 var(--s-5);
+  }
+  .hero h1 em {
+    font-family: var(--font-editorial);
+    font-style: italic; font-weight: 400;
+  }
+  .hero h1 .accent {
+    background: var(--brand-accent);
+    padding: 0 .15em; border-radius: 8px;
+    font-style: normal; display: inline-block;
+    transform: rotate(-1deg);
+  }
+  .hero p.lede {
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: var(--brand-muted); max-width: 480px;
+    margin: 0 0 var(--s-8); line-height: 1.5;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-bottom: var(--s-8); }
+  .hero-trust { display: flex; align-items: center; gap: var(--s-5); font-size: 14px; color: var(--brand-muted); flex-wrap: wrap; }
+  .trust-item { display: flex; align-items: center; gap: var(--s-2); }
+  .trust-item svg { color: var(--brand-primary); }
+
+  .hero-visual { position: relative; aspect-ratio: 5/3; max-width: 460px; margin: 0 auto; width: 100%; }
+  @media (min-width: 960px) { .hero-visual { aspect-ratio: 4/5; } }
+  .hero-card {
+    position: absolute; border-radius: var(--r-lg);
+    background: var(--brand-surface); box-shadow: var(--shadow-lg);
+    padding: var(--s-5); border: 1px solid var(--brand-line);
+  }
+  .hero-card.main {
+    inset: 0;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border: none; overflow: hidden; padding: var(--s-5);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  @media (min-width: 960px) { .hero-card.main { padding: var(--s-8); } }
+  .hero-card.main::before {
+    content: '';
+    position: absolute; top: -40%; right: -30%;
+    width: 90%; height: 90%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .15;
+  }
+  .hero-card.main .label {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--brand-accent);
+    font-weight: 500; opacity: .9;
+  }
+  .hero-card.main .price {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 68px);
+    line-height: 1; margin-top: var(--s-3);
+    font-weight: 500; letter-spacing: -0.04em;
+  }
+  .hero-card.main .breakdown { font-size: 14px; opacity: .75; margin-top: var(--s-4); }
+  .hero-card-icon { position: relative; display: none; }
+  @media (min-width: 960px) { .hero-card-icon { display: block; } }
+  .hero-card.floating { width: 65%; bottom: -22px; right: -10px; z-index: 2; transform: rotate(2deg); }
+  @media (min-width: 960px) { .hero-card.floating { width: 75%; bottom: -30px; right: -40px; } }
+  .float-row { display: flex; align-items: center; gap: var(--s-3); }
+  .float-icon {
+    width: 36px; height: 36px; border-radius: 12px;
+    background: var(--brand-accent); display: grid; place-items: center;
+    color: var(--brand-primary); flex-shrink: 0;
+  }
+  .float-text strong { display: block; font-size: 14px; color: var(--brand-ink); font-weight: 600; }
+  .float-text span { font-size: 12px; color: var(--brand-muted); }
+
+  /* SECTIONS */
+  .section { padding: var(--s-16) 0; }
+  @media (min-width: 768px) { .section { padding: var(--s-20) 0; } }
+
+  .section-head { margin-bottom: var(--s-10); max-width: 640px; }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--brand-primary); font-weight: 600;
+    margin-bottom: var(--s-4); padding: 4px 10px;
+    background: var(--brand-accent); border-radius: var(--r-pill);
+  }
+  .section-head h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(32px, 5vw, 52px);
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--brand-primary); margin: 0 0 var(--s-3);
+  }
+  .section-head h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .section-head p { font-size: 17px; color: var(--brand-muted); margin: 0; }
+
+  /* HOW IT WORKS */
+  .how-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-5); }
+  @media (min-width: 768px) { .how-grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+  .how-card {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .how-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand-primary); }
+  .how-num {
+    font-family: var(--font-display); font-size: 13px; font-weight: 600;
+    color: var(--brand-muted); margin-bottom: var(--s-12);
+    display: flex; align-items: center; gap: var(--s-3);
+    letter-spacing: 0.05em;
+  }
+  .how-num::after { content: ''; flex: 1; height: 1px; background: var(--brand-line); }
+  .how-card h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; line-height: 1.2;
+    margin: 0 0 var(--s-3); color: var(--brand-primary);
+    letter-spacing: -0.02em;
+  }
+  .how-card p { color: var(--brand-muted); margin: 0; font-size: 15px; }
+  .how-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: var(--brand-accent);
+    display: grid; place-items: center;
+    color: var(--brand-primary); margin-bottom: var(--s-5);
+  }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-5); }
+  @media (min-width: 768px) { .services-grid { grid-template-columns: 1fr 1fr; gap: var(--s-6); } }
+  .service-card {
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative; overflow: hidden; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform .25s ease;
+  }
+  .service-card:hover { transform: translateY(-4px); }
+  .service-card.load { background: var(--brand-primary); color: var(--brand-accent); }
+  .service-card.care { background: var(--brand-accent); color: var(--brand-primary); }
+  .service-name {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 600; line-height: 1.05;
+    letter-spacing: -0.03em; margin: 0 0 var(--s-3);
+  }
+  .service-desc {
+    font-size: 16px; opacity: .85;
+    margin: 0 0 var(--s-6); max-width: 320px; line-height: 1.5;
+  }
+  .service-card.load .service-desc { color: rgba(210,230,180,0.85); }
+  .service-meta { display: flex; align-items: baseline; gap: var(--s-2); margin-top: auto; }
+  .service-price { font-family: var(--font-display); font-size: 32px; font-weight: 600; letter-spacing: -0.02em; }
+  .service-unit { font-size: 14px; opacity: .7; }
+  .service-tag {
+    position: absolute; top: var(--s-5); right: var(--s-5);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 6px 12px; border-radius: var(--r-pill); font-weight: 500;
+  }
+  .service-card.load .service-tag { background: rgba(210,230,180,0.15); color: var(--brand-accent); }
+  .service-card.care .service-tag { background: rgba(100,60,60,0.12); color: var(--brand-primary); }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: var(--s-3); }
+  .faq-item {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); overflow: hidden;
+    transition: border-color .2s ease;
+  }
+  .faq-item[open] { border-color: var(--brand-primary); }
+  .faq-item summary {
+    list-style: none; padding: var(--s-5) var(--s-6);
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; font-weight: 500;
+    color: var(--brand-primary); font-size: 16px; gap: var(--s-4);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    display: grid; place-items: center;
+    transition: transform .25s ease, background .2s ease;
+    flex-shrink: 0; color: var(--brand-primary);
+  }
+  .faq-item[open] .faq-icon { transform: rotate(45deg); background: var(--brand-accent); }
+  .faq-content { padding: 0 var(--s-6) var(--s-6); color: var(--brand-muted); font-size: 15px; line-height: 1.6; }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-xl); padding: var(--s-12) var(--s-6);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  @media (min-width: 768px) { .final-cta { padding: var(--s-20) var(--s-8); } }
+  .final-cta::before {
+    content: ''; position: absolute; bottom: -50%; left: -10%;
+    width: 60%; height: 100%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 60%);
+    opacity: .12;
+  }
+  .final-cta h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(32px, 5vw, 56px); line-height: 1.05;
+    letter-spacing: -0.03em; margin: 0 0 var(--s-4);
+    position: relative; color: var(--brand-accent);
+  }
+  .final-cta h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .final-cta p { font-size: 17px; color: rgba(210,230,180,0.7); margin: 0 0 var(--s-8); position: relative; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: var(--s-12) 0 var(--s-8); margin-top: var(--s-16);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-8); margin-bottom: var(--s-10); }
+  @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+  .footer-brand img { height: 36px; width: auto; margin-bottom: var(--s-3); }
+  .footer-brand p {
+    color: rgba(210,230,180,0.65); font-size: 14px;
+    margin: 0; max-width: 280px; line-height: 1.5;
+  }
+  .footer h4 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: rgba(210,230,180,0.6); font-weight: 500; margin: 0 0 var(--s-4);
+  }
+  .footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+  .footer a { font-size: 14px; color: var(--brand-accent); transition: opacity .2s ease; opacity: .85; }
+  .footer a:hover { opacity: 1; }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: var(--s-6);
+    border-top: 1px solid rgba(210,230,180,0.15);
+    font-size: 13px; color: rgba(210,230,180,0.55);
+    flex-wrap: wrap; gap: var(--s-3);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,31,31,0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: flex-end; justify-content: center;
+    z-index: 100; padding: 0;
+    animation: fadeIn .2s ease;
+  }
+  @media (min-width: 640px) { .modal-overlay { align-items: center; padding: var(--s-5); } }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  .modal {
+    background: var(--brand-cream);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    width: 100%; max-width: 520px; max-height: 92vh;
+    overflow-y: auto; position: relative;
+    animation: slideUp .3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  @media (min-width: 640px) { .modal { border-radius: var(--r-xl); } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-header {
+    position: sticky; top: 0; background: var(--brand-cream);
+    padding: var(--s-5) var(--s-6);
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 2; border-bottom: 1px solid var(--brand-line);
+  }
+  .modal-title {
+    font-family: var(--font-display); font-size: 18px; font-weight: 600;
+    color: var(--brand-primary); margin: 0; letter-spacing: -0.02em;
+  }
+  .modal-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    display: grid; place-items: center;
+    color: var(--brand-primary);
+    transition: background .2s ease;
+  }
+  .modal-close:hover { background: #fff; }
+  .modal-body { padding: var(--s-6); }
+
+  .stepper { display: flex; gap: 6px; margin-bottom: var(--s-6); }
+  .step-dot {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--brand-line);
+    transition: background .3s ease;
+  }
+  .step-dot.active { background: var(--brand-primary); }
+  .step-dot.completed { background: var(--brand-success); }
+
+  .field { margin-bottom: var(--s-4); }
+  .field label {
+    display: block; font-size: 13px; font-weight: 500;
+    margin-bottom: 6px; color: var(--brand-ink);
+  }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 14px 16px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    color: var(--brand-ink);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.08);
+  }
+  .field-error { color: var(--brand-danger); font-size: 13px; margin-top: 6px; display: none; }
+  .field.has-error input,
+  .field.has-error select,
+  .field.has-error textarea { border-color: var(--brand-danger); }
+  .field.has-error .field-error { display: block; }
+
+  .step-heading {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 24px; line-height: 1.2;
+    color: var(--brand-primary); margin: 0 0 var(--s-2);
+    letter-spacing: -0.025em;
+  }
+  .step-sub { color: var(--brand-muted); margin: 0 0 var(--s-6); font-size: 15px; }
+
+  .user-card {
+    background: var(--brand-surface); border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); padding: var(--s-5);
+    margin-bottom: var(--s-5);
+  }
+  .user-card-row {
+    display: flex; justify-content: space-between;
+    padding: var(--s-3) 0; font-size: 14px;
+    border-bottom: 1px solid var(--brand-line);
+  }
+  .user-card-row:last-child { border: none; }
+  .user-card-row span:first-child { color: var(--brand-muted); }
+  .user-card-row span:last-child { font-weight: 500; color: var(--brand-ink); }
+
+  .opt-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-5); }
+  .opt {
+    display: block; padding: var(--s-5);
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    cursor: pointer; transition: all .2s ease;
+    position: relative;
+  }
+  .opt:hover { border-color: var(--brand-primary); }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt:has(input:checked) {
+    border-color: var(--brand-primary); background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .opt-title {
+    font-weight: 600; font-size: 16px;
+    display: flex; align-items: center; gap: var(--s-3);
+    color: var(--brand-primary);
+  }
+  .opt-title::before {
+    content: ''; width: 18px; height: 18px;
+    border-radius: 50%; border: 1.5px solid var(--brand-line);
+    flex-shrink: 0; transition: all .2s ease;
+  }
+  .opt:has(input:checked) .opt-title::before {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    box-shadow: inset 0 0 0 3px var(--brand-cream);
+  }
+  .opt-desc { font-size: 13px; color: var(--brand-muted); margin-top: 4px; padding-left: 30px; }
+
+  .counter {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--s-4) var(--s-5);
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+  }
+  .counter-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    font-size: 22px; font-weight: 500;
+    display: grid; place-items: center;
+    transition: background .15s ease;
+  }
+  .counter-btn:hover:not(:disabled) { background: var(--brand-accent); }
+  .counter-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .counter-value {
+    font-family: var(--font-display); font-size: 28px;
+    font-weight: 600; color: var(--brand-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .summary {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); padding: var(--s-5);
+    margin-bottom: var(--s-5);
+  }
+  .summary-row {
+    display: flex; justify-content: space-between;
+    padding: var(--s-2) 0; font-size: 14px; color: var(--brand-ink);
+  }
+  .summary-row span:first-child { color: var(--brand-muted); }
+  .summary-row.total {
+    border-top: 1.5px dashed var(--brand-line);
+    margin-top: var(--s-2); padding-top: var(--s-3);
+    font-size: 18px; font-weight: 600;
+    color: var(--brand-primary);
+  }
+  .summary-row.total span:first-child { color: var(--brand-primary); }
+  .summary-row.total .amt {
+    font-family: var(--font-display); font-size: 24px; letter-spacing: -0.02em;
+  }
+
+  .order-id-box {
+    text-align: center; padding: var(--s-8) var(--s-5);
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-md); margin-bottom: var(--s-5);
+    position: relative; overflow: hidden;
+  }
+  .order-id-box::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, var(--brand-accent), transparent 65%);
+    opacity: .12;
+  }
+  .order-id-label {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.14em; opacity: .75;
+    margin-bottom: var(--s-2); position: relative;
+  }
+  .order-id-value {
+    font-family: var(--font-display); font-size: 36px;
+    font-weight: 600; letter-spacing: 0.02em; position: relative;
+  }
+
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .hidden { display: none !important; }
+  .text-center { text-align: center; }
+
+  /* HERO — pickup price pair */
+  .price-pair { margin-top: var(--s-3); display: flex; flex-direction: column; gap: var(--s-2); }
+  .price-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .price-zone {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+    opacity: .8; font-weight: 500;
+  }
+  .price-amt {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4.5vw, 38px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+  }
+  @media (min-width: 960px) {
+    .price-pair { gap: var(--s-3); }
+    .price-zone { font-size: 13px; }
+    .price-amt { font-size: clamp(32px, 5.5vw, 44px); }
+  }
+
+  /* PICKUP NOTE BANNER (How It Works) */
+  .pickup-note {
+    margin-top: var(--s-8);
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-left: 4px solid var(--brand-primary);
+    border-radius: var(--r-md);
+    padding: var(--s-5) var(--s-6);
+    display: flex; gap: var(--s-4); align-items: flex-start;
+  }
+  .pickup-note svg { flex-shrink: 0; color: var(--brand-primary); margin-top: 2px; }
+  .pickup-note p { margin: 0; font-size: 15px; color: var(--brand-ink); line-height: 1.55; }
+  .pickup-note strong { color: var(--brand-primary); font-weight: 600; }
+
+  /* PRICING SECTION */
+  .pricing-block { display: grid; grid-template-columns: 1fr; gap: var(--s-10); }
+  @media (min-width: 1080px) { .pricing-block { grid-template-columns: 1fr 1.4fr; gap: var(--s-12); } }
+  .pricing-block h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 24px; letter-spacing: -0.02em;
+    color: var(--brand-primary); margin: 0 0 var(--s-2);
+  }
+  .pricing-block .pricing-sub { color: var(--brand-muted); font-size: 14px; margin: 0 0 var(--s-5); }
+
+  .load-cards { display: grid; grid-template-columns: 1fr; gap: var(--s-3); }
+  @media (min-width: 480px) { .load-cards { grid-template-columns: 1fr 1fr; } }
+  .load-card {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .load-card:hover { border-color: var(--brand-primary); transform: translateY(-2px); }
+  .load-card-name {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--brand-muted); margin-bottom: var(--s-2); font-weight: 500;
+  }
+  .load-card-price {
+    font-family: var(--font-display); font-size: 28px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: -0.02em; line-height: 1;
+  }
+  .load-card-meta { font-size: 13px; color: var(--brand-muted); margin-top: 4px; }
+
+  .care-table {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .care-table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    align-items: center;
+    padding: var(--s-3) var(--s-5);
+    border-bottom: 1px solid var(--brand-line);
+    font-size: 14px;
+    gap: var(--s-3);
+  }
+  @media (min-width: 480px) {
+    .care-table-row {
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: var(--s-4) var(--s-5);
+      font-size: 15px;
+    }
+  }
+  .care-table-row:last-child { border-bottom: none; }
+  .care-table-row.head {
+    background: var(--brand-cream-deep);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--brand-muted); font-weight: 600;
+    padding: var(--s-3) var(--s-5);
+  }
+  .care-item { color: var(--brand-ink); }
+  .care-price { font-family: var(--font-display); font-weight: 600; color: var(--brand-primary); letter-spacing: -0.01em; text-align: right; }
+  .care-price.empty { color: var(--brand-line); font-weight: 400; }
+  .care-loading { padding: var(--s-8); text-align: center; color: var(--brand-muted); font-size: 14px; }
+
+  /* OUR WORK */
+  .work-block {
+    display: grid; grid-template-columns: 1fr; gap: var(--s-8);
+    align-items: center;
+  }
+  @media (min-width: 880px) { .work-block { grid-template-columns: 1fr 1fr; gap: var(--s-12); } }
+  .work-text p {
+    font-size: 17px; line-height: 1.65; color: var(--brand-ink);
+    margin: 0 0 var(--s-4); max-width: 480px;
+  }
+  .work-text p:first-of-type {
+    font-family: var(--font-editorial); font-style: italic;
+    font-size: clamp(22px, 3vw, 28px); line-height: 1.3;
+    color: var(--brand-primary); font-weight: 500;
+    margin-bottom: var(--s-5);
+  }
+  .work-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5);
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative; overflow: hidden;
+  }
+  .work-stats::before {
+    content: ''; position: absolute; top: -40%; right: -30%;
+    width: 80%; height: 80%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .12; pointer-events: none;
+  }
+  .work-stat { position: relative; }
+  .work-stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 48px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+  .work-stat-label {
+    font-size: 13px; letter-spacing: 0.05em;
+    color: rgba(210,230,180,0.75); line-height: 1.4;
+  }
+
+  /* MODAL — LOCATION TOGGLE */
+  .zone-toggle {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    background: var(--brand-cream-deep);
+    padding: 6px; border-radius: var(--r-pill);
+    margin-bottom: var(--s-5);
+  }
+  .zone-btn {
+    padding: 12px 14px; border-radius: var(--r-pill);
+    background: transparent; color: var(--brand-muted);
+    font-size: 14px; font-weight: 500;
+    transition: all .2s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    line-height: 1.1;
+  }
+  .zone-btn .zone-fee { font-size: 12px; opacity: .75; font-weight: 400; }
+  .zone-btn.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    box-shadow: var(--shadow-sm);
+  }
+  .zone-btn.active .zone-fee { opacity: .85; color: var(--brand-accent); }
+
+  /* MODAL — ADD-ON SECTIONS (replaces single radio choice) */
+  .addon-block {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    margin-bottom: var(--s-3);
+    transition: border-color .2s ease;
+  }
+  .addon-block.is-active { border-color: var(--brand-primary); }
+  .addon-head {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: var(--s-3);
+  }
+  .addon-title {
+    font-weight: 600; font-size: 15px; color: var(--brand-primary);
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .addon-sub { font-size: 12px; color: var(--brand-muted); margin-top: 3px; }
+  .addon-body { margin-top: var(--s-4); }
+  .addon-body.hidden { display: none; }
+  .addon-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    transition: transform .25s ease, background .2s ease;
+    flex-shrink: 0;
+  }
+  .addon-block.is-active .addon-toggle {
+    background: var(--brand-accent);
+    transform: rotate(45deg);
+  }
+
+  .load-pills { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s-2); }
+  .load-pill {
+    padding: 12px 8px; border-radius: var(--r-md);
+    background: var(--brand-cream); color: var(--brand-primary);
+    border: 1.5px solid var(--brand-line);
+    font-weight: 600; font-size: 14px;
+    transition: all .15s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    line-height: 1.2;
+  }
+  .load-pill .load-pill-amt { font-size: 11px; opacity: .65; font-weight: 400; }
+  .load-pill:hover { border-color: var(--brand-primary); }
+  .load-pill.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-color: var(--brand-primary);
+  }
+  .load-pill.active .load-pill-amt { opacity: .85; }
+
+  .care-slider-wrap { margin-top: var(--s-2); }
+  .care-amount-display {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 32px; font-weight: 600;
+    color: var(--brand-primary);
+    letter-spacing: -0.02em; line-height: 1;
+    margin-bottom: var(--s-3);
+  }
+  .care-amount-display .naira { font-size: .65em; opacity: .6; margin-right: 2px; }
+  .care-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px; border-radius: 999px;
+    background: var(--brand-line); outline: none;
+    margin: var(--s-3) 0;
+  }
+  .care-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--brand-primary);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(100,60,60,0.3);
+    border: 3px solid var(--brand-cream);
+  }
+  .care-slider::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--brand-primary);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(100,60,60,0.3);
+    border: 3px solid var(--brand-cream);
+  }
+  .care-range-labels {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--brand-muted);
+    margin-top: 4px;
+  }
+  .care-input-group {
+    display: flex; align-items: center; gap: var(--s-2);
+    margin-top: var(--s-3);
+  }
+  .care-input-group label {
+    font-size: 12px; color: var(--brand-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .care-input-group input {
+    flex: 1; padding: 10px 12px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    font-size: 14px; color: var(--brand-ink);
+  }
+  .care-input-group input:focus {
+    outline: none; border-color: var(--brand-primary);
+  }
+
+  /* PICKUP WINDOW STEP */
+  .window-list {
+    display: flex; flex-direction: column;
+    gap: var(--s-3); margin-bottom: var(--s-5);
+  }
+  .window-opt {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    cursor: pointer;
+    transition: all .15s ease;
+    display: flex; align-items: center; gap: var(--s-4);
+  }
+  .window-opt:hover { border-color: var(--brand-primary); }
+  .window-opt.active {
+    border-color: var(--brand-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .window-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .window-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    transition: background .15s ease;
+  }
+  .window-opt.active .window-icon { background: var(--brand-accent); }
+  .window-text { flex: 1; }
+  .window-label {
+    font-weight: 600; font-size: 15px;
+    color: var(--brand-primary);
+    letter-spacing: -0.01em;
+  }
+  .window-time { font-size: 13px; color: var(--brand-muted); margin-top: 2px; }
+  .window-radio {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--brand-line);
+    flex-shrink: 0; transition: all .2s ease;
+  }
+  .window-opt.active .window-radio {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    box-shadow: inset 0 0 0 3px var(--brand-cream);
+  }
+
+  /* PICKUP ADDRESS SELECTOR (returning users with 2 addresses) */
+  .addr-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-5); }
+  .addr-opt {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .addr-opt:hover { border-color: var(--brand-primary); }
+  .addr-opt.active {
+    border-color: var(--brand-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .addr-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--brand-muted); font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .addr-text {
+    font-size: 14px; color: var(--brand-ink); line-height: 1.5;
+    word-break: break-word;
+  }
+
+  /* Two-stage payment notice */
+  .billing-note {
+    background: var(--brand-cream-deep);
+    border-radius: var(--r-md);
+    padding: var(--s-3) var(--s-4);
+    margin-top: var(--s-3);
+    font-size: 13px; color: var(--brand-ink);
+    line-height: 1.5;
+    display: flex; gap: var(--s-3); align-items: flex-start;
+  }
+  .billing-note svg { color: var(--brand-primary); flex-shrink: 0; margin-top: 2px; }
+  .billing-note strong { color: var(--brand-primary); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo" aria-label="Pressd home">
+      <img src="assets/logo-light.png" alt="Pressd" />
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <button class="nav-cta" data-open-pickup>Request Pickup</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Now serving Lagos</div>
+        <h1>
+          Laundry, <em>picked up</em> and delivered <span class="accent">in a few clicks.</span>
+        </h1>
+        <p class="lede">Request a pickup. We'll handle the rest.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-pickup>
+            Request Pickup
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <a href="#how" class="btn btn-ghost">How It Works</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            Tue · Thu · Sat pickups
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            48–72hr delivery
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            15+ years of experience
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card main">
+          <div>
+            <div class="label">Pickup &amp; Delivery</div>
+            <div class="price-pair">
+              <div class="price-row">
+                <span class="price-zone">Mainland</span>
+                <span class="price-amt">₦3,500</span>
+              </div>
+              <div class="price-row">
+                <span class="price-zone">Island</span>
+                <span class="price-amt">₦4,500</span>
+              </div>
+            </div>
+            <div class="breakdown">One fee. Covers pickup &amp; delivery.</div>
+          </div>
+          <div class="hero-card-icon">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+              <path d="M3 16h18l-2-7a3 3 0 00-2.9-2.2H10A4 4 0 006 9v0"/>
+              <path d="M3 16v2a1 1 0 001 1h16a1 1 0 001-1v-2"/>
+              <path d="M9 9V6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="hero-card floating">
+          <div class="float-row">
+            <div class="float-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <div class="float-text">
+              <strong>Pickup confirmed</strong>
+              <span>Tuesday, 10:00 AM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">How it works</div>
+      <h2>Three steps. <em>That's it.</em></h2>
+      <p>Pickup is the first step. Once it's booked, we take care of the rest.</p>
+    </div>
+
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">01 / Request</div>
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <h3>Request a pickup</h3>
+        <p>Pick your zone, confirm your details, and pay your pickup fee. That kicks everything off.</p>
+      </div>
+
+      <div class="how-card reveal">
+        <div class="how-num">02 / Collect</div>
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+        </div>
+        <h3>We collect your laundry</h3>
+        <p>A rider comes to your address on the next pickup day to take what you have ready.</p>
+      </div>
+
+      <div class="how-card reveal">
+        <div class="how-num">03 / Process &amp; Deliver</div>
+        <div class="how-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-6 9 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <h3>We process and deliver</h3>
+        <p>Sorted, washed, and (where chosen) carefully ironed. Delivered back to the same address.</p>
+      </div>
+    </div>
+
+    <div class="pickup-note reveal">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <p><strong>Pickups run on Tuesdays, Thursdays, and Saturdays.</strong> Delivery happens 48–72 hours after pickup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Services</div>
+      <h2>Two ways to <em>get pressd.</em></h2>
+      <p>Add either to your pickup, or both. Services are optional — pickup gets you started.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card load reveal">
+        <div class="service-tag">Best for everyday</div>
+        <div>
+          <h3 class="service-name">Pressd Load</h3>
+          <p class="service-desc">Bulk washing, no ironing.</p>
+        </div>
+        <div class="service-meta">
+          <a href="#pricing" class="service-unit" style="text-decoration: underline; opacity: .85;">See load pricing →</a>
+        </div>
+      </div>
+
+      <div class="service-card care reveal">
+        <div class="service-tag">Detailed care</div>
+        <div>
+          <h3 class="service-name">Pressd Care</h3>
+          <p class="service-desc">Detailed wash and iron, handled per item.</p>
+        </div>
+        <div class="service-meta">
+          <a href="#pricing" class="service-unit" style="text-decoration: underline; opacity: .85;">See item pricing →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING (DYNAMIC) -->
+<section class="section" id="pricing" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Pricing</div>
+      <h2>What things <em>cost.</em></h2>
+      <p>Pickup &amp; delivery is ₦3,500 (Mainland) or ₦4,500 (Island). Add laundry on top — your call.</p>
+    </div>
+
+    <div class="pricing-block">
+      <div class="reveal">
+        <h3>Pressd Load</h3>
+        <p class="pricing-sub">Bulk wash, folded back. Choose how many loads.</p>
+        <div class="load-cards" id="load-pricing-cards">
+          <!-- Filled by JS from backend (with fallback) -->
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3>Pressd Care</h3>
+        <p class="pricing-sub">Per-item pricing. Set a tab amount that covers what you're sending.</p>
+        <div class="care-table" id="care-pricing-table">
+          <div class="care-loading">Loading prices…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="section" id="our-work">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Our work</div>
+      <h2>Handled with <em>care.</em></h2>
+    </div>
+
+    <div class="work-block">
+      <div class="work-text reveal">
+        <p>Behind every Pressd order is experience.</p>
+        <p>Your clothes are handled by a professional with over 15 years of hands-on laundry experience — working across different fabrics, stains, and finishes.</p>
+        <p>From knowing when to hand wash, to properly treating delicate materials, every item is handled with attention to detail.</p>
+      </div>
+      <div class="work-stats reveal">
+        <div class="work-stat">
+          <div class="work-stat-value">15+</div>
+          <div class="work-stat-label">Years of hands-on laundry experience</div>
+        </div>
+        <div class="work-stat">
+          <div class="work-stat-value">All</div>
+          <div class="work-stat-label">Fabric types &amp; finishes handled</div>
+        </div>
+        <div class="work-stat">
+          <div class="work-stat-value">By hand</div>
+          <div class="work-stat-label">When the fabric calls for it</div>
+        </div>
+        <div class="work-stat">
+          <div class="work-stat-value">Every</div>
+          <div class="work-stat-label">Item gets attention to detail</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">FAQ</div>
+      <h2>Quick <em>answers.</em></h2>
+    </div>
+
+    <div class="faq-list" style="max-width: 760px;">
+      <details class="faq-item reveal">
+        <summary>How does pickup work?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Pickup is the first step. You request and pay for it through the app — ₦3,500 for Mainland or ₦4,500 for Island. That fee covers both the pickup and the delivery back to you. On the next available pickup day, a rider comes to collect your laundry. You can add Pressd Load or Pressd Care to your order, or just send what you have ready.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>What days do you do pickups?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Pickups run on <strong>Tuesdays, Thursdays, and Saturdays.</strong> When you request a pickup, you'll be scheduled for the next available day on that rotation.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>How long until I get my clothes back?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Delivery happens <strong>48–72 hours after pickup.</strong> Larger orders or detailed Care items can sit at the longer end of that window.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>How does pricing work?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content"><strong>Pickup &amp; delivery:</strong> ₦3,500 Mainland · ₦4,500 Island. One fee covers both directions.<br><br><strong>Pressd Load:</strong> per-load pricing, see the pricing section above.<br><br><strong>Pressd Care:</strong> per-item pricing with a ₦3,000 minimum tab. You'll see the full total before you pay.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Are the laundry services optional?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Yes. Pickup is the only required step. You can add Pressd Load and/or Pressd Care while requesting your pickup, or skip them and let the rider sort the rest in person.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" style="padding-bottom: var(--s-8);">
+  <div class="container">
+    <div class="final-cta reveal">
+      <h2>Ready to skip <em>laundry day?</em></h2>
+      <p>Your next clean stack of clothes is a few taps away.</p>
+      <button class="btn btn-accent" data-open-pickup>
+        Request Pickup
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo-light.png" alt="Pressd" />
+        <p>Laundry, picked up and delivered. No stress. No movement.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul>
+          <li><a href="#services">Pressd Load</a></li>
+          <li><a href="#services">Pressd Care</a></li>
+          <li><a href="#how">How it works</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="mailto:pressdonline@gmail.com">pressdonline@gmail.com</a></li>
+          <li><a href="https://wa.me/2348000000000">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pressd. All rights reserved.</span>
+      <span>washed • dried • pressd</span>
+    </div>
+  </div>
+</footer>
+
+<!-- PICKUP MODAL -->
+<div class="modal-overlay" id="pickup-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Request Pickup</h2>
+      <button class="modal-close" data-close-pickup aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="stepper">
+        <div class="step-dot" data-dot="1"></div>
+        <div class="step-dot" data-dot="2"></div>
+        <div class="step-dot" data-dot="3"></div>
+        <div class="step-dot" data-dot="4"></div>
+        <div class="step-dot" data-dot="5"></div>
+      </div>
+
+      <!-- ZONE TOGGLE — visible during the pickup-detail steps -->
+      <div class="zone-toggle" id="zone-toggle">
+        <button class="zone-btn active" data-zone="mainland" type="button">
+          <span>Mainland</span>
+          <span class="zone-fee">₦3,500</span>
+        </button>
+        <button class="zone-btn" data-zone="island" type="button">
+          <span>Island</span>
+          <span class="zone-fee">₦4,500</span>
+        </button>
+      </div>
+
+      <div class="step" data-step="email">
+        <h3 class="step-heading">Request a pickup</h3>
+        <p class="step-sub">Pick your zone above, then enter your email to continue.</p>
+        <div class="field" id="field-email">
+          <label for="i-email">Email address</label>
+          <input type="email" id="i-email" placeholder="you@email.com" autocomplete="email" />
+          <div class="field-error">Please enter a valid email.</div>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-check-email">
+          <span class="btn-label">Continue</span>
+        </button>
+      </div>
+
+      <div class="step hidden" data-step="returning">
+        <h3 class="step-heading">Welcome back, <span id="rt-name">there</span></h3>
+        <p class="step-sub">Is this you?</p>
+        <div class="user-card">
+          <div class="user-card-row"><span>Phone</span><span id="rt-phone">—</span></div>
+          <div class="user-card-row"><span>Area</span><span id="rt-area">—</span></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-rt-continue">Yes, that's me</button>
+        <button class="btn btn-ghost btn-block" id="btn-rt-notme" style="margin-top: 12px;">Not me</button>
+      </div>
+
+      <div class="step hidden" data-step="newuser">
+        <h3 class="step-heading">Welcome to Pressd</h3>
+        <p class="step-sub">A few details and we'll get you set up.</p>
+        <div class="field" id="field-name">
+          <label for="i-name">Full name</label>
+          <input type="text" id="i-name" placeholder="Jane Doe" autocomplete="name" />
+          <div class="field-error">Name is required.</div>
+        </div>
+        <div class="field" id="field-email2">
+          <label for="i-email2">Email</label>
+          <input type="email" id="i-email2" placeholder="you@email.com" autocomplete="email" />
+          <div class="field-error">Please enter a valid email.</div>
+        </div>
+        <div class="field" id="field-phone-wa">
+          <label for="i-phone-wa">Phone (WhatsApp)</label>
+          <input type="tel" id="i-phone-wa" placeholder="0803 000 0000" autocomplete="tel" />
+          <div class="field-error">WhatsApp number is required.</div>
+        </div>
+        <div class="field" id="field-phone-call">
+          <label for="i-phone-call">Phone (Call line)</label>
+          <input type="tel" id="i-phone-call" placeholder="Same as WhatsApp or different" autocomplete="tel" />
+          <div class="field-error">Call line is required.</div>
+        </div>
+        <div class="field" id="field-area">
+          <label for="i-area">Area</label>
+          <select id="i-area">
+            <option value="">Select your area</option>
+            <optgroup label="Mainland">
+              <option data-zone="mainland" value="Yaba">Yaba</option>
+              <option data-zone="mainland" value="Shomolu">Shomolu</option>
+              <option data-zone="mainland" value="Surulere">Surulere</option>
+              <option data-zone="mainland" value="Bariga">Bariga</option>
+              <option data-zone="mainland" value="Ikeja">Ikeja</option>
+              <option data-zone="mainland" value="Maryland">Maryland</option>
+            </optgroup>
+            <optgroup label="Island">
+              <option data-zone="island" value="Lekki">Lekki</option>
+              <option data-zone="island" value="Victoria Island">Victoria Island</option>
+              <option data-zone="island" value="Ikoyi">Ikoyi</option>
+              <option data-zone="island" value="Ikate">Ikate</option>
+              <option data-zone="island" value="Ajah" disabled>Ajah (not available yet)</option>
+            </optgroup>
+          </select>
+          <div class="field-error">Please select your area.</div>
+        </div>
+        <div class="field" id="field-address1">
+          <label for="i-address1">Pickup address 1 — Home</label>
+          <textarea id="i-address1" rows="2" placeholder="Street, building, landmark"></textarea>
+          <div class="field-error">Home address is required.</div>
+        </div>
+        <div class="field" id="field-address2">
+          <label for="i-address2">Pickup address 2 — Optional <span style="color:var(--brand-muted);font-weight:400;">(work or other)</span></label>
+          <textarea id="i-address2" rows="2" placeholder="Optional — leave blank if none"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-save-user">
+          <span class="btn-label">Save &amp; Continue</span>
+        </button>
+      </div>
+
+      <!-- OPTIONAL ADD-ONS -->
+      <div class="step hidden" data-step="addons">
+        <h3 class="step-heading">Add laundry (optional)</h3>
+        <p class="step-sub">Pickup is already covered. Add services or skip — your call.</p>
+
+        <div class="addon-block" id="addon-load">
+          <div class="addon-head" data-addon-head="load">
+            <div>
+              <div class="addon-title">Add Pressd Load</div>
+              <div class="addon-sub">Bulk wash, no ironing</div>
+            </div>
+            <button type="button" class="addon-toggle" aria-label="Toggle load add-on">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="addon-body hidden" id="addon-load-body">
+            <div class="load-pills" id="load-pills">
+              <button type="button" class="load-pill active" data-loads="1">
+                1 Load
+                <span class="load-pill-amt" data-load-amt="1">—</span>
+              </button>
+              <button type="button" class="load-pill" data-loads="2">
+                2 Loads
+                <span class="load-pill-amt" data-load-amt="2">—</span>
+              </button>
+              <button type="button" class="load-pill" data-loads="3">
+                3 Loads
+                <span class="load-pill-amt" data-load-amt="3">—</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="addon-block" id="addon-care">
+          <div class="addon-head" data-addon-head="care">
+            <div>
+              <div class="addon-title">Open Pressd Care tab</div>
+              <div class="addon-sub">Detailed wash &amp; iron · ₦3,000 minimum</div>
+            </div>
+            <button type="button" class="addon-toggle" aria-label="Toggle care add-on">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="addon-body hidden" id="addon-care-body">
+            <div class="care-slider-wrap">
+              <div class="care-amount-display"><span class="naira">₦</span><span id="care-display">3,000</span></div>
+              <input type="range" class="care-slider" id="care-slider" min="3000" max="20000" step="500" value="3000" />
+              <div class="care-range-labels">
+                <span>₦3,000</span>
+                <span>₦20,000+</span>
+              </div>
+              <div class="care-input-group">
+                <label for="care-input-exact">Exact</label>
+                <input type="number" id="care-input-exact" min="3000" step="500" value="3000" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btn-addons-next" style="margin-top: var(--s-5);">Continue</button>
+        <button class="btn btn-ghost btn-block" id="btn-addons-skip" style="margin-top: 12px;">Pickup only — bill me after</button>
+        <div class="billing-note" id="billing-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>
+          <div>
+            Pay your pickup fee now. <strong>Pressd Load tabs must be paid before pickup</strong> — Pressd Care can stay open and be billed after we collect.
+          </div>
+        </div>
+      </div>
+
+      <!-- PICKUP ADDRESS — only shown if user has 2 addresses on file -->
+      <div class="step hidden" data-step="pickup-address">
+        <h3 class="step-heading">Where should we collect from?</h3>
+        <p class="step-sub">Pick which address for this pickup.</p>
+        <div class="addr-list" id="addr-list"></div>
+        <button class="btn btn-primary btn-block" id="btn-addr-next">Continue</button>
+      </div>
+
+      <!-- PICKUP WINDOW -->
+      <div class="step hidden" data-step="pickup-window">
+        <h3 class="step-heading">When should we come?</h3>
+        <p class="step-sub">Pick a time window. Pickups run on Tuesdays, Thursdays, and Saturdays.</p>
+        <div class="window-list" id="window-list">
+          <label class="window-opt" data-window="morning">
+            <input type="radio" name="window" value="morning" />
+            <div class="window-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </div>
+            <div class="window-text">
+              <div class="window-label">Morning</div>
+              <div class="window-time">8 AM – 11 AM</div>
+            </div>
+            <div class="window-radio"></div>
+          </label>
+
+          <label class="window-opt" data-window="afternoon">
+            <input type="radio" name="window" value="afternoon" />
+            <div class="window-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <div class="window-text">
+              <div class="window-label">Afternoon</div>
+              <div class="window-time">12 PM – 3 PM</div>
+            </div>
+            <div class="window-radio"></div>
+          </label>
+
+          <label class="window-opt" data-window="evening">
+            <input type="radio" name="window" value="evening" />
+            <div class="window-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div class="window-text">
+              <div class="window-label">Evening</div>
+              <div class="window-time">4 PM – 7 PM</div>
+            </div>
+            <div class="window-radio"></div>
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-window-next" disabled>Continue</button>
+      </div>
+
+      <div class="step hidden" data-step="summary">
+        <h3 class="step-heading">Order summary</h3>
+        <p class="step-sub">Review before you pay.</p>
+        <div class="summary" id="summary-box"></div>
+        <button class="btn btn-primary btn-block" id="btn-place-order">
+          <span class="btn-label">Place Order</span>
+        </button>
+        <button class="btn btn-ghost btn-block" id="btn-summary-back" style="margin-top: 12px;">Back</button>
+      </div>
+
+      <div class="step hidden" data-step="payment">
+        <div class="order-id-box">
+          <div class="order-id-label">Your Order ID</div>
+          <div class="order-id-value" id="order-id-display">PRSD00000</div>
+        </div>
+        <p class="step-sub text-center" style="margin-bottom: 24px;">Complete payment to confirm your pickup.</p>
+        <button class="btn btn-primary btn-block" id="btn-pay">
+          <span class="btn-label">Proceed to Payment</span>
+        </button>
+        <p style="font-size: 12px; color: var(--brand-muted); text-align: center; margin-top: 16px;">Secure payment powered by Paystack</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<script>
+  /* ============================================================
+     PRESSD — frontend app script
+     Backend contract (Google Apps Script):
+       - lookupUser({ email })          → { exists, user }
+       - createUser({ user })           → { ok, userId }
+       - getPricing()                   → { pricing }
+       - createOrder({ ...orderData })  → { orderId, paymentLink? }
+       - confirmPayment({ orderId, reference })
+     ============================================================ */
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec';
+  const PAYSTACK_PUBLIC_KEY = 'pk_test_REPLACE_WITH_YOUR_PUBLIC_KEY';
+
+  /* PRICING — fallback used if backend fetch fails. Values mirror the Pricing & Care Pricing sheet tabs. */
+  const PRICING_FALLBACK = {
+    pickup: { mainland: 3500, island: 4500 },
+    loads: [
+      { qty: 1, price: 5500 },
+      { qty: 2, price: 10500 },
+      { qty: 3, price: 15000 },
+    ],
+    careMin: 3000,
+    care: [
+      { item: 'T-Shirts / Tops',        wash: 300,  iron: 400  },
+      { item: 'Shirts (Formal)',        wash: 400,  iron: 500  },
+      { item: 'Trousers / Pants',       wash: 400,  iron: 600  },
+      { item: 'Jeans',                  wash: 400,  iron: 600  },
+      { item: 'Shorts',                 wash: 300,  iron: 400  },
+      { item: 'Gowns / Dresses',        wash: 500,  iron: 700  },
+      { item: 'Skirts',                 wash: 400,  iron: 500  },
+      { item: 'Jackets / Blazers',      wash: 700,  iron: 700  },
+      { item: 'Hoodies / Sweatshirts',  wash: 500,  iron: 700  },
+      { item: 'Native Attire (2pc)',    wash: 700,  iron: 1500 },
+      { item: 'Towels (Small)',         wash: 600,  iron: null },
+      { item: 'Towels (Large)',         wash: 1000, iron: null },
+      { item: 'Bedsheets (per one)',    wash: 1000, iron: null },
+      { item: 'Pillowcases (up to 4)',  wash: 500,  iron: null },
+      { item: 'Duvet',                  wash: 3500, iron: null },
+      { item: 'Underwear (per piece)',  wash: 200,  iron: null },
+    ],
+  };
+
+  /* AREA → ZONE map. Single source of truth — drives the auto-switch in the new user form. */
+  const AREA_ZONE = {
+    'Yaba': 'mainland', 'Shomolu': 'mainland', 'Surulere': 'mainland',
+    'Bariga': 'mainland', 'Ikeja': 'mainland', 'Maryland': 'mainland',
+    'Lekki': 'island', 'Victoria Island': 'island', 'Ikoyi': 'island',
+    'Ikate': 'island', 'Ajah': 'island',
+  };
+
+  let pricing = JSON.parse(JSON.stringify(PRICING_FALLBACK));
+
+  const state = {
+    zone: 'mainland',
+    pickupFee: pricing.pickup.mainland,
+    email: '', user: null, isReturning: false,
+    pickupAddress: '',          /* string actually used for this order */
+    pickupAddressLabel: 'Home', /* label: Home or Other */
+    loadEnabled: false, loads: 1,
+    careEnabled: false, careAmount: pricing.careMin,
+    minCare: pricing.careMin,
+    pickupWindow: null,         /* 'morning' | 'afternoon' | 'evening' */
+    pickupOnlyBilledAfter: false,
+    orderId: null, paymentLink: null, totalAmount: 0,
+  };
+
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+  const modal = $('#pickup-modal');
+  const steps = $$('.step', modal);
+  const zoneToggle = $('#zone-toggle');
+
+  /* Zone toggle is only relevant during pre-payment steps. Hide on payment. */
+  const ZONE_VISIBLE_STEPS = new Set(['email', 'returning', 'newuser', 'pickup-address', 'addons', 'pickup-window', 'summary']);
+
+  function showStep(name) {
+    steps.forEach(s => s.classList.add('hidden'));
+    const target = $(`[data-step="${name}"]`, modal);
+    if (target) target.classList.remove('hidden');
+    updateStepper(name);
+    zoneToggle.style.display = ZONE_VISIBLE_STEPS.has(name) ? '' : 'none';
+    modal.querySelector('.modal').scrollTop = 0;
+  }
+
+  function updateStepper(stepName) {
+    /* 5-stage progress:
+       1 Zone+Email · 2 Identity · 3 Add-ons · 4 Window+Summary · 5 Payment */
+    const stepMap = {
+      email: 1,
+      returning: 2, newuser: 2,
+      'pickup-address': 3, addons: 3,
+      'pickup-window': 4, summary: 4,
+      payment: 5,
+    };
+    const current = stepMap[stepName] || 1;
+    $$('.step-dot', modal).forEach(dot => {
+      const n = parseInt(dot.dataset.dot, 10);
+      dot.classList.remove('active', 'completed');
+      if (n < current) dot.classList.add('completed');
+      else if (n === current) dot.classList.add('active');
+    });
+  }
+
+  /* ============ NAIRA FORMATTING ============ */
+  function fmtNaira(n) {
+    if (n == null || isNaN(n)) return '—';
+    return '₦' + Math.round(n).toLocaleString('en-NG');
+  }
+
+  /* ============ ZONE TOGGLE ============ */
+  $$('.zone-btn', zoneToggle).forEach(btn => {
+    btn.addEventListener('click', () => {
+      setZone(btn.dataset.zone, /* fromUser */ true);
+    });
+  });
+
+  function setZone(zone, fromUser) {
+    state.zone = zone;
+    state.pickupFee = pricing.pickup[zone];
+    $$('.zone-btn', zoneToggle).forEach(b => {
+      b.classList.toggle('active', b.dataset.zone === zone);
+    });
+    /* If summary already visible, refresh it. */
+    const summaryStep = $('[data-step="summary"]', modal);
+    if (summaryStep && !summaryStep.classList.contains('hidden')) buildSummary();
+  }
+
+  /* ============ AREA → ZONE AUTO-SWITCH ============ */
+  $('#i-area').addEventListener('change', e => {
+    const opt = e.target.options[e.target.selectedIndex];
+    const zone = opt && opt.dataset ? opt.dataset.zone : null;
+    if (zone && zone !== state.zone) setZone(zone);
+  });
+
+  /* ============ MODAL OPEN/CLOSE ============ */
+  function openModal() {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    /* reset state */
+    state.zone = 'mainland';
+    state.pickupFee = pricing.pickup.mainland;
+    state.email = ''; state.user = null; state.isReturning = false;
+    state.pickupAddress = ''; state.pickupAddressLabel = 'Home';
+    state.loadEnabled = false; state.loads = 1;
+    state.careEnabled = false; state.careAmount = pricing.careMin;
+    state.pickupWindow = null;
+    state.pickupOnlyBilledAfter = false;
+    state.orderId = null; state.paymentLink = null; state.totalAmount = 0;
+
+    /* reset toggle UI */
+    $$('.zone-btn', zoneToggle).forEach(b => {
+      b.classList.toggle('active', b.dataset.zone === 'mainland');
+    });
+    /* reset inputs */
+    $$('input, select, textarea', modal).forEach(el => {
+      if (el.type === 'radio' || el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    });
+    $('#care-slider').value = pricing.careMin;
+    $('#care-input-exact').value = pricing.careMin;
+    $('#care-display').textContent = pricing.careMin.toLocaleString('en-NG');
+    $$('.field', modal).forEach(f => f.classList.remove('has-error'));
+    /* reset addon UI */
+    $('#addon-load').classList.remove('is-active');
+    $('#addon-load-body').classList.add('hidden');
+    $('#addon-care').classList.remove('is-active');
+    $('#addon-care-body').classList.add('hidden');
+    /* reset load pills */
+    $$('.load-pill').forEach(p => p.classList.toggle('active', p.dataset.loads === '1'));
+    state.loads = 1;
+    /* reset window pills */
+    $$('.window-opt').forEach(o => o.classList.remove('active'));
+    $('#btn-window-next').disabled = true;
+    refreshLoadPillAmounts();
+
+    showStep('email');
+    setTimeout(() => $('#i-email').focus(), 250);
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  $$('[data-open-pickup]').forEach(b => b.addEventListener('click', openModal));
+  $$('[data-close-pickup]').forEach(b => b.addEventListener('click', closeModal));
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  /* ============ HELPERS ============ */
+  function setLoading(btn, isLoading, label) {
+    if (isLoading) {
+      btn.disabled = true;
+      const lbl = btn.querySelector('.btn-label');
+      if (lbl) {
+        btn.dataset.originalLabel = lbl.textContent;
+        lbl.innerHTML = '<span class="spinner" style="display:inline-block;vertical-align:middle;"></span>';
+      }
+    } else {
+      btn.disabled = false;
+      const lbl = btn.querySelector('.btn-label');
+      if (lbl) lbl.textContent = label || btn.dataset.originalLabel || 'Continue';
+    }
+  }
+
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function showError(fieldId, show = true) {
+    const f = $(fieldId);
+    if (f) f.classList.toggle('has-error', show);
+  }
+
+  function maskPhone(p) {
+    if (!p) return '—';
+    const digits = p.replace(/\D/g, '');
+    if (digits.length < 4) return p;
+    return digits.slice(0, 3) + ' •••• ' + digits.slice(-3);
+  }
+
+  function loadPriceFor(qty) {
+    const tier = pricing.loads.find(l => l.qty === qty);
+    return tier ? tier.price : 0;
+  }
+
+  function refreshLoadPillAmounts() {
+    $$('[data-load-amt]').forEach(el => {
+      const qty = parseInt(el.dataset.loadAmt, 10);
+      el.textContent = fmtNaira(loadPriceFor(qty));
+    });
+  }
+
+  /* ============ EMAIL STEP — REAL LOOKUP ============ */
+  $('#btn-check-email').addEventListener('click', async () => {
+    const email = $('#i-email').value.trim().toLowerCase();
+    if (!isValidEmail(email)) { showError('#field-email', true); return; }
+    showError('#field-email', false);
+    state.email = email;
+    const btn = $('#btn-check-email');
+    setLoading(btn, true);
+    try {
+      const res = await callBackend({ action: 'lookupUser', email });
+      if (res && res.exists && res.user) {
+        state.user = res.user;
+        state.isReturning = true;
+        $('#rt-name').textContent = res.user.name || 'there';
+        $('#rt-phone').textContent = maskPhone(res.user.phoneWhatsapp || res.user.phone || '');
+        $('#rt-area').textContent = res.user.area || '—';
+        /* NOTE: pickup address intentionally not displayed during verification */
+        showStep('returning');
+      } else {
+        $('#i-email2').value = email;
+        showStep('newuser');
+      }
+    } catch (err) {
+      console.error(err);
+      $('#i-email2').value = email;
+      showStep('newuser');
+    } finally {
+      setLoading(btn, false, 'Continue');
+    }
+  });
+
+  $('#i-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('#btn-check-email').click();
+  });
+
+  /* Returning user — after confirmation, go to address selector if 2 addresses, else straight to addons */
+  $('#btn-rt-continue').addEventListener('click', () => {
+    if (state.user && state.user.area && AREA_ZONE[state.user.area]) {
+      setZone(AREA_ZONE[state.user.area]);
+    }
+    proceedToAddressOrAddons();
+  });
+  $('#btn-rt-notme').addEventListener('click', () => {
+    state.user = null; state.isReturning = false;
+    $('#i-email').value = ''; $('#i-email2').value = '';
+    showStep('email');
+    setTimeout(() => $('#i-email').focus(), 100);
+  });
+
+  function proceedToAddressOrAddons() {
+    const u = state.user;
+    if (u && u.pickupAddress2 && u.pickupAddress2.trim()) {
+      /* user has both addresses on file → ask which one */
+      renderAddressSelector();
+      showStep('pickup-address');
+    } else {
+      state.pickupAddress = (u && u.pickupAddress1) || '';
+      state.pickupAddressLabel = 'Home';
+      showStep('addons');
+    }
+  }
+
+  function renderAddressSelector() {
+    const u = state.user || {};
+    const wrap = $('#addr-list');
+    wrap.innerHTML = '';
+    const addrs = [
+      { label: 'Home', text: u.pickupAddress1 || '' },
+      { label: 'Other', text: u.pickupAddress2 || '' },
+    ].filter(a => a.text);
+    addrs.forEach((a, i) => {
+      const opt = document.createElement('div');
+      opt.className = 'addr-opt' + (i === 0 ? ' active' : '');
+      opt.dataset.label = a.label;
+      opt.dataset.text = a.text;
+      opt.innerHTML = `
+        <div class="addr-label">${a.label}</div>
+        <div class="addr-text">${a.text.replace(/</g, '&lt;')}</div>
+      `;
+      opt.addEventListener('click', () => {
+        $$('.addr-opt', wrap).forEach(x => x.classList.remove('active'));
+        opt.classList.add('active');
+      });
+      wrap.appendChild(opt);
+    });
+    /* default selection */
+    if (addrs.length) {
+      state.pickupAddress = addrs[0].text;
+      state.pickupAddressLabel = addrs[0].label;
+    }
+  }
+
+  $('#btn-addr-next').addEventListener('click', () => {
+    const active = $('.addr-opt.active', $('#addr-list'));
+    if (active) {
+      state.pickupAddress = active.dataset.text;
+      state.pickupAddressLabel = active.dataset.label;
+    }
+    showStep('addons');
+  });
+
+  /* ============ NEW USER ============ */
+  $('#btn-save-user').addEventListener('click', async () => {
+    const name = $('#i-name').value.trim();
+    const email = $('#i-email2').value.trim().toLowerCase();
+    const phoneWhatsapp = $('#i-phone-wa').value.trim();
+    const phoneCall = $('#i-phone-call').value.trim();
+    const area = $('#i-area').value;
+    const address1 = $('#i-address1').value.trim();
+    const address2 = $('#i-address2').value.trim();
+    let valid = true;
+    showError('#field-name', !name); if (!name) valid = false;
+    showError('#field-email2', !isValidEmail(email)); if (!isValidEmail(email)) valid = false;
+    showError('#field-phone-wa', phoneWhatsapp.length < 7); if (phoneWhatsapp.length < 7) valid = false;
+    showError('#field-phone-call', phoneCall.length < 7); if (phoneCall.length < 7) valid = false;
+    showError('#field-area', !area); if (!area) valid = false;
+    showError('#field-address1', !address1); if (!address1) valid = false;
+    if (!valid) return;
+    const btn = $('#btn-save-user');
+    setLoading(btn, true);
+    const userPayload = {
+      name, email,
+      phoneWhatsapp, phoneCall,
+      area,
+      pickupAddress1: address1,
+      pickupAddress2: address2,
+      zone: state.zone,
+    };
+    try {
+      await callBackend({ action: 'createUser', user: userPayload });
+    } catch (err) { console.error(err); }
+    state.user = userPayload;
+    state.email = email;
+    state.pickupAddress = address1;
+    state.pickupAddressLabel = 'Home';
+    setLoading(btn, false, 'Save & Continue');
+    showStep('addons');
+  });
+
+  /* ============ ADD-ONS ============ */
+  $$('[data-addon-head]').forEach(head => {
+    head.addEventListener('click', () => {
+      const which = head.dataset.addonHead;
+      const block = $('#addon-' + which);
+      const body = $('#addon-' + which + '-body');
+      const isOpen = block.classList.toggle('is-active');
+      body.classList.toggle('hidden', !isOpen);
+      if (which === 'load') state.loadEnabled = isOpen;
+      if (which === 'care') state.careEnabled = isOpen;
+    });
+  });
+
+  /* Load pills */
+  $$('.load-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      $$('.load-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.loads = parseInt(pill.dataset.loads, 10);
+    });
+  });
+
+  /* Care slider <-> number input sync */
+  const careSlider = $('#care-slider');
+  const careExact = $('#care-input-exact');
+  const careDisplay = $('#care-display');
+
+  function setCareAmount(v, sourceEl) {
+    let n = parseInt(v, 10);
+    if (isNaN(n)) n = pricing.careMin;
+    if (n < pricing.careMin) n = pricing.careMin;
+    state.careAmount = n;
+    careDisplay.textContent = n.toLocaleString('en-NG');
+    if (sourceEl !== careSlider) {
+      const sliderMax = parseInt(careSlider.max, 10);
+      careSlider.value = Math.min(n, sliderMax);
+    }
+    if (sourceEl !== careExact) careExact.value = n;
+  }
+
+  careSlider.addEventListener('input', e => setCareAmount(e.target.value, careSlider));
+  careExact.addEventListener('input', e => setCareAmount(e.target.value, careExact));
+  careExact.addEventListener('blur', e => {
+    if (parseInt(e.target.value, 10) < pricing.careMin) {
+      setCareAmount(pricing.careMin, null);
+    }
+  });
+
+  $('#btn-addons-next').addEventListener('click', () => {
+    if (state.careEnabled && state.careAmount < pricing.careMin) {
+      setCareAmount(pricing.careMin, null);
+    }
+    state.pickupOnlyBilledAfter = false;
+    showStep('pickup-window');
+  });
+
+  $('#btn-addons-skip').addEventListener('click', () => {
+    state.loadEnabled = false;
+    state.careEnabled = false;
+    state.pickupOnlyBilledAfter = true;
+    showStep('pickup-window');
+  });
+
+  /* ============ PICKUP WINDOW ============ */
+  $$('.window-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      $$('.window-opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      state.pickupWindow = opt.dataset.window;
+      $('#btn-window-next').disabled = false;
+    });
+  });
+
+  $('#btn-window-next').addEventListener('click', () => {
+    if (!state.pickupWindow) return;
+    buildSummary();
+    showStep('summary');
+  });
+
+  /* ============ SUMMARY ============ */
+  function buildSummary() {
+    const rows = [];
+    let total = 0;
+    const zoneLabel = state.zone === 'island' ? 'Island' : 'Mainland';
+    rows.push({ label: `Pickup &amp; delivery (${zoneLabel})`, amount: state.pickupFee });
+    total += state.pickupFee;
+
+    if (state.loadEnabled) {
+      const sub = loadPriceFor(state.loads);
+      rows.push({ label: `Pressd Load × ${state.loads}`, amount: sub });
+      total += sub;
+    }
+    if (state.careEnabled) {
+      rows.push({ label: 'Pressd Care (tab)', amount: state.careAmount });
+      total += state.careAmount;
+    }
+    if (state.pickupOnlyBilledAfter) {
+      rows.push({ label: 'Laundry — billed after pickup', amount: null });
+    }
+
+    const winLabels = { morning: 'Morning · 8 AM – 11 AM', afternoon: 'Afternoon · 12 PM – 3 PM', evening: 'Evening · 4 PM – 7 PM' };
+    rows.push({ label: 'Pickup window', amount: null, value: winLabels[state.pickupWindow] || '—' });
+
+    const html = rows.map(r => {
+      const right = (r.amount != null) ? fmtNaira(r.amount) : (r.value || 'After pickup');
+      return `<div class="summary-row"><span>${r.label}</span><span>${right}</span></div>`;
+    }).join('') +
+    `<div class="summary-row total"><span>Total now</span><span class="amt">${fmtNaira(total)}</span></div>`;
+    $('#summary-box').innerHTML = html;
+    state.totalAmount = total;
+  }
+
+  $('#btn-summary-back').addEventListener('click', () => showStep('pickup-window'));
+
+  /* ============ PLACE ORDER ============ */
+  $('#btn-place-order').addEventListener('click', async () => {
+    const btn = $('#btn-place-order');
+    setLoading(btn, true);
+    const orderPayload = {
+      action: 'createOrder',
+      email: state.user.email,
+      user: state.user,
+      zone: state.zone,
+      area: state.user.area,
+      pickupAddress: state.pickupAddress,
+      pickupAddressLabel: state.pickupAddressLabel,
+      pickupWindow: state.pickupWindow,
+      pickupFee: state.pickupFee,
+      loadEnabled: state.loadEnabled,
+      loads: state.loadEnabled ? state.loads : 0,
+      loadAmount: state.loadEnabled ? loadPriceFor(state.loads) : 0,
+      careEnabled: state.careEnabled,
+      careAmount: state.careEnabled ? state.careAmount : 0,
+      pickupOnlyBilledAfter: state.pickupOnlyBilledAfter,
+      total: state.totalAmount,
+    };
+    try {
+      const res = await callBackend(orderPayload);
+      state.orderId = res.orderId || generateLocalOrderId();
+      state.paymentLink = res.paymentLink || null;
+    } catch (err) {
+      console.error(err);
+      state.orderId = generateLocalOrderId();
+    }
+    $('#order-id-display').textContent = state.orderId;
+    showStep('payment');
+    setLoading(btn, false, 'Place Order');
+  });
+
+  function generateLocalOrderId() {
+    return 'PRSD' + Math.floor(10000 + Math.random() * 90000);
+  }
+
+  /* ============ PAYMENT — redirects to thank-you.html on success ============ */
+  $('#btn-pay').addEventListener('click', () => {
+    if (state.paymentLink) { window.location.href = state.paymentLink; return; }
+    if (typeof PaystackPop === 'undefined' || !PAYSTACK_PUBLIC_KEY.startsWith('pk_') || PAYSTACK_PUBLIC_KEY.includes('REPLACE')) {
+      alert('Payment is not configured yet. Please contact support.');
+      return;
+    }
+    const handler = PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: state.user.email,
+      amount: state.totalAmount * 100,
+      ref: state.orderId,
+      onClose: () => {},
+      callback: (response) => {
+        callBackend({
+          action: 'confirmPayment',
+          orderId: state.orderId, reference: response.reference,
+        }).catch(console.error);
+        redirectToThankYou(response.reference);
+      },
+    });
+    handler.openIframe();
+  });
+
+  function redirectToThankYou(reference) {
+    const params = new URLSearchParams({
+      order: state.orderId,
+      window: state.pickupWindow || '',
+      zone: state.zone,
+      total: String(state.totalAmount),
+      pickup_only: state.pickupOnlyBilledAfter ? '1' : '0',
+      ref: reference || '',
+    });
+    window.location.href = 'thank-you.html?' + params.toString();
+  }
+
+  /* ============ BACKEND ============ */
+  async function callBackend(payload) {
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('REPLACE_WITH')) {
+      console.warn('Apps Script URL not configured. Returning mock response.');
+      await new Promise(r => setTimeout(r, 600));
+      if (payload.action === 'lookupUser') return { exists: false };
+      if (payload.action === 'createUser') return { ok: true };
+      if (payload.action === 'createOrder') {
+        return { orderId: generateLocalOrderId(), paymentLink: null };
+      }
+      if (payload.action === 'getPricing') return { pricing: PRICING_FALLBACK };
+      return { ok: true };
+    }
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Backend error: ' + res.status);
+    return res.json();
+  }
+
+  /* ============ DYNAMIC PRICING ============ */
+  async function loadPricing() {
+    let next = PRICING_FALLBACK;
+    try {
+      const res = await callBackend({ action: 'getPricing' });
+      if (res && res.pricing) next = res.pricing;
+    } catch (err) {
+      console.warn('Using fallback pricing:', err);
+    }
+    pricing = {
+      pickup: next.pickup || PRICING_FALLBACK.pickup,
+      loads: next.loads || PRICING_FALLBACK.loads,
+      care: next.care || PRICING_FALLBACK.care,
+      careMin: next.careMin || PRICING_FALLBACK.careMin,
+    };
+    state.pickupFee = pricing.pickup[state.zone];
+    state.minCare = pricing.careMin;
+    /* Update the modal addon copy + slider min from current minimum */
+    const careSub = $('#addon-care .addon-sub');
+    if (careSub) careSub.textContent = `Detailed wash & iron · ${fmtNaira(pricing.careMin)} minimum`;
+    if (careSlider) {
+      careSlider.min = pricing.careMin;
+      if (parseInt(careSlider.value, 10) < pricing.careMin) careSlider.value = pricing.careMin;
+    }
+    if (careExact) careExact.min = pricing.careMin;
+    const careRangeMin = $('.care-range-labels span:first-child');
+    if (careRangeMin) careRangeMin.textContent = fmtNaira(pricing.careMin);
+    /* Update hero card pricing */
+    const heroPrices = $$('.price-amt');
+    if (heroPrices.length === 2) {
+      heroPrices[0].textContent = fmtNaira(pricing.pickup.mainland);
+      heroPrices[1].textContent = fmtNaira(pricing.pickup.island);
+    }
+    /* Update zone toggle buttons */
+    const zoneFees = $$('.zone-fee');
+    if (zoneFees.length === 2) {
+      zoneFees[0].textContent = fmtNaira(pricing.pickup.mainland);
+      zoneFees[1].textContent = fmtNaira(pricing.pickup.island);
+    }
+    renderLoadPricing();
+    renderCarePricing();
+    refreshLoadPillAmounts();
+  }
+
+  function renderLoadPricing() {
+    const wrap = $('#load-pricing-cards');
+    if (!wrap) return;
+    wrap.innerHTML = pricing.loads.map(l => `
+      <div class="load-card">
+        <div class="load-card-name">${l.qty} Load${l.qty > 1 ? 's' : ''}</div>
+        <div class="load-card-price">${fmtNaira(l.price)}</div>
+        <div class="load-card-meta">${l.qty === 1 ? 'One full machine' : 'Bundled rate'}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderCarePricing() {
+    const wrap = $('#care-pricing-table');
+    if (!wrap) return;
+    const rows = pricing.care.map(c => `
+      <div class="care-table-row">
+        <span class="care-item">${c.item}</span>
+        <span class="care-price ${c.wash == null ? 'empty' : ''}">${c.wash == null ? '—' : fmtNaira(c.wash)}</span>
+        <span class="care-price ${c.iron == null ? 'empty' : ''}">${c.iron == null ? '—' : fmtNaira(c.iron)}</span>
+      </div>
+    `).join('');
+    wrap.innerHTML = `
+      <div class="care-table-row head">
+        <span>Item</span>
+        <span style="text-align:right;">Wash Only</span>
+        <span style="text-align:right;">Wash &amp; Iron</span>
+      </div>
+      ${rows}
+    `;
+  }
+
+  loadPricing();
+
+  /* ============ REVEAL ANIMATION ============ */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  $$('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
