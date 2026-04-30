@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#643C3C" />
+<title>Pressd · Laundry</title>
+<meta name="robots" content="noindex,nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brand-primary: #643C3C;
+    --brand-primary-deep: #4D2E2E;
+    --brand-accent: #D2E6B4;
+    --brand-cream: #FAF6EE;
+    --brand-cream-deep: #F2EBDC;
+    --brand-ink: #2A1F1F;
+    --brand-muted: #7C6A6A;
+    --brand-line: #E8DFD4;
+    --brand-success: #5A8C3F;
+    --brand-success-bg: #ECF5DD;
+    --brand-warning: #B97B0E;
+    --brand-warning-bg: #FEF6E7;
+    --brand-danger: #C44545;
+    --brand-danger-bg: #FCEEEE;
+    --brand-info: #3F6F99;
+    --brand-info-bg: #E3EEF6;
+
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-pill: 999px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: var(--font-display);
+    font-size: 15px; line-height: 1.5;
+    color: var(--brand-ink);
+    background: var(--brand-cream);
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  input, select, textarea { font-family: inherit; font-size: inherit; }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-brand {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 17px; letter-spacing: -0.01em;
+  }
+  .topbar-brand em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; opacity: .85; }
+  .topbar-actions { display: flex; align-items: center; gap: 10px; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(210,230,180,0.15); color: var(--brand-accent);
+    display: grid; place-items: center;
+    transition: background .15s;
+  }
+  .icon-btn:hover { background: rgba(210,230,180,0.25); }
+
+  /* ============ LOGIN GATE ============ */
+  .gate {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px; background: var(--brand-cream);
+  }
+  .gate-card {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: 40px 28px;
+    max-width: 380px; width: 100%;
+    box-shadow: 0 8px 32px rgba(100,60,60,0.06);
+  }
+  .gate-card h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 26px; margin: 0 0 4px;
+    color: var(--brand-primary); letter-spacing: -0.02em;
+  }
+  .gate-card h1 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .gate-sub { color: var(--brand-muted); font-size: 14px; margin: 0 0 24px; }
+  .gate input {
+    width: 100%; padding: 14px 16px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    color: var(--brand-ink); margin-bottom: 12px;
+  }
+  .gate input:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(100,60,60,0.08); }
+  .gate button {
+    width: 100%; padding: 14px;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-pill); font-weight: 600; font-size: 15px;
+    transition: background .15s;
+  }
+  .gate button:hover:not(:disabled) { background: var(--brand-primary-deep); }
+  .gate button:disabled { opacity: .5; cursor: not-allowed; }
+  .gate-error { color: var(--brand-danger); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  /* ============ MAIN APP ============ */
+  .app { padding: 16px; max-width: 720px; margin: 0 auto; }
+  .page-head { margin-bottom: 16px; }
+  .page-head h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; letter-spacing: -0.02em;
+    color: var(--brand-primary); margin: 0 0 4px;
+  }
+  .page-head h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .page-head p { margin: 0; color: var(--brand-muted); font-size: 13px; }
+
+  .empty {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: 60px 24px;
+    text-align: center;
+  }
+  .empty-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--brand-success-bg); color: var(--brand-success);
+    display: grid; place-items: center;
+    margin: 0 auto 16px;
+  }
+  .empty h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-primary); margin: 0 0 6px;
+  }
+  .empty p { margin: 0; color: var(--brand-muted); font-size: 14px; }
+
+  /* ============ ORDER CARDS ============ */
+  .order-list { display: flex; flex-direction: column; gap: 12px; }
+  .order-card {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: 18px;
+    transition: border-color .2s ease;
+  }
+  .order-card.expanded { border-color: var(--brand-primary); }
+  .order-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; margin-bottom: 14px; cursor: pointer;
+  }
+  .order-id {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--brand-muted); margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+  .order-name {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-primary);
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .order-meta { font-size: 13px; color: var(--brand-muted); margin-top: 4px; }
+  .order-toggle {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    transition: transform .25s ease, background .2s ease;
+    flex-shrink: 0;
+  }
+  .order-card.expanded .order-toggle {
+    background: var(--brand-accent);
+    transform: rotate(180deg);
+  }
+
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .badge {
+    display: inline-block; font-size: 11px; padding: 3px 9px;
+    border-radius: var(--r-pill); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .badge.b-info    { background: var(--brand-info-bg); color: var(--brand-info); }
+  .badge.b-warning { background: var(--brand-warning-bg); color: var(--brand-warning); }
+  .badge.b-muted   { background: var(--brand-cream-deep); color: var(--brand-muted); }
+  .badge.b-success { background: var(--brand-success-bg); color: var(--brand-success); }
+
+  .order-detail { padding-top: 14px; border-top: 1px solid var(--brand-line); }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; padding: 6px 0; font-size: 14px;
+  }
+  .detail-row .key { color: var(--brand-muted); flex-shrink: 0; }
+  .detail-row .val { color: var(--brand-ink); font-weight: 500; text-align: right; word-break: break-word; }
+
+  .notes-block {
+    background: var(--brand-cream-deep);
+    border-radius: var(--r-sm);
+    padding: 10px 12px; margin: 10px 0;
+    font-size: 13px; color: var(--brand-ink);
+    white-space: pre-wrap; line-height: 1.5;
+  }
+  .notes-block .notes-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--brand-muted); font-weight: 600; margin-bottom: 4px;
+  }
+
+  /* ============ COST INPUT ============ */
+  .cost-input-block {
+    background: var(--brand-cream); border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); padding: 14px;
+    margin-top: 14px;
+  }
+  .cost-input-label {
+    font-size: 12px; font-weight: 600;
+    color: var(--brand-primary);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .cost-input-wrap {
+    display: flex; align-items: center;
+    background: #fff; border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); overflow: hidden;
+    transition: border-color .15s;
+  }
+  .cost-input-wrap:focus-within { border-color: var(--brand-primary); }
+  .cost-input-wrap .currency {
+    padding: 14px 4px 14px 14px;
+    font-family: var(--font-display); font-weight: 600;
+    color: var(--brand-muted); font-size: 18px;
+  }
+  .cost-input-wrap input {
+    flex: 1; padding: 14px 14px 14px 4px;
+    border: none; outline: none; background: transparent;
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-ink);
+    -moz-appearance: textfield;
+  }
+  .cost-input-wrap input::-webkit-outer-spin-button,
+  .cost-input-wrap input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  .notes-textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    font-size: 14px; color: var(--brand-ink);
+    line-height: 1.5; resize: vertical;
+    min-height: 60px;
+  }
+  .notes-textarea:focus { outline: none; border-color: var(--brand-primary); }
+
+  .submit-btn {
+    width: 100%; margin-top: 12px;
+    padding: 14px;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-pill);
+    font-weight: 600; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s, opacity .15s;
+  }
+  .submit-btn:hover:not(:disabled) { background: var(--brand-primary-deep); }
+  .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* ============ TOAST ============ */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120%);
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: 14px 22px; border-radius: var(--r-pill);
+    font-size: 14px; font-weight: 500;
+    box-shadow: 0 12px 32px rgba(100,60,60,0.25);
+    opacity: 0;
+    transition: transform .25s, opacity .25s;
+    z-index: 100; pointer-events: none;
+    max-width: 90vw;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.error { background: var(--brand-danger); color: #fff; }
+  .toast.success { background: var(--brand-success); color: #fff; }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin .8s linear infinite;
+    display: inline-block; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-state { padding: 60px; text-align: center; color: var(--brand-muted); }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- Login gate -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>Pressd <em>laundry</em></h1>
+    <p class="gate-sub">Enter your passcode to see today's pickups.</p>
+    <input type="password" id="passcode-input" placeholder="Passcode" autocomplete="off" autofocus />
+    <button id="login-btn">Continue</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- Main app -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div class="topbar-brand">Pressd <em>laundry</em></div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="refresh-btn" aria-label="Refresh">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>
+      </button>
+      <button class="icon-btn" id="logout-btn" aria-label="Log out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="page-head">
+      <h2>Today's <em>pickups</em></h2>
+      <p id="page-sub">Loading…</p>
+    </div>
+
+    <div id="orders-wrap">
+      <div class="loading-state"><span class="spinner"></span> Loading orders…</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="pressd-config.js"></script>
+<script>
+  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
+  const STORAGE_KEY = 'pressd_laundry_passcode';
+
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  let passcode = sessionStorage.getItem(STORAGE_KEY) || '';
+  let allOrders = [];
+  let expandedId = null;
+
+  /* ============ LOGIN ============ */
+  function showGate() {
+    $('#gate').classList.remove('hidden');
+    $('#app').classList.add('hidden');
+    setTimeout(() => $('#passcode-input').focus(), 100);
+  }
+  function showApp() {
+    $('#gate').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    loadOrders();
+  }
+
+  async function tryLogin(code) {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'laundryLogin', passcode: code }),
+      });
+      const data = await res.json();
+      return !!(data && data.ok);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
+
+  $('#login-btn').addEventListener('click', async () => {
+    const code = $('#passcode-input').value.trim();
+    if (!code) { $('#gate-error').textContent = 'Enter a passcode.'; return; }
+    const btn = $('#login-btn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    const ok = await tryLogin(code);
+    btn.disabled = false; btn.textContent = 'Continue';
+    if (ok) {
+      passcode = code;
+      sessionStorage.setItem(STORAGE_KEY, code);
+      $('#gate-error').textContent = '';
+      showApp();
+    } else {
+      $('#gate-error').textContent = 'Wrong passcode. Try again.';
+      $('#passcode-input').select();
+    }
+  });
+
+  $('#passcode-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('#login-btn').click();
+  });
+
+  $('#logout-btn').addEventListener('click', () => {
+    passcode = '';
+    sessionStorage.removeItem(STORAGE_KEY);
+    $('#passcode-input').value = '';
+    showGate();
+  });
+
+  /* ============ BACKEND ============ */
+  async function callBackend(action, extra = {}) {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action: action, passcode: passcode }, extra)),
+    });
+    const data = await res.json();
+    if (data && data.error && /Invalid passcode/i.test(data.error)) {
+      passcode = '';
+      sessionStorage.removeItem(STORAGE_KEY);
+      showGate();
+      throw new Error('Session expired');
+    }
+    if (data && data.ok === false) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  /* ============ FORMATTING ============ */
+  function fmtNaira(n) {
+    if (n == null || isNaN(n) || n === '') return '—';
+    return '₦' + Math.round(Number(n)).toLocaleString('en-NG');
+  }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '—';
+      return d.toLocaleString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
+    } catch (e) { return '—'; }
+  }
+  function fmtZone(z) { return ({ mainland: 'Mainland', island: 'Island' })[z] || (z || ''); }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* ============ LOAD ORDERS ============ */
+  async function loadOrders() {
+    try {
+      const data = await callBackend('getLaundryOrders');
+      allOrders = data.orders || [];
+      renderOrders();
+      $('#page-sub').textContent = allOrders.length === 0
+        ? 'Nothing to invoice right now.'
+        : (allOrders.length === 1 ? '1 order ready' : allOrders.length + ' orders ready');
+    } catch (err) {
+      $('#orders-wrap').innerHTML = `
+        <div class="empty">
+          <h3>Couldn't load orders</h3>
+          <p>${escapeHtml(err.message || 'Try again in a moment.')}</p>
+        </div>
+      `;
+    }
+  }
+
+  function renderOrders() {
+    const wrap = $('#orders-wrap');
+    if (!allOrders.length) {
+      wrap.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>All caught up</h3>
+          <p>No orders waiting for cost entry right now.</p>
+        </div>
+      `;
+      return;
+    }
+    wrap.innerHTML = '<div class="order-list">' + allOrders.map(o => orderCardHtml(o)).join('') + '</div>';
+    $$('.order-head').forEach(h => {
+      h.addEventListener('click', () => toggleCard(h.dataset.orderId));
+    });
+    $$('.cost-form').forEach(f => {
+      f.addEventListener('submit', e => {
+        e.preventDefault();
+        submitCost(f.dataset.orderId, f);
+      });
+    });
+  }
+
+  function toggleCard(orderId) {
+    expandedId = (expandedId === orderId) ? null : orderId;
+    renderOrders();
+    if (expandedId) {
+      const card = document.querySelector(`.order-card[data-order-id="${CSS.escape(expandedId)}"]`);
+      if (card) {
+        setTimeout(() => {
+          const input = card.querySelector('input[type="number"]');
+          if (input) input.focus();
+        }, 50);
+      }
+    }
+  }
+
+  function orderCardHtml(o) {
+    const isExpanded = expandedId === o.orderId;
+    const badges = [];
+    if (o.pickupOnly) badges.push('<span class="badge b-warning">Pickup-only</span>');
+    if (o.loadEnabled) badges.push(`<span class="badge b-info">Load × ${o.loads}</span>`);
+    if (o.careEnabled) badges.push(`<span class="badge b-info">Care · ${fmtNaira(o.careTabPrepaid)}</span>`);
+    if (!o.loadEnabled && !o.careEnabled && !o.pickupOnly) badges.push('<span class="badge b-muted">Mixed</span>');
+
+    const summary = describeWhatWasOrdered(o);
+
+    const notes = (o.pickupNotes && o.pickupNotes.trim())
+      ? `<div class="notes-block"><div class="notes-label">Pickup notes</div>${escapeHtml(o.pickupNotes)}</div>`
+      : '';
+
+    const detail = isExpanded ? `
+      <div class="order-detail">
+        <div class="badges">${badges.join('')}</div>
+        <div class="detail-row"><span class="key">Order ID</span><span class="val" style="font-family:var(--font-mono);font-size:12px;">${escapeHtml(o.orderId)}</span></div>
+        <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
+        <div class="detail-row"><span class="key">Zone · Area</span><span class="val">${fmtZone(o.zone)} · ${escapeHtml(o.area)}</span></div>
+        <div class="detail-row"><span class="key">What was ordered</span><span class="val">${escapeHtml(summary)}</span></div>
+        ${notes}
+
+        <form class="cost-form" data-order-id="${escapeHtml(o.orderId)}" autocomplete="off">
+          <div class="cost-input-block">
+            <div class="cost-input-label">Final laundry cost</div>
+            <div class="cost-input-wrap">
+              <span class="currency">₦</span>
+              <input type="number" name="finalCost" min="0" step="500" placeholder="0" inputmode="numeric" value="${o.finalLaundryCost > 0 ? o.finalLaundryCost : ''}" required />
+            </div>
+            <textarea name="laundryNotes" class="notes-textarea" placeholder="Notes for admin (optional) — e.g. heavy stains, missing items, special handling…" rows="2"></textarea>
+          </div>
+          <button type="submit" class="submit-btn">
+            <span class="btn-label">Save & Submit</span>
+          </button>
+        </form>
+      </div>
+    ` : '';
+
+    return `
+      <div class="order-card${isExpanded ? ' expanded' : ''}" data-order-id="${escapeHtml(o.orderId)}">
+        <div class="order-head" data-order-id="${escapeHtml(o.orderId)}">
+          <div>
+            <div class="order-id">${escapeHtml(o.orderId)}</div>
+            <div class="order-name">${escapeHtml(o.firstName || '—')}</div>
+            <div class="order-meta">${fmtDate(o.pickupDate)} · ${fmtZone(o.zone)}</div>
+          </div>
+          <div class="order-toggle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        ${detail}
+      </div>
+    `;
+  }
+
+  function describeWhatWasOrdered(o) {
+    const parts = [];
+    if (o.loadEnabled) parts.push((o.loads || 1) + ' Load' + ((o.loads || 1) > 1 ? 's' : ''));
+    if (o.careEnabled) parts.push('Care tab ' + fmtNaira(o.careTabPrepaid));
+    if (o.pickupOnly) parts.push('Pickup-only (cost on you to estimate)');
+    if (!parts.length) parts.push('Mixed laundry');
+    return parts.join(' · ');
+  }
+
+  /* ============ SUBMIT COST ============ */
+  async function submitCost(orderId, form) {
+    const finalCost = Number(form.elements.finalCost.value);
+    const laundryNotes = (form.elements.laundryNotes.value || '').trim();
+
+    if (!finalCost || isNaN(finalCost) || finalCost <= 0) {
+      showToast('Enter a valid amount', 'error');
+      return;
+    }
+
+    const btn = form.querySelector('.submit-btn');
+    const lbl = btn.querySelector('.btn-label');
+    btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span> Saving';
+
+    try {
+      await callBackend('submitFinalCost', {
+        orderId: orderId,
+        finalCost: finalCost,
+        laundryNotes: laundryNotes,
+      });
+
+      // Remove this order from the list (it's now invoiced)
+      allOrders = allOrders.filter(o => o.orderId !== orderId);
+      expandedId = null;
+      renderOrders();
+      $('#page-sub').textContent = allOrders.length === 0
+        ? 'Nothing to invoice right now.'
+        : (allOrders.length === 1 ? '1 order ready' : allOrders.length + ' orders ready');
+
+      showToast('Saved. Invoice will go out shortly.', 'success');
+    } catch (err) {
+      btn.disabled = false; lbl.textContent = 'Save & Submit';
+      showToast(err.message || 'Save failed', 'error');
+    }
+  }
+
+  /* ============ REFRESH ============ */
+  $('#refresh-btn').addEventListener('click', () => {
+    $('#orders-wrap').innerHTML = '<div class="loading-state"><span class="spinner"></span> Refreshing…</div>';
+    loadOrders();
+  });
+
+  /* ============ TOAST ============ */
+  let toastTimer;
+  function showToast(text, kind) {
+    const t = $('#toast');
+    t.textContent = text;
+    t.className = 'toast show ' + (kind || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+  }
+
+  /* ============ BOOT ============ */
+  if (passcode) {
+    tryLogin(passcode).then(ok => {
+      if (ok) showApp();
+      else {
+        passcode = '';
+        sessionStorage.removeItem(STORAGE_KEY);
+        showGate();
+      }
+    });
+  } else {
+    showGate();
+  }
+</script>
+
+</body>
+</html>
