@@ -349,8 +349,9 @@
 
 </div>
 
+<script src="pressd-config.js"></script>
 <script>
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHxqtncxf7jwoZ3Qz0E6z0o-SxvvPCguhBHrjvHJO8nQEvetfNYnmJtnvS0cQy48im/exec';
+  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
 
   /* Paystack passes back ?reference=...&trxref=... and our backend adds ?order=...
      Read order ID from any of these (Paystack uses the same string for all three
