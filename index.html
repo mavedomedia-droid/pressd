@@ -1725,6 +1725,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>
         <button class="btn btn-ghost btn-block" id="btn-summary-back" style="margin-top: 12px;">Back</button>
       </div>
 
+     
+
       <div class="step hidden" data-step="payment">
         <div class="order-id-box">
           <div class="order-id-label">Your Order ID</div>
@@ -2254,6 +2256,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>
     try {
       const res = await callBackend(orderPayload);
       state.orderId = res.orderId || generateLocalOrderId();
+     if (typeof dataLayer !== 'undefined') {
+    dataLayer.push({
+        'event': 'order_created_before_payment',
+        'order_id': state.orderId,
+        'order_total': state.totalAmount,
+        'pickup_zone': state.zone
+});
+}
       state.paymentLink = res.paymentLink || null;
     } catch (err) {
       console.error(err);
