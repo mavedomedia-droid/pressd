@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>All done — Pressd</title>
+<!--[if mso]><style>* { font-family: Arial, sans-serif !important; }</style><![endif]-->
+<style>
+  @media only screen and (max-width: 600px) {
+    .container { width: 100% !important; max-width: 100% !important; }
+    .px { padding-left: 24px !important; padding-right: 24px !important; }
+    .h1 { font-size: 32px !important; line-height: 1.1 !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#FAF6EE; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#2A1F1F;">
+<div style="display:none; max-height:0; overflow:hidden;">Your laundry has been delivered. Thanks for choosing Pressd.</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FAF6EE;">
+  <tr><td align="center">
+    <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+      <!-- Header -->
+      <tr>
+        <td align="left" style="background:#643C3C; padding:22px 32px;" class="px">
+          <a href="{{siteUrl}}" style="text-decoration:none;"><img src="{{logoUrl}}" alt="Pressd" width="100" style="display:block; height:auto; border:0; max-width:100px;"></a>
+        </td>
+      </tr>
+
+      <!-- Big check -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:48px 32px 24px;" class="px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td width="80" height="80" align="center" valign="middle" style="background:#5A8C3F; border-radius:50%;">
+              <span style="display:inline-block; color:#FFFFFF; font-size:40px; font-weight:700; line-height:1;">✓</span>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Headline -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:0 32px 8px;" class="px">
+          <h1 class="h1" style="margin:0 0 12px; font-size:42px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#643C3C;">
+            All <em style="font-family:Georgia,serif; font-style:italic; font-weight:400;">done.</em>
+          </h1>
+          <p style="margin:0 0 32px; font-size:17px; line-height:1.55; color:#7C6A6A; max-width:420px; margin-left:auto; margin-right:auto;">
+            Your laundry has been delivered. Thanks for choosing us, {{name}}.
+          </p>
+        </td>
+      </tr>
+
+      <!-- Receipt summary -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FFFFFF; border:1px solid #E8DFD4; border-radius:24px;">
+            <tr><td style="padding:32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Order ID</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{orderId}}</td></tr>
+                <tr><td style="padding:10px 0; font-size:14px; color:#7C6A6A;">Delivered</td><td align="right" style="padding:10px 0; font-size:14px; font-weight:500; color:#2A1F1F;">{{deliveryDateFmt}}</td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Soft CTA: book again -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#D2E6B4; border-radius:16px;">
+            <tr><td align="center" style="padding:28px 28px;">
+              <h3 style="margin:0 0 8px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:600; font-size:20px; color:#643C3C; letter-spacing:-0.3px;">
+                Need us again soon?
+              </h3>
+              <p style="margin:0 0 18px; font-size:14px; line-height:1.5; color:#4D2E2E;">
+                Booking takes about a minute. We'll be ready when you are.
+              </p>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr><td style="background:#643C3C; border-radius:999px;">
+                  <a href="{{siteUrl}}" style="display:inline-block; padding:14px 28px; font-size:15px; font-weight:500; color:#D2E6B4; text-decoration:none; border-radius:999px;">Book another pickup</a>
+                </td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Honest ask: feedback -->
+      <tr>
+        <td style="background:#FAF6EE; padding:8px 32px 16px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-left:3px solid #D2E6B4;">
+            <tr><td style="padding:8px 0 8px 18px;">
+              <p style="margin:0; font-size:14px; line-height:1.65; color:#7C6A6A;">
+                If anything's not right with your laundry — a missing item, a stain we should have caught, anything at all — just reply to this email or
+                <a href="{{whatsappUrl}}" style="color:#643C3C; font-weight:500;">message us on WhatsApp</a>.
+                We'll make it right.
+              </p>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Closing -->
+      <tr>
+        <td style="background:#FAF6EE; padding:24px 32px 40px;" class="px">
+          <p style="margin:0 0 4px; font-size:15px; color:#643C3C; font-weight:500;">— The Pressd team</p>
+          <p style="margin:0; font-family:Georgia,serif; font-style:italic; font-size:14px; color:#7C6A6A;">washed • dried • pressd</p>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="background:#643C3C; padding:32px; text-align:center;" class="px">
+          <p style="margin:0 0 8px; font-family:Georgia,serif; font-style:italic; font-size:14px; color:#D2E6B4; letter-spacing:0.5px;">washed • dried • pressd</p>
+          <p style="margin:0; font-size:12px; color:rgba(210,230,180,0.6);">
+            <a href="mailto:{{supportEmail}}" style="color:#D2E6B4; text-decoration:underline;">{{supportEmail}}</a> &nbsp;·&nbsp;
+            <a href="{{whatsappUrl}}" style="color:#D2E6B4; text-decoration:underline;">WhatsApp us</a>
+          </p>
+          <p style="margin:16px 0 0; font-size:11px; color:rgba(210,230,180,0.45);">Order {{orderId}} · © {{year}} Pressd</p>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>
