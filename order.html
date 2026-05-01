@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#643C3C" />
+<title>Your order · Pressd</title>
+<meta name="description" content="Track your Pressd laundry pickup and delivery." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brand-primary: #643C3C;
+    --brand-primary-deep: #4D2E2E;
+    --brand-accent: #D2E6B4;
+    --brand-accent-deep: #BAD49A;
+    --brand-cream: #FAF6EE;
+    --brand-cream-deep: #F2EBDC;
+    --brand-ink: #2A1F1F;
+    --brand-muted: #7C6A6A;
+    --brand-line: #E8DFD4;
+    --brand-surface: #FFFFFF;
+    --brand-success: #5A8C3F;
+    --brand-success-bg: #ECF5DD;
+    --brand-warning: #B97B0E;
+    --brand-warning-bg: #FEF6E7;
+    --brand-danger: #C44545;
+
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
+
+    --shadow-sm: 0 1px 2px rgba(100,60,60,0.06);
+    --shadow-md: 0 8px 24px rgba(100,60,60,0.10);
+    --shadow-lg: 0 24px 48px rgba(100,60,60,0.16);
+
+    --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
+    --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px;
+    --s-16: 64px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: var(--font-display);
+    font-size: 16px; line-height: 1.5;
+    color: var(--brand-ink);
+    background: var(--brand-cream);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ NAV ============ */
+  .nav {
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+  }
+  .nav-inner {
+    max-width: 1120px; margin: 0 auto;
+    padding: 0 var(--s-5); height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo img { height: 28px; width: auto; }
+  @media (min-width: 768px) { .nav-logo img { height: 32px; } }
+  .nav-back {
+    color: var(--brand-accent); font-size: 14px; font-weight: 500;
+    opacity: .85; transition: opacity .2s ease;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-back:hover { opacity: 1; }
+
+  /* ============ MAIN CONTAINER ============ */
+  .container {
+    max-width: 640px; margin: 0 auto;
+    padding: var(--s-8) var(--s-5) var(--s-16);
+  }
+  @media (min-width: 768px) { .container { padding-top: var(--s-12); } }
+
+  /* ============ STATES (loading / error / not found) ============ */
+  .state {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: var(--s-12) var(--s-6);
+    text-align: center; box-shadow: var(--shadow-md);
+  }
+  .state-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: grid; place-items: center;
+    margin: 0 auto var(--s-4);
+  }
+  .state-icon.loading { background: var(--brand-cream-deep); color: var(--brand-primary); }
+  .state-icon.error   { background: var(--brand-warning-bg); color: var(--brand-warning); }
+  .state-icon.notfound { background: var(--brand-cream-deep); color: var(--brand-muted); }
+  .state h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; color: var(--brand-primary);
+    letter-spacing: -0.02em; margin: 0 0 var(--s-2);
+  }
+  .state p {
+    color: var(--brand-muted); font-size: 15px;
+    margin: 0 0 var(--s-5); line-height: 1.55;
+  }
+  .state .btn-row { display: flex; gap: var(--s-3); justify-content: center; flex-wrap: wrap; }
+
+  /* ============ LOOKUP FORM ============ */
+  .lookup-form {
+    max-width: 320px; margin: 0 auto var(--s-5);
+    text-align: left;
+  }
+  .lookup-form input {
+    width: 100%; padding: 14px 16px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    color: var(--brand-ink);
+    font-family: var(--font-mono);
+    font-size: 16px; font-weight: 500;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .lookup-form input:focus {
+    outline: none; border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.08);
+  }
+  .lookup-form input::placeholder {
+    color: var(--brand-line); letter-spacing: 0.04em;
+    font-weight: 400;
+  }
+  .lookup-error {
+    color: var(--brand-danger); font-size: 13px;
+    margin-top: var(--s-2); text-align: center;
+  }
+
+  /* ============ ORDER ID BOX (matches thank-you.html) ============ */
+  .order-id-box {
+    text-align: center; padding: var(--s-8) var(--s-5);
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-lg); margin-bottom: var(--s-5);
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .order-id-box::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, var(--brand-accent), transparent 65%);
+    opacity: .12;
+  }
+  .order-id-label {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.14em; opacity: .75;
+    margin-bottom: var(--s-2); position: relative;
+  }
+  .order-id-value {
+    font-family: var(--font-display); font-size: 36px;
+    font-weight: 600; letter-spacing: 0.02em;
+    position: relative;
+  }
+  .order-id-name {
+    font-size: 14px; opacity: .8;
+    margin-top: var(--s-3); position: relative;
+  }
+  .order-id-name em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+
+  /* ============ CARDS ============ */
+  .card {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: var(--s-6);
+    margin-bottom: var(--s-4);
+  }
+  .card-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--brand-muted); font-weight: 600;
+    margin: 0 0 var(--s-5);
+  }
+
+  /* ============ TIMELINE ============ */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 36px 1fr;
+    gap: var(--s-4); position: relative; padding-bottom: var(--s-5);
+  }
+  .step:last-child { padding-bottom: 0; }
+  /* connector line behind icons */
+  .step::before {
+    content: ''; position: absolute;
+    left: 17px; top: 36px; bottom: 0;
+    width: 2px; background: var(--brand-line);
+    z-index: 0;
+  }
+  .step:last-child::before { display: none; }
+  .step.done::before { background: var(--brand-success); }
+
+  .step-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-muted);
+    display: grid; place-items: center;
+    flex-shrink: 0; position: relative; z-index: 1;
+    transition: background .2s ease, color .2s ease;
+    border: 1.5px solid var(--brand-line);
+  }
+  .step.done .step-icon {
+    background: var(--brand-accent);
+    color: var(--brand-primary);
+    border-color: var(--brand-accent-deep);
+  }
+  .step.current .step-icon {
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.12);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .step.skipped .step-icon { opacity: .35; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(100,60,60,0.12); }
+    50%      { box-shadow: 0 0 0 8px rgba(100,60,60,0.06); }
+  }
+
+  .step-body { padding-top: 6px; min-height: 36px; }
+  .step-label {
+    font-size: 15px; font-weight: 500;
+    color: var(--brand-ink); line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .step.done .step-label { color: var(--brand-primary); font-weight: 600; }
+  .step.current .step-label { color: var(--brand-primary); font-weight: 600; }
+  .step.skipped .step-label { color: var(--brand-muted); text-decoration: line-through; }
+  .step-meta {
+    font-size: 13px; color: var(--brand-muted);
+    margin-top: 3px; line-height: 1.4;
+  }
+  .step.current .step-meta { color: var(--brand-primary); opacity: .8; font-weight: 500; }
+
+  /* ============ DETAILS GRID ============ */
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: var(--s-3); padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--brand-line);
+    font-size: 14px;
+  }
+  .detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .detail-row:first-child { padding-top: 0; }
+  .detail-row .key { color: var(--brand-muted); flex-shrink: 0; }
+  .detail-row .val {
+    color: var(--brand-ink); font-weight: 500;
+    text-align: right; word-break: break-word;
+    max-width: 65%;
+  }
+  .detail-row .val.muted { color: var(--brand-muted); font-weight: 400; font-style: italic; }
+
+  /* ============ PINS ============ */
+  .pins {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--s-3);
+  }
+  @media (max-width: 420px) {
+    .pins { grid-template-columns: 1fr; }
+  }
+  .pin {
+    background: var(--brand-cream-deep);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    text-align: center;
+    transition: opacity .2s ease;
+  }
+  .pin.spent { opacity: .45; }
+  .pin.spent .pin-value { text-decoration: line-through; }
+  .pin-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--brand-muted); font-weight: 600;
+    margin-bottom: var(--s-2);
+  }
+  .pin-value {
+    font-family: var(--font-display); font-size: 30px;
+    font-weight: 600; color: var(--brand-primary);
+    letter-spacing: 0.05em; line-height: 1;
+  }
+  .pin-help {
+    font-size: 11px; color: var(--brand-muted);
+    margin-top: var(--s-2); line-height: 1.4;
+  }
+
+  /* ============ BALANCE BANNER ============ */
+  .balance-banner {
+    background: var(--brand-accent);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    margin-bottom: var(--s-4);
+    box-shadow: var(--shadow-md);
+  }
+  .balance-banner h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 20px; color: var(--brand-primary);
+    letter-spacing: -0.02em; margin: 0 0 var(--s-2);
+  }
+  .balance-banner h3 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .balance-banner p {
+    font-size: 14px; color: var(--brand-primary);
+    margin: 0 0 var(--s-5); opacity: .85; line-height: 1.5;
+  }
+  .balance-amount {
+    font-family: var(--font-display);
+    font-size: 32px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: -0.02em;
+    line-height: 1; margin-bottom: var(--s-5);
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--s-2); padding: 14px 24px;
+    border-radius: var(--r-pill);
+    font-weight: 600; font-size: 15px;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+    white-space: nowrap; letter-spacing: -0.01em;
+  }
+  .btn-primary {
+    background: var(--brand-primary); color: var(--brand-accent);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-primary:hover { background: var(--brand-primary-deep); transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent; color: var(--brand-primary);
+    border: 1.5px solid var(--brand-primary);
+  }
+  .btn-ghost:hover { background: var(--brand-primary); color: var(--brand-accent); }
+  .btn-block { width: 100%; }
+
+  /* ============ HELP FOOTER ============ */
+  .help {
+    text-align: center; margin-top: var(--s-8);
+    color: var(--brand-muted); font-size: 14px;
+  }
+  .help a {
+    color: var(--brand-primary); font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(100,60,60,0.25);
+    text-underline-offset: 3px;
+    transition: text-decoration-color .2s ease;
+  }
+  .help a:hover { text-decoration-color: var(--brand-primary); }
+  .help-divider { color: var(--brand-line); margin: 0 var(--s-2); }
+
+  /* ============ CANCELLED STATE ============ */
+  .cancelled-state {
+    background: var(--brand-cream-deep);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg);
+    padding: var(--s-8);
+    text-align: center; margin-bottom: var(--s-4);
+  }
+  .cancelled-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(196, 69, 69, 0.1);
+    color: var(--brand-danger);
+    display: grid; place-items: center;
+    margin: 0 auto var(--s-4);
+  }
+  .cancelled-state h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 20px; color: var(--brand-primary);
+    letter-spacing: -0.02em; margin: 0 0 var(--s-2);
+  }
+  .cancelled-state p { color: var(--brand-muted); font-size: 14px; margin: 0; }
+
+  /* ============ SPINNER ============ */
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin .8s linear infinite;
+    display: inline-block; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .state-icon.loading .spinner { width: 24px; height: 24px; border-width: 2.5px; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Pressd home">
+      <img src="assets/logo-light.png" alt="Pressd" />
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Home
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- LOADING STATE -->
+  <div class="state hidden" id="loading-state">
+    <div class="state-icon loading"><span class="spinner"></span></div>
+    <h2>Looking up your order…</h2>
+    <p>Just a moment.</p>
+  </div>
+
+  <!-- LOOKUP FORM (shown when no order ID in URL) -->
+  <div class="state hidden" id="lookup-state">
+    <div class="state-icon notfound">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+    </div>
+    <h2>Track your <em style="font-family:var(--font-editorial);font-style:italic;font-weight:400;">order</em></h2>
+    <p>Enter your Pressd order ID to see where things stand.</p>
+    <div class="lookup-form">
+      <input type="text" id="lookup-input" placeholder="PRSDXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" />
+      <div class="lookup-error hidden" id="lookup-error">Please enter a valid order ID.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-lookup">
+        <span class="btn-label">Track order</span>
+      </button>
+    </div>
+    <p style="margin-top:var(--s-6);font-size:13px;">
+      Don't have one yet? <a href="index.html" style="color:var(--brand-primary);font-weight:500;text-decoration:underline;">Request a pickup</a>
+    </p>
+  </div>
+
+  <!-- NOT FOUND STATE -->
+  <div class="state hidden" id="notfound-state">
+    <div class="state-icon notfound">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+    </div>
+    <h2>Order not found</h2>
+    <p>We couldn't find an order with that ID. Double-check the link, or try a different one.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-try-different">Try a different ID</button>
+      <a href="index.html" class="btn btn-ghost">Request a pickup</a>
+    </div>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div class="state hidden" id="error-state">
+    <div class="state-icon error">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+      </svg>
+    </div>
+    <h2>Couldn't load your order</h2>
+    <p>Something went wrong on our end. Try again in a moment.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-retry">Try again</button>
+      <a href="index.html" class="btn btn-ghost">Home</a>
+    </div>
+  </div>
+
+  <!-- ORDER CONTENT -->
+  <div id="order-content" class="hidden">
+
+    <!-- Order ID box -->
+    <div class="order-id-box">
+      <div class="order-id-label">Your Order</div>
+      <div class="order-id-value" id="o-id">—</div>
+      <div class="order-id-name" id="o-name"></div>
+    </div>
+
+    <!-- Cancelled banner (only if cancelled) -->
+    <div class="cancelled-state hidden" id="cancelled-banner">
+      <div class="cancelled-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+      <h3>Order cancelled</h3>
+      <p>This order has been cancelled. If this was a mistake, please reach out.</p>
+    </div>
+
+    <!-- Balance banner (only if balance due) -->
+    <div class="balance-banner hidden" id="balance-banner">
+      <h3>There's a <em>balance</em> to settle</h3>
+      <p>Your final laundry cost was higher than what you paid upfront. Settle the balance to keep things moving.</p>
+      <div class="balance-amount" id="balance-amount">—</div>
+      <a href="#" class="btn btn-primary btn-block" id="balance-pay-btn" target="_blank" rel="noopener">
+        Pay now
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Timeline -->
+    <div class="card" id="timeline-card">
+      <div class="card-title">Status</div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- PINs (conditional) -->
+    <div class="card hidden" id="pins-card">
+      <div class="card-title">Your PINs</div>
+      <div class="pins">
+        <div class="pin" id="pickup-pin-card">
+          <div class="pin-label">Pickup PIN</div>
+          <div class="pin-value" id="pickup-pin-value">—</div>
+          <div class="pin-help">Show this to your rider at pickup.</div>
+        </div>
+        <div class="pin" id="delivery-pin-card">
+          <div class="pin-label">Delivery PIN</div>
+          <div class="pin-value" id="delivery-pin-value">—</div>
+          <div class="pin-help">Show this when your laundry comes back.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick details -->
+    <div class="card">
+      <div class="card-title">Pickup details</div>
+      <div class="detail-row"><span class="key">Pickup window</span><span class="val" id="d-window">—</span></div>
+      <div class="detail-row"><span class="key">Pickup address</span><span class="val" id="d-address">—</span></div>
+      <div class="detail-row"><span class="key">Estimated delivery</span><span class="val" id="d-eta">48–72 hrs after pickup</span></div>
+      <div class="detail-row"><span class="key">Total paid</span><span class="val" id="d-paid">—</span></div>
+    </div>
+
+    <!-- Help footer -->
+    <div class="help">
+      Questions?
+      <a id="help-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp us</a>
+      <span class="help-divider">·</span>
+      <a id="help-email" href="#">Email us</a>
+    </div>
+  </div>
+</main>
+
+<script src="pressd-config.js"></script>
+<script>
+  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
+  const WHATSAPP_URL    = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.WHATSAPP_URL)    || 'https://wa.me/2348162373553';
+  const SUPPORT_EMAIL   = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.SUPPORT_EMAIL)   || 'pressdonline@gmail.com';
+
+  /* Wire up footer links once on load */
+  document.getElementById('help-whatsapp').href = WHATSAPP_URL;
+  document.getElementById('help-email').href    = 'mailto:' + SUPPORT_EMAIL;
+
+  /* Read order ID from URL — accept ?id, ?order, ?reference, ?trxref */
+  const params = new URLSearchParams(window.location.search);
+  let orderId = (params.get('id') || params.get('order') || params.get('reference') || params.get('trxref') || '').trim();
+
+  /* ============ FORMATTERS ============ */
+  function fmtNaira(n) {
+    if (n == null || isNaN(n)) return '—';
+    return '₦' + Math.round(Number(n)).toLocaleString('en-NG');
+  }
+  function fmtDate(iso, opts) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleString('en-NG', Object.assign({ day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }, opts || {}));
+    } catch (e) { return ''; }
+  }
+  function fmtDateOnly(iso) {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
+    } catch (e) { return ''; }
+  }
+  function fmtWindow(w) {
+    return ({
+      morning:   'Morning · 8 AM – 11 AM',
+      afternoon: 'Afternoon · 12 PM – 3 PM',
+      evening:   'Evening · 4 PM – 7 PM',
+    })[w] || (w || '—');
+  }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* ============ STEP DEFINITIONS ============ */
+  /* Each step is evaluated against the order to determine: done | current | upcoming | skipped */
+  function buildSteps(o) {
+    const isPickupOnly = !!o.pickupOnly;
+    const hadBalance = (o.invoiceStatus === 'balance_due') ||
+                       (o.secondPaymentStatus === 'paid') ||
+                       (o.secondPaymentStatus === 'pending');
+
+    const steps = [
+      {
+        key: 'booking',
+        label: 'Booking confirmed',
+        meta: o.bookingPaidAt ? fmtDate(o.bookingPaidAt) : '',
+        icon: iconBooking,
+        done: o.bookingPaymentStatus === 'paid',
+      },
+      {
+        key: 'scheduled',
+        label: 'Pickup scheduled',
+        meta: o.pickupScheduledFor
+          ? fmtDate(o.pickupScheduledFor)
+          : (o.pickupWindow ? fmtWindow(o.pickupWindow) : ''),
+        icon: iconCalendar,
+        done: !!o.pickupScheduledFor || (o.bookingPaymentStatus === 'paid' && !!o.pickupWindow),
+      },
+      {
+        key: 'pickedup',
+        label: 'Picked up',
+        meta: o.pickupDate ? fmtDate(o.pickupDate) : '',
+        icon: iconTruck,
+        done: o.pickupStatus === 'picked_up' && !!o.pickupDate,
+      },
+      {
+        key: 'processing',
+        label: 'Being processed',
+        meta: (o.invoiceStatus && o.invoiceStatus !== 'not_invoiced')
+          ? (o.invoiceSentAt ? fmtDate(o.invoiceSentAt) : '')
+          : '',
+        icon: iconWash,
+        done: (o.costStatus === 'confirmed' || (o.invoiceStatus && o.invoiceStatus !== 'not_invoiced')),
+      },
+      {
+        key: 'balance',
+        label: 'Balance paid',
+        meta: o.secondPaidAt ? fmtDate(o.secondPaidAt) : '',
+        icon: iconCheck,
+        done: o.secondPaymentStatus === 'paid' || o.invoiceStatus === 'paid_in_full',
+        skipped: o.invoiceStatus === 'paid_in_full' && o.secondPaymentStatus !== 'paid',
+        /* Skipped when no balance was due (invoice came in paid_in_full) */
+      },
+      {
+        key: 'ready',
+        label: 'Ready for delivery',
+        meta: o.orderReadyAt ? fmtDate(o.orderReadyAt) : '',
+        icon: iconBox,
+        done: !!o.orderReadyAt,
+      },
+      {
+        key: 'outfordelivery',
+        label: 'Out for delivery',
+        meta: o.outForDeliveryAt ? fmtDate(o.outForDeliveryAt) : '',
+        icon: iconShip,
+        done: !!o.outForDeliveryAt,
+      },
+      {
+        key: 'delivered',
+        label: 'Delivered',
+        meta: o.deliveryDate ? fmtDate(o.deliveryDate) : '',
+        icon: iconHome,
+        done: o.deliveryStatus === 'delivered' && !!o.deliveryDate,
+      },
+    ];
+
+    /* Determine the "current" step — the first non-done, non-skipped step. */
+    let foundCurrent = false;
+    steps.forEach(s => {
+      if (s.skipped) return;
+      if (!s.done && !foundCurrent) {
+        s.current = true;
+        foundCurrent = true;
+      }
+    });
+
+    return steps;
+  }
+
+  /* ============ ICONS (inline SVG strings) ============ */
+  function iconBooking()  { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'; }
+  function iconCalendar() { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>'; }
+  function iconTruck()    { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16h18l-2-7a3 3 0 00-2.9-2.2H10A4 4 0 006 9"/><path d="M3 16v2a1 1 0 001 1h16a1 1 0 001-1v-2"/></svg>'; }
+  function iconWash()     { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 7h.01"/></svg>'; }
+  function iconCheck()    { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'; }
+  function iconBox()      { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>'; }
+  function iconShip()     { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M2 18h2M8 18h7M19 18h2M2 6h13v9H2zM15 9h4l2 3v6h-2"/></svg>'; }
+  function iconHome()     { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>'; }
+
+  /* ============ RENDERING ============ */
+  function renderTimeline(steps) {
+    const html = steps.map(s => {
+      let cls = 'step';
+      if (s.done) cls += ' done';
+      else if (s.current) cls += ' current';
+      else if (s.skipped) cls += ' skipped';
+      const meta = s.skipped ? 'Not needed' : (s.done ? (s.meta || '') : (s.current ? 'In progress' : '—'));
+      return `
+        <div class="${cls}">
+          <div class="step-icon">${s.icon()}</div>
+          <div class="step-body">
+            <div class="step-label">${escapeHtml(s.label)}</div>
+            <div class="step-meta">${escapeHtml(meta)}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    document.getElementById('timeline').innerHTML = html;
+  }
+
+  function renderOrder(o) {
+    /* Detect cancelled state — treat any explicit cancellation flag */
+    const isCancelled = (o.bookingPaymentStatus === 'cancelled') ||
+                        (o.pickupStatus === 'cancelled') ||
+                        (o.deliveryStatus === 'cancelled') ||
+                        !!o.cancelledAt;
+
+    document.getElementById('o-id').textContent = o.orderId || '—';
+    document.getElementById('o-name').innerHTML = o.name
+      ? 'Hi <em>' + escapeHtml(o.name.split(/\s+/)[0]) + '</em>'
+      : '';
+
+    document.getElementById('d-window').textContent  = fmtWindow(o.pickupWindow);
+    document.getElementById('d-address').textContent = o.pickupAddress || '—';
+    document.getElementById('d-paid').textContent    = (o.bookingPaymentStatus === 'paid')
+      ? fmtNaira(o.bookingTotal)
+      : (o.finalLaundryCost > 0 ? 'Final cost pending' : 'Pending');
+
+    if (isCancelled) {
+      document.getElementById('cancelled-banner').classList.remove('hidden');
+      document.getElementById('timeline-card').classList.add('hidden');
+      document.getElementById('pins-card').classList.add('hidden');
+      return;
+    }
+
+    /* Timeline */
+    const steps = buildSteps(o);
+    renderTimeline(steps);
+
+    /* PINs — show when past pickup_paid and not yet delivered */
+    const showPins = o.bookingPaymentStatus === 'paid' && o.deliveryStatus !== 'delivered';
+    if (showPins) {
+      document.getElementById('pins-card').classList.remove('hidden');
+      const pickupPin = o.pickupPin || '—';
+      const deliveryPin = o.deliveryPin || '—';
+      document.getElementById('pickup-pin-value').textContent = pickupPin;
+      document.getElementById('delivery-pin-value').textContent = deliveryPin;
+      const pickupSpent = o.pickupStatus === 'picked_up';
+      document.getElementById('pickup-pin-card').classList.toggle('spent', pickupSpent);
+    }
+
+    /* Balance banner */
+    const showBalance = o.invoiceStatus === 'balance_due' && o.secondPaymentStatus !== 'paid';
+    if (showBalance) {
+      const additional = Number(o.additionalCostPaid || 0);
+      const final = Number(o.finalLaundryCost || 0);
+      const outstanding = Math.max(0, final - additional);
+      document.getElementById('balance-amount').textContent = fmtNaira(outstanding);
+      const payBtn = document.getElementById('balance-pay-btn');
+      if (o.secondPaymentLink) {
+        payBtn.href = o.secondPaymentLink;
+        payBtn.classList.remove('hidden');
+      } else {
+        payBtn.classList.add('hidden');
+      }
+      document.getElementById('balance-banner').classList.remove('hidden');
+    }
+  }
+
+  /* ============ STATE SWITCHING ============ */
+  function showState(name) {
+    ['loading-state', 'lookup-state', 'notfound-state', 'error-state', 'order-content'].forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+    const target = document.getElementById(name);
+    if (target) target.classList.remove('hidden');
+  }
+
+  /* ============ FETCH ============ */
+  async function fetchOrder() {
+    if (!orderId) {
+      showState('lookup-state');
+      setTimeout(() => document.getElementById('lookup-input').focus(), 150);
+      return;
+    }
+
+    showState('loading-state');
+
+    if (!APPS_SCRIPT_URL) {
+      showState('error-state');
+      return;
+    }
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getOrder', orderId: orderId }),
+      });
+      const data = await res.json();
+
+      if (!data || data.ok === false) {
+        if (data && /not found/i.test(data.error || '')) {
+          showState('notfound-state');
+        } else {
+          showState('error-state');
+        }
+        return;
+      }
+      if (!data.order) {
+        showState('notfound-state');
+        return;
+      }
+
+      renderOrder(data.order);
+      showState('order-content');
+    } catch (err) {
+      console.error(err);
+      showState('error-state');
+    }
+  }
+
+  /* ============ LOOKUP FORM HANDLER ============ */
+  function handleLookup() {
+    const input = document.getElementById('lookup-input');
+    const errEl = document.getElementById('lookup-error');
+    const value = input.value.trim().toUpperCase();
+
+    /* Basic shape check — Pressd IDs are PRSD + 5–8 alphanumeric */
+    if (!value || !/^PRSD[A-Z0-9]{4,12}$/.test(value)) {
+      errEl.textContent = !value
+        ? 'Enter your order ID to continue.'
+        : 'That doesn\'t look like a valid order ID. They start with PRSD.';
+      errEl.classList.remove('hidden');
+      input.focus();
+      return;
+    }
+
+    errEl.classList.add('hidden');
+    orderId = value;
+
+    /* Update URL without reloading so refresh / share works */
+    const newUrl = window.location.pathname + '?id=' + encodeURIComponent(value);
+    window.history.replaceState({}, '', newUrl);
+
+    fetchOrder();
+  }
+
+  document.getElementById('btn-lookup').addEventListener('click', handleLookup);
+  document.getElementById('lookup-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLookup();
+  });
+  /* Auto-uppercase + clear error as they type */
+  document.getElementById('lookup-input').addEventListener('input', e => {
+    const start = e.target.selectionStart;
+    e.target.value = e.target.value.toUpperCase();
+    e.target.setSelectionRange(start, start);
+    document.getElementById('lookup-error').classList.add('hidden');
+  });
+
+  document.getElementById('btn-retry').addEventListener('click', fetchOrder);
+  document.getElementById('btn-try-different').addEventListener('click', () => {
+    orderId = '';
+    window.history.replaceState({}, '', window.location.pathname);
+    document.getElementById('lookup-input').value = '';
+    showState('lookup-state');
+    setTimeout(() => document.getElementById('lookup-input').focus(), 150);
+  });
+
+  fetchOrder();
+</script>
+
+</body>
+</html>
