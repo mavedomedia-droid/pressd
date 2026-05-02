@@ -7,7 +7,1653 @@
 <title>Pressd · Admin</title>
 <meta name="robots" content="noindex,nofollow" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">a<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#643C3C" />
+<title>Pressd · Admin</title>
+<meta name="robots" content="noindex,nofollow" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --brand-primary: #643C3C;
+    --brand-primary-deep: #4D2E2E;
+    --brand-accent: #D2E6B4;
+    --brand-accent-deep: #BAD49A;
+    --brand-cream: #FAF6EE;
+    --brand-cream-deep: #F2EBDC;
+    --brand-ink: #2A1F1F;
+    --brand-muted: #7C6A6A;
+    --brand-line: #E8DFD4;
+    --brand-surface: #FFFFFF;
+    --brand-success: #5A8C3F;
+    --brand-success-bg: #ECF5DD;
+    --brand-warning: #B97B0E;
+    --brand-warning-bg: #FEF6E7;
+    --brand-danger: #C44545;
+    --brand-danger-bg: #FCEEEE;
+    --brand-info: #3F6F99;
+    --brand-info-bg: #E3EEF6;
+
+    --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-pill: 999px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: var(--font-display);
+    font-size: 14px; line-height: 1.5;
+    color: var(--brand-ink);
+    background: var(--brand-cream);
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  input, select, textarea { font-family: inherit; font-size: inherit; }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-brand {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 16px; letter-spacing: -0.01em;
+  }
+  .topbar-brand em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; opacity: .85; }
+  .topbar-actions { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .topbar-actions button {
+    background: rgba(210,230,180,0.15); color: var(--brand-accent);
+    padding: 8px 14px; border-radius: var(--r-pill);
+    font-size: 13px; font-weight: 500;
+    transition: background .15s;
+  }
+  .topbar-actions button:hover { background: rgba(210,230,180,0.25); }
+
+  /* ============ LOGIN GATE ============ */
+  .gate {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px; background: var(--brand-cream);
+  }
+  .gate-card {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: 40px 32px;
+    max-width: 400px; width: 100%;
+    box-shadow: 0 8px 32px rgba(100,60,60,0.06);
+  }
+  .gate-card h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 24px; margin: 0 0 4px;
+    color: var(--brand-primary); letter-spacing: -0.02em;
+  }
+  .gate-card h1 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .gate-sub { color: var(--brand-muted); font-size: 14px; margin: 0 0 24px; }
+  .gate input {
+    width: 100%; padding: 14px 16px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    color: var(--brand-ink); margin-bottom: 12px;
+  }
+  .gate input:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(100,60,60,0.08); }
+  .gate button {
+    width: 100%; padding: 14px;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-pill); font-weight: 600; font-size: 14px;
+    transition: background .15s;
+  }
+  .gate button:hover:not(:disabled) { background: var(--brand-primary-deep); }
+  .gate button:disabled { opacity: .5; cursor: not-allowed; }
+  .gate-error { color: var(--brand-danger); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+  /* ============ MAIN LAYOUT ============ */
+  .app { padding: 24px; max-width: 1280px; margin: 0 auto; }
+  .page-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+  .page-head h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; letter-spacing: -0.02em;
+    color: var(--brand-primary); margin: 0 0 4px;
+  }
+  .page-head p { margin: 0; color: var(--brand-muted); font-size: 13px; }
+
+  /* ============ STATS ============ */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); padding: 16px;
+  }
+  .stat-label { font-size: 12px; color: var(--brand-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .stat-value {
+    font-family: var(--font-display); font-size: 24px; font-weight: 600;
+    color: var(--brand-primary); margin-top: 4px; letter-spacing: -0.02em;
+  }
+  .stat-value.warn { color: var(--brand-warning); }
+
+  /* ============ FILTERS ============ */
+  .filters {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .filter-pill {
+    font-size: 13px; padding: 6px 12px;
+    background: #fff; border: 1px solid var(--brand-line);
+    color: var(--brand-ink); border-radius: var(--r-pill);
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .filter-pill:hover { border-color: var(--brand-primary); }
+  .filter-pill.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-color: var(--brand-primary);
+  }
+  .filter-pill .count { opacity: .65; margin-left: 4px; }
+  .filter-pill.active .count { opacity: .85; }
+  .filter-pill.has-action {
+    background: var(--brand-warning-bg); border-color: var(--brand-warning);
+    color: var(--brand-warning); font-weight: 600;
+  }
+  .filter-pill.has-action.active {
+    background: var(--brand-warning); color: #fff;
+    border-color: var(--brand-warning);
+  }
+  .filter-pill.has-action.has-zero {
+    background: #fff; border-color: var(--brand-line);
+    color: var(--brand-muted); font-weight: 400;
+  }
+  .search-input {
+    flex: 1; min-width: 200px; max-width: 280px;
+    padding: 8px 12px; font-size: 13px;
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-pill); color: var(--brand-ink);
+  }
+  .search-input:focus { outline: none; border-color: var(--brand-primary); }
+
+  /* ============ TABLE ============ */
+  .table-wrap {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); overflow: hidden;
+  }
+  .table-scroll { overflow-x: auto; }
+  .table {
+    width: 100%; border-collapse: collapse; min-width: 720px;
+  }
+  .table th {
+    text-align: left; padding: 14px 16px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--brand-muted); font-weight: 600;
+    border-bottom: 1px solid var(--brand-line);
+    background: var(--brand-cream-deep);
+    position: sticky; top: 60px;
+    white-space: nowrap;
+  }
+  .table td {
+    padding: 14px 16px; vertical-align: middle;
+    font-size: 13px; color: var(--brand-ink);
+    border-bottom: 1px solid var(--brand-line);
+  }
+  .table tr:last-child td { border-bottom: none; }
+  .table tr:hover td { background: var(--brand-cream); cursor: pointer; }
+  .col-num { text-align: right; font-variant-numeric: tabular-nums; }
+  .order-id { font-family: var(--font-mono); font-size: 12px; color: var(--brand-primary); }
+  .customer-name { font-weight: 600; color: var(--brand-ink); }
+  .customer-meta { font-size: 12px; color: var(--brand-muted); margin-top: 2px; }
+  .diff.positive { color: var(--brand-warning); font-weight: 600; }
+  .diff.negative { color: var(--brand-success); font-weight: 600; }
+  .empty-state { padding: 60px 24px; text-align: center; color: var(--brand-muted); }
+  .loading { padding: 60px; text-align: center; color: var(--brand-muted); }
+
+  /* ============ NEXT-CTA CELL ============ */
+  .cta-cell { min-width: 180px; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: var(--r-pill);
+    background: var(--brand-primary); color: var(--brand-accent);
+    font-size: 12px; font-weight: 600;
+    white-space: nowrap;
+    transition: background .15s, transform .1s;
+  }
+  .cta-btn:hover { background: var(--brand-primary-deep); }
+  .cta-btn:active { transform: translateY(1px); }
+  .cta-btn.cta-warn { background: var(--brand-warning); color: #fff; }
+  .cta-btn.cta-warn:hover { background: #9c690b; }
+  .cta-btn.cta-muted {
+    background: var(--brand-cream-deep); color: var(--brand-muted);
+    border: 1px dashed var(--brand-line); font-weight: 500;
+  }
+  .cta-btn.cta-muted:hover { background: var(--brand-cream); color: var(--brand-primary); border-color: var(--brand-primary); }
+  .cta-text {
+    color: var(--brand-muted); font-size: 12px; font-style: italic;
+  }
+  .cta-text.cta-closed { color: var(--brand-muted); opacity: 0.6; }
+
+  /* ============ STATUS BADGES ============ */
+  .badge {
+    display: inline-block; font-size: 11px; padding: 3px 10px;
+    border-radius: var(--r-pill); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .badge.b-success { background: var(--brand-success-bg); color: var(--brand-success); }
+  .badge.b-warning { background: var(--brand-warning-bg); color: var(--brand-warning); }
+  .badge.b-danger  { background: var(--brand-danger-bg);  color: var(--brand-danger); }
+  .badge.b-info    { background: var(--brand-info-bg);    color: var(--brand-info); }
+  .badge.b-muted   { background: var(--brand-cream-deep); color: var(--brand-muted); }
+
+  /* ============ DETAIL DRAWER ============ */
+  .drawer-overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,31,31,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 100%; max-width: 560px;
+    background: var(--brand-cream); z-index: 51;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    overflow-y: auto;
+    box-shadow: -16px 0 48px rgba(100,60,60,0.18);
+  }
+  .drawer.active { transform: translateX(0); }
+  .drawer-head {
+    position: sticky; top: 0; background: var(--brand-cream);
+    padding: 20px 24px; border-bottom: 1px solid var(--brand-line);
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 2;
+  }
+  .drawer-head h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-primary); margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .drawer-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: 1px solid var(--brand-line);
+    display: grid; place-items: center;
+    color: var(--brand-primary); transition: background .15s;
+  }
+  .drawer-close:hover { background: var(--brand-cream-deep); }
+  .drawer-body { padding: 24px; }
+
+  /* The big primary CTA bar at the top of the drawer */
+  .drawer-cta {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); padding: 16px;
+    margin-bottom: 16px;
+  }
+  .drawer-cta-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--brand-muted); font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .drawer-cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 14px;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-pill); font-weight: 600; font-size: 14px;
+    transition: background .15s;
+  }
+  .drawer-cta-btn:hover { background: var(--brand-primary-deep); }
+  .drawer-cta-btn.cta-warn { background: var(--brand-warning); color: #fff; }
+  .drawer-cta-btn.cta-warn:hover { background: #9c690b; }
+  .drawer-cta-btn.cta-muted { background: var(--brand-cream-deep); color: var(--brand-primary); border: 1px dashed var(--brand-primary); }
+  .drawer-cta-btn.cta-muted:hover { background: var(--brand-cream); }
+  .drawer-cta-waiting {
+    text-align: center; padding: 14px;
+    color: var(--brand-muted); font-size: 13px; font-style: italic;
+    background: var(--brand-cream-deep); border-radius: var(--r-pill);
+  }
+
+  /* "Other actions" row below the CTA */
+  .drawer-actions-row {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .drawer-action-btn {
+    flex: 1; min-width: 0;
+    padding: 10px 14px;
+    background: transparent; color: var(--brand-muted);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-pill);
+    font-size: 12px; font-weight: 500;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .drawer-action-btn:hover {
+    color: var(--brand-primary); border-color: var(--brand-primary);
+  }
+  .drawer-action-btn.danger:hover {
+    color: var(--brand-danger); border-color: var(--brand-danger);
+  }
+
+  .panel {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); padding: 16px;
+    margin-bottom: 16px;
+  }
+  .panel-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--brand-muted); font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; gap: 12px; font-size: 13px; }
+  .row .key { color: var(--brand-muted); flex-shrink: 0; }
+  .row .val {
+    text-align: right; color: var(--brand-ink); font-weight: 500;
+    word-break: break-word; min-width: 0;
+  }
+  .row.editable { cursor: pointer; transition: background .15s; padding: 8px; margin: 0 -8px; border-radius: var(--r-sm); }
+  .row.editable:hover { background: var(--brand-cream); }
+  .row.editable .val { color: var(--brand-primary); }
+  .row.editable .val::after { content: ' ✎'; color: var(--brand-muted); font-size: 11px; }
+  .row .val a { color: var(--brand-primary); text-decoration: none; }
+  .row .val a:hover { text-decoration: underline; }
+
+  /* Pickup-only / pickup-paid / etc. flag badges in drawer */
+  .badges-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+
+  /* Three-column financials */
+  .fin-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+  }
+  .fin-cell {
+    background: var(--brand-cream-deep); border-radius: var(--r-sm);
+    padding: 12px; text-align: center;
+  }
+  .fin-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--brand-muted); font-weight: 600; }
+  .fin-value { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--brand-primary); margin-top: 4px; letter-spacing: -0.01em; }
+  .fin-value.warn { color: var(--brand-warning); }
+  .fin-value.success { color: var(--brand-success); }
+  .fin-value.muted { color: var(--brand-muted); font-weight: 400; }
+
+  /* Laundry note display */
+  .laundry-note {
+    background: var(--brand-cream-deep);
+    border-left: 3px solid var(--brand-warning);
+    border-radius: var(--r-sm);
+    padding: 10px 12px; margin-top: 12px;
+    font-size: 12px; line-height: 1.5;
+    color: var(--brand-ink);
+  }
+  .laundry-note-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--brand-warning); font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,31,31,0.6); z-index: 60;
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #fff; border-radius: var(--r-lg);
+    padding: 28px; max-width: 480px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  }
+  .modal h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-primary); margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .modal-sub { color: var(--brand-muted); font-size: 13px; margin: 0 0 20px; }
+  .modal label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--brand-muted); text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .modal input, .modal select, .modal textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    color: var(--brand-ink); font-size: 14px;
+    margin-bottom: 16px; font-family: inherit;
+  }
+  .modal textarea { resize: vertical; min-height: 80px; }
+  .modal input:focus, .modal select:focus, .modal textarea:focus { outline: none; border-color: var(--brand-primary); }
+  .modal-warn {
+    background: var(--brand-warning-bg); color: var(--brand-warning);
+    padding: 10px 14px; border-radius: var(--r-sm);
+    font-size: 12px; margin: 0 0 16px;
+  }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* PIN display block in modals */
+  .pin-block {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-md); padding: 24px;
+    text-align: center; margin-bottom: 16px;
+  }
+  .pin-block-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    opacity: 0.75; margin-bottom: 8px;
+  }
+  .pin-block-value {
+    font-family: var(--font-mono); font-size: 36px; font-weight: 700;
+    letter-spacing: 8px; line-height: 1;
+  }
+  .pin-block-help {
+    font-size: 12px; margin-top: 12px;
+    opacity: 0.75; line-height: 1.4;
+  }
+
+  /* Cost preview in confirm-cost modal */
+  .cost-preview {
+    background: var(--brand-cream-deep);
+    border-radius: var(--r-md);
+    padding: 14px 16px; margin-bottom: 16px;
+    font-size: 13px; line-height: 1.6;
+  }
+  .cost-preview-row {
+    display: flex; justify-content: space-between; padding: 4px 0;
+  }
+  .cost-preview-row.total {
+    border-top: 1px dashed var(--brand-line);
+    margin-top: 6px; padding-top: 8px;
+    font-weight: 600;
+  }
+  .cost-preview-row .lbl { color: var(--brand-muted); }
+  .cost-preview-row .val { color: var(--brand-ink); }
+  .cost-preview-row.total .val.owed { color: var(--brand-warning); }
+  .cost-preview-row.total .val.covered { color: var(--brand-success); }
+
+  /* ============ TOAST ============ */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--brand-primary); color: var(--brand-accent);
+    padding: 14px 20px; border-radius: var(--r-md);
+    font-size: 14px; font-weight: 500;
+    box-shadow: 0 12px 32px rgba(100,60,60,0.25);
+    transform: translateY(120%); opacity: 0;
+    transition: transform .25s, opacity .25s;
+    z-index: 100; pointer-events: none;
+    max-width: 360px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { background: var(--brand-danger); color: #fff; }
+  .toast.success { background: var(--brand-success); color: #fff; }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin .8s linear infinite;
+    display: inline-block; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ============ BUTTONS in modals ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 18px; border-radius: var(--r-pill);
+    font-weight: 600; font-size: 14px;
+    transition: all .15s; white-space: nowrap;
+  }
+  .btn-primary { background: var(--brand-primary); color: var(--brand-accent); }
+  .btn-primary:hover:not(:disabled) { background: var(--brand-primary-deep); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent; color: var(--brand-primary);
+    border: 1.5px solid var(--brand-line);
+  }
+  .btn-ghost:hover { border-color: var(--brand-primary); }
+  .btn-danger { background: var(--brand-danger); color: #fff; }
+  .btn-danger:hover:not(:disabled) { background: #A53737; }
+  .btn-danger:disabled { opacity: .5; cursor: not-allowed; }
+
+  .hidden { display: none !important; }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 720px) {
+    .table th { position: static; }
+    .table th.col-hide-sm, .table td.col-hide-sm { display: none; }
+    .topbar { padding: 12px 16px; }
+    .app { padding: 16px; }
+    .table th, .table td { padding: 10px 12px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .table { min-width: auto; }
+    .cta-cell { min-width: 140px; }
+    .cta-btn { font-size: 11px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>Pressd <em>admin</em></h1>
+    <p class="gate-sub">Enter the passcode to continue.</p>
+    <input type="password" id="passcode-input" placeholder="Passcode" autocomplete="off" autofocus />
+    <button id="login-btn">Continue</button>
+    <div class="gate-error" id="gate-error"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div class="topbar-brand">Pressd <em>admin</em></div>
+    <div class="topbar-actions">
+      <span id="last-updated" style="opacity:.7;font-size:12px;"></span>
+      <button id="refresh-btn">Refresh</button>
+      <button id="logout-btn">Log out</button>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="page-head">
+      <div>
+        <h2>All orders</h2>
+        <p id="page-sub">Loading…</p>
+      </div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat-label">Orders</div><div class="stat-value" id="s-count">—</div></div>
+      <div class="stat"><div class="stat-label">Need action</div><div class="stat-value warn" id="s-action">—</div></div>
+      <div class="stat"><div class="stat-label">In flight</div><div class="stat-value" id="s-inflight">—</div></div>
+      <div class="stat"><div class="stat-label">Outstanding</div><div class="stat-value warn" id="s-outstanding">—</div></div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-pill has-action" data-filter="needs_action">Needs action <span class="count" id="f-needs-action">0</span></button>
+      <button class="filter-pill active" data-filter="all">All <span class="count" id="f-all">0</span></button>
+      <button class="filter-pill" data-filter="awaiting_payment">Awaiting payment <span class="count" id="f-unpaid">0</span></button>
+      <button class="filter-pill" data-filter="pickup_scheduled">Scheduled <span class="count" id="f-scheduled">0</span></button>
+      <button class="filter-pill" data-filter="picked_up">Picked up <span class="count" id="f-pickedup">0</span></button>
+      <button class="filter-pill" data-filter="invoiced_balance_due">Balance due <span class="count" id="f-balance">0</span></button>
+      <button class="filter-pill" data-filter="out_for_delivery">Out for delivery <span class="count" id="f-ofd">0</span></button>
+      <button class="filter-pill" data-filter="delivered">Delivered <span class="count" id="f-delivered">0</span></button>
+      <button class="filter-pill" data-filter="cancelled">Cancelled <span class="count" id="f-cancelled">0</span></button>
+      <input type="search" class="search-input" id="search-input" placeholder="Search by order ID, name, email, area…" />
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table class="table" id="orders-table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th class="col-hide-sm">Stage</th>
+              <th>Next action</th>
+              <th class="col-num col-hide-sm">Paid upfront</th>
+              <th class="col-num col-hide-sm">Laundry cost</th>
+              <th class="col-num col-hide-sm">Difference</th>
+            </tr>
+          </thead>
+          <tbody id="orders-body">
+            <tr><td colspan="7" class="loading"><span class="spinner"></span> Loading orders…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3 id="drawer-title">Order</h3>
+    <button class="drawer-close" id="drawer-close" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</div>
+
+<!-- ============ MODALS ============ -->
+
+<!-- 1. Schedule pickup -->
+<div class="modal-overlay" id="schedule-modal">
+  <div class="modal">
+    <h3>Schedule pickup</h3>
+    <p class="modal-sub" id="schedule-sub">Pick the date our rider will collect.</p>
+    <label>Pickup date</label>
+    <input type="date" id="schedule-date" />
+    <label>Time window</label>
+    <select id="schedule-window">
+      <option value="">— keep customer's choice —</option>
+      <option value="morning">Morning · 8 AM – 11 AM</option>
+      <option value="afternoon">Afternoon · 12 PM – 3 PM</option>
+      <option value="evening">Evening · 4 PM – 7 PM</option>
+    </select>
+    <p style="font-size:12px;color:var(--brand-muted);margin-top:-8px;margin-bottom:16px;">
+      Customer chose: <strong id="schedule-original-window">—</strong>
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="schedule-modal">Cancel</button>
+      <button class="btn btn-primary" id="schedule-confirm">Schedule pickup</button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Mark picked up -->
+<div class="modal-overlay" id="pickup-modal">
+  <div class="modal">
+    <h3>Mark picked up?</h3>
+    <p class="modal-sub">Confirm rider has the laundry. Verify the PIN with the customer first.</p>
+    <div class="pin-block">
+      <div class="pin-block-label">Pickup PIN</div>
+      <div class="pin-block-value" id="pickup-pin-display">—</div>
+      <div class="pin-block-help">Customer should confirm this PIN at handover.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="pickup-modal">Cancel</button>
+      <button class="btn btn-primary" id="pickup-confirm">Mark picked up</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Confirm cost & send invoice -->
+<div class="modal-overlay" id="cost-modal">
+  <div class="modal">
+    <h3 id="cost-title">Confirm cost & send invoice</h3>
+    <p class="modal-sub" id="cost-sub">Review the laundry cost. Customer will get the invoice email when you confirm.</p>
+
+    <div id="cost-laundry-note-wrap" style="margin-bottom:16px;display:none;">
+      <div class="laundry-note">
+        <div class="laundry-note-label">From laundry team</div>
+        <div id="cost-laundry-note-text"></div>
+      </div>
+    </div>
+
+    <label>Final laundry cost (₦)</label>
+    <input type="number" id="cost-final" min="0" step="100" placeholder="0" />
+
+    <label>Note to customer (optional)</label>
+    <textarea id="cost-admin-note" rows="2" placeholder="e.g. Stains were heavy. Recommend dry-clean next time."></textarea>
+    <p style="font-size:12px;color:var(--brand-muted);margin-top:-12px;margin-bottom:16px;">
+      Appears in their invoice email. Leave blank to skip.
+    </p>
+
+    <div class="cost-preview" id="cost-preview"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="cost-modal">Cancel</button>
+      <button class="btn btn-primary" id="cost-confirm">Send invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Mark order ready -->
+<div class="modal-overlay" id="ready-modal">
+  <div class="modal">
+    <h3>Mark ready for delivery?</h3>
+    <p class="modal-sub">The laundry is washed, dried, folded and packed. No customer email is sent for this step.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="ready-modal">Cancel</button>
+      <button class="btn btn-primary" id="ready-confirm">Mark ready</button>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Begin delivery -->
+<div class="modal-overlay" id="ofd-modal">
+  <div class="modal">
+    <h3>Begin delivery?</h3>
+    <p class="modal-sub">Customer will get an "out for delivery" email with the Delivery PIN.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="ofd-modal">Cancel</button>
+      <button class="btn btn-primary" id="ofd-confirm">Begin delivery</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Mark delivered -->
+<div class="modal-overlay" id="delivered-modal">
+  <div class="modal">
+    <h3>Mark delivered?</h3>
+    <p class="modal-sub">Confirm rider has handed over. Verify the PIN with the customer first.</p>
+    <div class="pin-block">
+      <div class="pin-block-label">Delivery PIN</div>
+      <div class="pin-block-value" id="delivered-pin-display">—</div>
+      <div class="pin-block-help">Customer should confirm this PIN at delivery.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="delivered-modal">Cancel</button>
+      <button class="btn btn-primary" id="delivered-confirm">Mark delivered</button>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Cancel order -->
+<div class="modal-overlay" id="cancel-modal">
+  <div class="modal">
+    <h3>Cancel order</h3>
+    <p class="modal-sub">This stops the order from progressing. The reason is stored in the sheet for your records.</p>
+    <label>Reason for cancellation</label>
+    <textarea id="cancel-reason" rows="3" placeholder="e.g. Customer requested cancellation. Refunded via Paystack." required></textarea>
+    <div class="modal-warn">⚠ This cannot be undone. Any refund must be processed manually in Paystack.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="cancel-modal">Keep order</button>
+      <button class="btn btn-danger" id="cancel-confirm">Cancel order</button>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Edit details (generic field-edit modal — kept from previous version) -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h3 id="edit-title">Edit field</h3>
+    <p class="modal-sub" id="edit-sub">Update this field on the order.</p>
+    <div id="edit-body"></div>
+    <div class="modal-warn">⚠ This change writes directly to the order. Are you sure?</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="edit-modal">Cancel</button>
+      <button class="btn btn-primary" id="edit-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="pressd-config.js"></script>
+<script>
+  /* ============================================================
+     PRESSD ADMIN — frontend script
+     ============================================================ */
+  const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
+  const STORAGE_KEY = 'pressd_admin_passcode';
+
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  let passcode = sessionStorage.getItem(STORAGE_KEY) || '';
+  let allOrders = [];
+  let activeFilter = 'all';
+  let activeOrderId = null;
+  let pendingEdit = null;
+  let activeActionOrder = null;  // current order being acted on by a modal
+
+  /* ============ LOGIN ============ */
+  function showGate() {
+    $('#gate').classList.remove('hidden');
+    $('#app').classList.add('hidden');
+    setTimeout(() => $('#passcode-input').focus(), 100);
+  }
+  function showApp() {
+    $('#gate').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    loadOrders();
+  }
+
+  async function tryLogin(code) {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'adminLogin', passcode: code }),
+      });
+      const data = await res.json();
+      return !!(data && data.ok);
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
+
+  $('#login-btn').addEventListener('click', async () => {
+    const code = $('#passcode-input').value.trim();
+    if (!code) { $('#gate-error').textContent = 'Enter a passcode.'; return; }
+    const btn = $('#login-btn');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    const ok = await tryLogin(code);
+    btn.disabled = false; btn.textContent = 'Continue';
+    if (ok) {
+      passcode = code;
+      sessionStorage.setItem(STORAGE_KEY, code);
+      $('#gate-error').textContent = '';
+      showApp();
+    } else {
+      $('#gate-error').textContent = 'Wrong passcode. Try again.';
+      $('#passcode-input').select();
+    }
+  });
+
+  $('#passcode-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') $('#login-btn').click();
+  });
+
+  $('#logout-btn').addEventListener('click', () => {
+    passcode = '';
+    sessionStorage.removeItem(STORAGE_KEY);
+    $('#passcode-input').value = '';
+    showGate();
+  });
+
+  /* ============ BACKEND ============ */
+  async function callBackend(action, extra = {}) {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action: action, passcode: passcode }, extra)),
+    });
+    const data = await res.json();
+    if (data && data.error && /Invalid passcode/i.test(data.error)) {
+      passcode = '';
+      sessionStorage.removeItem(STORAGE_KEY);
+      showGate();
+      throw new Error('Session expired');
+    }
+    if (data && data.ok === false) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  /* ============ FORMATTING ============ */
+  function fmtNaira(n) {
+    if (n == null || isNaN(n) || n === '') return '—';
+    return '₦' + Math.round(Number(n)).toLocaleString('en-NG');
+  }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '—';
+      return d.toLocaleString('en-NG', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
+    } catch (e) { return '—'; }
+  }
+  function fmtDateOnly(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '—';
+      return d.toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
+    } catch (e) { return '—'; }
+  }
+  function fmtWindow(w) {
+    return ({ morning: 'Morning · 8–11 AM', afternoon: 'Afternoon · 12–3 PM', evening: 'Evening · 4–7 PM' })[w] || (w || '—');
+  }
+  function fmtZone(z) { return ({ mainland: 'Mainland', island: 'Island' })[z] || (z || '—'); }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* Clean a phone number for tel:/wa.me links */
+  function cleanPhone(p) {
+    if (!p) return '';
+    let s = String(p).replace(/[^\d+]/g, '');
+    // wa.me prefers no leading + but full international
+    if (s.startsWith('+')) s = s.slice(1);
+    if (s.startsWith('0')) s = '234' + s.slice(1);  // Nigerian local → international
+    return s;
+  }
+
+  /* ============ STAGE — derived from multiple status fields ============ */
+  function stageOf(o) {
+    if (o.pickupStatus === 'cancelled') return 'cancelled';
+    if (o.deliveryStatus === 'delivered') return 'delivered';
+    if (o.outForDeliveryAt) return 'out_for_delivery';
+    if (o.orderReadyAt) return 'order_ready';
+    if (o.invoiceStatus === 'balance_due' && o.secondPaymentStatus === 'paid') return 'balance_paid';
+    if (o.invoiceStatus === 'balance_due') return 'invoiced_balance_due';
+    if (o.invoiceStatus === 'paid_in_full') return 'invoiced_paid_in_full';
+    if (o.costStatus === 'pending_review') return 'cost_pending_review';
+    if (o.pickupStatus === 'picked_up') return 'picked_up';
+    if (o.pickupStatus === 'pickup_scheduled' || o.pickupScheduledFor) return 'pickup_scheduled';
+    if (o.bookingPaymentStatus === 'paid') return 'pickup_paid';
+    return 'awaiting_payment';
+  }
+
+  const STAGE_META = {
+    awaiting_payment:        { label: 'Unpaid',             cls: 'b-danger' },
+    pickup_paid:             { label: 'Pickup paid',        cls: 'b-success' },
+    pickup_scheduled:        { label: 'Pickup scheduled',   cls: 'b-info' },
+    picked_up:               { label: 'Picked up',          cls: 'b-info' },
+    cost_pending_review:     { label: 'Cost pending',       cls: 'b-warning' },
+    invoiced_paid_in_full:   { label: 'Paid in full',       cls: 'b-success' },
+    invoiced_balance_due:    { label: 'Balance due',        cls: 'b-warning' },
+    balance_paid:            { label: 'Balance paid',       cls: 'b-success' },
+    order_ready:             { label: 'Ready for delivery', cls: 'b-info' },
+    out_for_delivery:        { label: 'Out for delivery',   cls: 'b-info' },
+    delivered:               { label: 'Delivered',          cls: 'b-muted' },
+    cancelled:               { label: 'Cancelled',          cls: 'b-muted' },
+  };
+
+  /* ============ NEXT CTA — heart of the admin redesign ============ */
+  function nextCtaFor(o) {
+    const stage = stageOf(o);
+    switch (stage) {
+      case 'awaiting_payment':
+        return { label: 'Awaiting payment', action: null, available: false, intent: 'waiting' };
+      case 'pickup_paid':
+        return { label: 'Schedule pickup', action: 'schedulePickup', available: true, intent: 'primary' };
+      case 'pickup_scheduled':
+        return { label: 'Mark picked up', action: 'markPickedUp', available: true, intent: 'primary' };
+      case 'picked_up':
+        if (!o.costStatus || o.costStatus === 'not_submitted') {
+          return { label: 'Awaiting cost entry', action: 'manualCost', available: true, intent: 'muted' };
+        }
+        return { label: 'Confirm cost & send invoice', action: 'confirmCostAndInvoice', available: true, intent: 'warn' };
+      case 'cost_pending_review':
+        return { label: 'Confirm cost & send invoice', action: 'confirmCostAndInvoice', available: true, intent: 'warn' };
+      case 'invoiced_balance_due':
+        return { label: 'Awaiting customer payment', action: null, available: false, intent: 'waiting' };
+      case 'invoiced_paid_in_full':
+      case 'balance_paid':
+        return { label: 'Mark order ready', action: 'markOrderReady', available: true, intent: 'primary' };
+      case 'order_ready':
+        return { label: 'Begin delivery', action: 'markOutForDelivery', available: true, intent: 'primary' };
+      case 'out_for_delivery':
+        return { label: 'Mark delivered', action: 'markDelivered', available: true, intent: 'primary' };
+      case 'delivered':
+        return { label: 'Closed', action: null, available: false, intent: 'closed' };
+      case 'cancelled':
+        return { label: 'Cancelled', action: null, available: false, intent: 'closed' };
+      default:
+        return { label: '—', action: null, available: false, intent: 'closed' };
+    }
+  }
+
+  /* ============ LOAD ORDERS ============ */
+  async function loadOrders() {
+    try {
+      const data = await callBackend('getAdminOrders');
+      allOrders = data.orders || [];
+      renderStats();
+      renderFilterCounts();
+      renderTable();
+      $('#last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-NG', { hour: 'numeric', minute: '2-digit' });
+      $('#page-sub').textContent = allOrders.length + ' orders';
+    } catch (err) {
+      $('#orders-body').innerHTML = `<tr><td colspan="7" class="empty-state">Failed to load orders. ${err.message || ''}</td></tr>`;
+    }
+  }
+
+  function renderStats() {
+    const count = allOrders.length;
+    let needsAction = 0;
+    let inFlight = 0;
+    let outstanding = 0;
+    allOrders.forEach(o => {
+      const stage = stageOf(o);
+      if (nextCtaFor(o).available) needsAction++;
+      if (stage !== 'awaiting_payment' && stage !== 'delivered' && stage !== 'cancelled') inFlight++;
+      if (stage === 'invoiced_balance_due') {
+        const owed = Number(o.finalLaundryCost) - Number(o.additionalCostPaid);
+        if (owed > 0) outstanding += owed;
+      }
+    });
+    $('#s-count').textContent = count;
+    $('#s-action').textContent = needsAction;
+    $('#s-inflight').textContent = inFlight;
+    $('#s-outstanding').textContent = fmtNaira(outstanding);
+  }
+
+  function renderFilterCounts() {
+    const counts = {
+      all: allOrders.length, needs_action: 0,
+      awaiting_payment: 0, pickup_scheduled: 0, picked_up: 0,
+      invoiced_balance_due: 0, out_for_delivery: 0, delivered: 0, cancelled: 0,
+    };
+    allOrders.forEach(o => {
+      if (nextCtaFor(o).available) counts.needs_action++;
+      const s = stageOf(o);
+      if (counts[s] != null) counts[s]++;
+    });
+    $('#f-all').textContent = counts.all;
+    $('#f-needs-action').textContent = counts.needs_action;
+    $('#f-unpaid').textContent = counts.awaiting_payment;
+    $('#f-scheduled').textContent = counts.pickup_scheduled;
+    $('#f-pickedup').textContent = counts.picked_up;
+    $('#f-balance').textContent = counts.invoiced_balance_due;
+    $('#f-ofd').textContent = counts.out_for_delivery;
+    $('#f-delivered').textContent = counts.delivered;
+    $('#f-cancelled').textContent = counts.cancelled;
+
+    // Visual hint: dim the "Needs action" pill when count is 0
+    const naPill = $('.filter-pill[data-filter="needs_action"]');
+    naPill.classList.toggle('has-zero', counts.needs_action === 0);
+  }
+
+  /* ============ RENDER TABLE ============ */
+  function renderTable() {
+    const search = ($('#search-input').value || '').toLowerCase().trim();
+    let rows = allOrders;
+
+    if (activeFilter === 'needs_action') {
+      rows = rows.filter(o => nextCtaFor(o).available);
+    } else if (activeFilter !== 'all') {
+      rows = rows.filter(o => stageOf(o) === activeFilter);
+    }
+
+    if (search) {
+      rows = rows.filter(o =>
+        (o.orderId || '').toLowerCase().includes(search) ||
+        (o.name || '').toLowerCase().includes(search) ||
+        (o.email || '').toLowerCase().includes(search) ||
+        (o.area || '').toLowerCase().includes(search)
+      );
+    }
+
+    const body = $('#orders-body');
+    if (!rows.length) {
+      body.innerHTML = `<tr><td colspan="7" class="empty-state">No orders match.</td></tr>`;
+      return;
+    }
+    body.innerHTML = rows.map(o => {
+      const stage = stageOf(o);
+      const meta = STAGE_META[stage] || { label: stage, cls: 'b-muted' };
+      const cta = nextCtaFor(o);
+      const upfront = o.bookingPaymentStatus === 'paid'
+        ? fmtNaira(o.bookingTotal)
+        : '<span style="color:var(--brand-muted);">' + (o.bookingPaymentStatus || 'pending') + '</span>';
+      const laundryCost = o.finalLaundryCost > 0 ? fmtNaira(o.finalLaundryCost) : '<span style="color:var(--brand-muted);">—</span>';
+      const diff = computeDifference(o);
+
+      let ctaHtml;
+      if (cta.available) {
+        const cls = cta.intent === 'warn' ? 'cta-warn' : (cta.intent === 'muted' ? 'cta-muted' : '');
+        ctaHtml = `<button class="cta-btn ${cls}" data-cta-action="${cta.action}" data-cta-order="${escapeHtml(o.orderId)}">${escapeHtml(cta.label)} →</button>`;
+      } else {
+        const cls = cta.intent === 'closed' ? 'cta-closed' : '';
+        ctaHtml = `<span class="cta-text ${cls}">${escapeHtml(cta.label)}</span>`;
+      }
+
+      return `
+        <tr data-order-id="${escapeHtml(o.orderId)}">
+          <td><span class="order-id">${escapeHtml(o.orderId)}</span></td>
+          <td>
+            <div class="customer-name">${escapeHtml(o.name || '—')}</div>
+            <div class="customer-meta">${escapeHtml(o.area || '')} · ${fmtWindow(o.pickupWindow)}</div>
+          </td>
+          <td class="col-hide-sm"><span class="badge ${meta.cls}">${meta.label}</span></td>
+          <td class="cta-cell">${ctaHtml}</td>
+          <td class="col-num col-hide-sm">${upfront}</td>
+          <td class="col-num col-hide-sm">${laundryCost}</td>
+          <td class="col-num col-hide-sm">${diff.html}</td>
+        </tr>
+      `;
+    }).join('');
+
+    body.querySelectorAll('tr').forEach(tr => {
+      tr.addEventListener('click', e => {
+        // CTA buttons handle themselves
+        if (e.target.closest('[data-cta-action]')) return;
+        openDrawer(tr.dataset.orderId);
+      });
+    });
+    body.querySelectorAll('[data-cta-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const orderId = btn.dataset.ctaOrder;
+        const action = btn.dataset.ctaAction;
+        const o = allOrders.find(x => x.orderId === orderId);
+        if (o) triggerAction(action, o);
+      });
+    });
+  }
+
+  function computeDifference(o) {
+    if (!o.finalLaundryCost || o.finalLaundryCost <= 0) {
+      return { html: '<span style="color:var(--brand-muted);">—</span>', value: null };
+    }
+    const additionalPaid = Number(o.additionalCostPaid || 0);
+    const final = Number(o.finalLaundryCost);
+    const diff = final - additionalPaid;
+    if (diff > 0) return { html: `<span class="diff positive">+${fmtNaira(diff)}</span>`, value: diff };
+    if (diff < 0) return { html: `<span class="diff negative">−${fmtNaira(Math.abs(diff))}</span>`, value: diff };
+    return { html: `<span style="color:var(--brand-muted);">₦0</span>`, value: 0 };
+  }
+
+  /* ============ FILTER + SEARCH ============ */
+  $$('.filter-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      $$('.filter-pill').forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      activeFilter = p.dataset.filter;
+      renderTable();
+    });
+  });
+  let searchTimeout;
+  $('#search-input').addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(renderTable, 150);
+  });
+  $('#refresh-btn').addEventListener('click', () => {
+    $('#orders-body').innerHTML = `<tr><td colspan="7" class="loading"><span class="spinner"></span> Refreshing…</td></tr>`;
+    loadOrders();
+  });
+
+  /* ============ DRAWER ============ */
+  function openDrawer(orderId) {
+    const o = allOrders.find(x => x.orderId === orderId);
+    if (!o) return;
+    activeOrderId = orderId;
+    $('#drawer-title').textContent = o.orderId;
+    $('#drawer-body').innerHTML = drawerHtml(o);
+    $('#drawer').classList.add('active');
+    $('#drawer-overlay').classList.add('active');
+    bindDrawerActions(o);
+  }
+
+  function closeDrawer() {
+    $('#drawer').classList.remove('active');
+    $('#drawer-overlay').classList.remove('active');
+    activeOrderId = null;
+  }
+
+  $('#drawer-close').addEventListener('click', closeDrawer);
+  $('#drawer-overlay').addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && $('#drawer').classList.contains('active')) closeDrawer();
+  });
+
+  function drawerHtml(o) {
+    const stage = stageOf(o);
+    const stageMeta = STAGE_META[stage] || { label: stage, cls: 'b-muted' };
+    const cta = nextCtaFor(o);
+    const diff = computeDifference(o);
+    const finalDisplay = o.finalLaundryCost > 0 ? fmtNaira(o.finalLaundryCost) : '<span class="muted">Not entered</span>';
+    const diffDisplay = diff.value == null
+      ? '<span class="muted">—</span>'
+      : (diff.value > 0 ? `<span class="warn">+${fmtNaira(diff.value)}</span>`
+        : diff.value < 0 ? `<span class="success">−${fmtNaira(Math.abs(diff.value))}</span>`
+        : '₦0');
+
+    // Big primary CTA bar
+    let ctaBar;
+    if (cta.available) {
+      const cls = cta.intent === 'warn' ? 'cta-warn' : (cta.intent === 'muted' ? 'cta-muted' : '');
+      ctaBar = `<button class="drawer-cta-btn ${cls}" data-drawer-action="${cta.action}">${escapeHtml(cta.label)} →</button>`;
+    } else {
+      ctaBar = `<div class="drawer-cta-waiting">${escapeHtml(cta.label)}</div>`;
+    }
+
+    const cancelable = stage !== 'delivered' && stage !== 'cancelled';
+
+    // Tap-to links
+    const waNum = cleanPhone(o.phoneWhatsapp);
+    const callNum = cleanPhone(o.phoneCall || o.phoneWhatsapp);
+    const mapsLink = o.pickupAddress
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.pickupAddress)}`
+      : null;
+
+    return `
+      <div class="badges-row">
+        <span class="badge ${stageMeta.cls}">${stageMeta.label}</span>
+        ${o.pickupOnly ? '<span class="badge b-muted">Pickup-only</span>' : ''}
+        ${o.bookingPaymentStatus === 'paid' ? '<span class="badge b-success">Booking paid</span>' : ''}
+        ${o.secondPaymentStatus === 'paid' ? '<span class="badge b-success">Balance paid</span>' : ''}
+      </div>
+
+      <div class="drawer-cta">
+        <div class="drawer-cta-label">Next action</div>
+        ${ctaBar}
+        <div class="drawer-actions-row">
+          ${cancelable ? '<button class="drawer-action-btn danger" data-drawer-action="cancelOrder">Cancel order</button>' : ''}
+          <button class="drawer-action-btn" data-drawer-action="editDetails">Edit details</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Financials</div>
+        <div class="fin-grid">
+          <div class="fin-cell">
+            <div class="fin-label">Paid upfront</div>
+            <div class="fin-value">${o.bookingPaymentStatus === 'paid' ? fmtNaira(o.bookingTotal) : '<span class="muted">' + (o.bookingPaymentStatus || 'pending') + '</span>'}</div>
+          </div>
+          <div class="fin-cell">
+            <div class="fin-label">Laundry cost</div>
+            <div class="fin-value">${finalDisplay}</div>
+          </div>
+          <div class="fin-cell">
+            <div class="fin-label">Difference</div>
+            <div class="fin-value">${diffDisplay}</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--brand-muted);margin-top:12px;line-height:1.5;">
+          Pickup fee: ${fmtNaira(o.pickupFee)} · Loads: ${o.loadEnabled ? `${o.loads} (${fmtNaira(o.loadAmount)})` : '—'} · Care tab: ${o.careEnabled ? fmtNaira(o.careTabPrepaid) : '—'}<br/>
+          Toward laundry already paid: ${fmtNaira(o.additionalCostPaid)}
+        </div>
+        ${o.laundryNote ? `
+          <div class="laundry-note">
+            <div class="laundry-note-label">From laundry team</div>
+            ${escapeHtml(o.laundryNote)}
+          </div>
+        ` : ''}
+        ${o.adminNoteToCustomer ? `
+          <div class="laundry-note" style="border-left-color:var(--brand-success);">
+            <div class="laundry-note-label" style="color:var(--brand-success);">Note sent to customer</div>
+            ${escapeHtml(o.adminNoteToCustomer)}
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Customer</div>
+        <div class="row editable" data-edit-key="name" data-edit-label="Name"><span class="key">Name</span><span class="val">${escapeHtml(o.name) || '—'}</span></div>
+        <div class="row"><span class="key">Email</span><span class="val">${escapeHtml(o.email) || '—'}</span></div>
+        <div class="row"><span class="key">WhatsApp</span><span class="val">${
+          waNum ? `<a href="https://wa.me/${waNum}" target="_blank" rel="noopener">${escapeHtml(o.phoneWhatsapp)}</a>` : (escapeHtml(o.phoneWhatsapp) || '—')
+        }</span></div>
+        <div class="row"><span class="key">Call line</span><span class="val">${
+          callNum ? `<a href="tel:+${callNum}">${escapeHtml(o.phoneCall || o.phoneWhatsapp)}</a>` : (escapeHtml(o.phoneCall) || '—')
+        }</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Pickup</div>
+        <div class="row editable" data-edit-key="zone" data-edit-label="Zone" data-edit-type="select" data-edit-options="mainland,island">
+          <span class="key">Zone</span><span class="val">${fmtZone(o.zone)}</span>
+        </div>
+        <div class="row editable" data-edit-key="area" data-edit-label="Area"><span class="key">Area</span><span class="val">${escapeHtml(o.area) || '—'}</span></div>
+        <div class="row"><span class="key">Address</span><span class="val">${
+          mapsLink ? `<a href="${mapsLink}" target="_blank" rel="noopener">${escapeHtml(o.pickupAddress)}</a>` : (escapeHtml(o.pickupAddress) || '—')
+        }</span></div>
+        <div class="row editable" data-edit-key="pickupWindow" data-edit-label="Window" data-edit-type="select" data-edit-options="morning,afternoon,evening">
+          <span class="key">Window</span><span class="val">${fmtWindow(o.pickupWindow)}</span>
+        </div>
+        <div class="row"><span class="key">Pickup PIN</span><span class="val" style="font-family:var(--font-mono);">${escapeHtml(o.pickupPin) || '—'}</span></div>
+        <div class="row"><span class="key">Scheduled for</span><span class="val">${o.pickupScheduledFor ? fmtDateOnly(o.pickupScheduledFor) : '—'}</span></div>
+        <div class="row"><span class="key">Picked up at</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
+        <div class="row editable" data-edit-key="pickupNotes" data-edit-label="Pickup notes" data-edit-type="textarea"><span class="key">Notes</span><span class="val">${escapeHtml(o.pickupNotes) || '—'}</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Delivery</div>
+        <div class="row"><span class="key">Delivery PIN</span><span class="val" style="font-family:var(--font-mono);">${escapeHtml(o.deliveryPin) || '—'}</span></div>
+        <div class="row"><span class="key">Order ready at</span><span class="val">${fmtDate(o.orderReadyAt)}</span></div>
+        <div class="row"><span class="key">Out for delivery at</span><span class="val">${fmtDate(o.outForDeliveryAt)}</span></div>
+        <div class="row"><span class="key">Delivered at</span><span class="val">${fmtDate(o.deliveryDate)}</span></div>
+        <div class="row editable" data-edit-key="deliveryNotes" data-edit-label="Delivery notes" data-edit-type="textarea"><span class="key">Notes</span><span class="val">${escapeHtml(o.deliveryNotes) || '—'}</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Invoice & second payment</div>
+        <div class="row"><span class="key">Invoice status</span><span class="val">${escapeHtml(o.invoiceStatus) || '—'}</span></div>
+        <div class="row"><span class="key">Invoice sent</span><span class="val">${fmtDate(o.invoiceSentAt)}</span></div>
+        <div class="row"><span class="key">Second payment</span><span class="val">${escapeHtml(o.secondPaymentStatus) || '—'}</span></div>
+        ${o.secondPaymentLink ? `<div class="row"><span class="key">Payment link</span><span class="val"><a href="${escapeHtml(o.secondPaymentLink)}" target="_blank" rel="noopener" style="color:var(--brand-primary);text-decoration:underline;">Open</a></span></div>` : ''}
+        <div class="row"><span class="key">Second paid at</span><span class="val">${fmtDate(o.secondPaidAt)}</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Audit</div>
+        <div class="row"><span class="key">Created</span><span class="val">${fmtDate(o.createdAt)}</span></div>
+        <div class="row"><span class="key">Booking paid at</span><span class="val">${fmtDate(o.bookingPaidAt)}</span></div>
+        <div class="row"><span class="key">Booking ref</span><span class="val" style="font-family:var(--font-mono);font-size:11px;">${escapeHtml(o.bookingPaymentRef) || '—'}</span></div>
+      </div>
+    `;
+  }
+
+  function bindDrawerActions(o) {
+    // Editable rows
+    $$('.row.editable', $('#drawer-body')).forEach(row => {
+      row.addEventListener('click', () => {
+        const key = row.dataset.editKey;
+        const label = row.dataset.editLabel;
+        const type = row.dataset.editType || 'text';
+        const options = (row.dataset.editOptions || '').split(',').filter(Boolean);
+        openEditModal(o, key, label, type, options);
+      });
+    });
+    // CTA + secondary action buttons
+    $$('[data-drawer-action]', $('#drawer-body')).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.drawerAction;
+        if (action === 'editDetails') {
+          // No-op: editing happens by clicking the rows. Could surface a hint here.
+          showToast('Tap any row above to edit it.', 'success');
+          return;
+        }
+        triggerAction(action, o);
+      });
+    });
+  }
+
+  /* ============ ACTIONS — central dispatcher ============ */
+  function triggerAction(action, order) {
+    activeActionOrder = order;
+    switch (action) {
+      case 'schedulePickup':       return openScheduleModal(order);
+      case 'markPickedUp':         return openPickupModal(order);
+      case 'manualCost':           return openCostModal(order, /*manual=*/true);
+      case 'confirmCostAndInvoice':return openCostModal(order, /*manual=*/false);
+      case 'markOrderReady':       return openReadyModal(order);
+      case 'markOutForDelivery':   return openOfdModal(order);
+      case 'markDelivered':        return openDeliveredModal(order);
+      case 'cancelOrder':          return openCancelModal(order);
+      default: console.warn('Unknown action:', action);
+    }
+  }
+
+  /* ============ MODAL: SCHEDULE PICKUP ============ */
+  function openScheduleModal(o) {
+    $('#schedule-original-window').textContent = fmtWindow(o.pickupWindow);
+    $('#schedule-window').value = '';
+    // Default to next Tue/Thu/Sat after createdAt (or today, whichever is later)
+    const created = o.createdAt ? new Date(o.createdAt) : new Date();
+    const today = new Date(); today.setHours(0,0,0,0);
+    const startFrom = created > today ? created : today;
+    $('#schedule-date').value = nextPickupDay(startFrom).toISOString().slice(0, 10);
+    $('#schedule-modal').classList.add('active');
+  }
+
+  function nextPickupDay(after) {
+    // Tue=2, Thu=4, Sat=6
+    const PICKUP_DOWS = [2, 4, 6];
+    const d = new Date(after);
+    d.setDate(d.getDate() + 1); // start tomorrow
+    while (!PICKUP_DOWS.includes(d.getDay())) {
+      d.setDate(d.getDate() + 1);
+    }
+    return d;
+  }
+
+  $('#schedule-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const date = $('#schedule-date').value;
+    const window = $('#schedule-window').value;  // optional
+    if (!date) { showToast('Pick a date first.', 'error'); return; }
+    const btn = $('#schedule-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Scheduling';
+    try {
+      const payload = { orderId: activeActionOrder.orderId, scheduledFor: date };
+      if (window) payload.pickupWindow = window;
+      const data = await callBackend('schedulePickup', payload);
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Pickup scheduled.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed to schedule.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Schedule pickup';
+    }
+  });
+
+  /* ============ MODAL: MARK PICKED UP ============ */
+  function openPickupModal(o) {
+    $('#pickup-pin-display').textContent = o.pickupPin || '----';
+    $('#pickup-modal').classList.add('active');
+  }
+  $('#pickup-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const btn = $('#pickup-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Marking';
+    try {
+      const data = await callBackend('markPickedUp', { orderId: activeActionOrder.orderId });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Picked up. Customer notified.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Mark picked up';
+    }
+  });
+
+  /* ============ MODAL: COST CONFIRM (or manual entry) ============ */
+  function openCostModal(o, manual) {
+    const hasLaundryData = !manual && o.finalLaundryCost > 0;
+    if (hasLaundryData) {
+      $('#cost-title').textContent = 'Confirm cost & send invoice';
+      $('#cost-sub').textContent = 'Review the laundry team\'s submission. Customer gets the invoice when you confirm.';
+      $('#cost-final').value = o.finalLaundryCost;
+      if (o.laundryNote) {
+        $('#cost-laundry-note-text').textContent = o.laundryNote;
+        $('#cost-laundry-note-wrap').style.display = '';
+      } else {
+        $('#cost-laundry-note-wrap').style.display = 'none';
+      }
+    } else {
+      $('#cost-title').textContent = 'Enter final cost & send invoice';
+      $('#cost-sub').textContent = 'Laundry team hasn\'t submitted yet. Enter the final cost manually.';
+      $('#cost-final').value = '';
+      $('#cost-laundry-note-wrap').style.display = 'none';
+    }
+    $('#cost-admin-note').value = o.adminNoteToCustomer || '';
+    updateCostPreview();
+    $('#cost-modal').classList.add('active');
+  }
+
+  function updateCostPreview() {
+    const o = activeActionOrder;
+    if (!o) return;
+    const final = Number($('#cost-final').value) || 0;
+    const additionalPaid = Number(o.additionalCostPaid || 0);
+    const outstanding = final - additionalPaid;
+
+    let html = `
+      <div class="cost-preview-row"><span class="lbl">Pickup fee</span><span class="val">${fmtNaira(o.pickupFee)}</span></div>
+      <div class="cost-preview-row"><span class="lbl">Already paid toward laundry</span><span class="val">${fmtNaira(additionalPaid)}</span></div>
+      <div class="cost-preview-row"><span class="lbl">Final laundry cost</span><span class="val">${fmtNaira(final)}</span></div>
+    `;
+    if (final > 0) {
+      if (outstanding > 0) {
+        html += `<div class="cost-preview-row total"><span class="lbl">Customer will owe</span><span class="val owed">${fmtNaira(outstanding)}</span></div>`;
+      } else if (outstanding < 0) {
+        html += `<div class="cost-preview-row total"><span class="lbl">Covered</span><span class="val covered">Paid in full</span></div>`;
+      } else {
+        html += `<div class="cost-preview-row total"><span class="lbl">Customer will owe</span><span class="val">₦0</span></div>`;
+      }
+    }
+    $('#cost-preview').innerHTML = html;
+  }
+  $('#cost-final').addEventListener('input', updateCostPreview);
+
+  $('#cost-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const final = Number($('#cost-final').value);
+    if (!final || final <= 0) { showToast('Enter a valid cost.', 'error'); return; }
+    const adminNote = $('#cost-admin-note').value.trim();
+    const btn = $('#cost-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Sending';
+    try {
+      const data = await callBackend('confirmCostAndInvoice', {
+        orderId: activeActionOrder.orderId,
+        finalCost: final,
+        adminNote: adminNote || undefined,
+      });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Invoice sent.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Send invoice';
+    }
+  });
+
+  /* ============ MODAL: MARK ORDER READY ============ */
+  function openReadyModal(o) { $('#ready-modal').classList.add('active'); }
+  $('#ready-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const btn = $('#ready-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Marking';
+    try {
+      const data = await callBackend('markOrderReady', { orderId: activeActionOrder.orderId });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Marked ready for delivery.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Mark ready';
+    }
+  });
+
+  /* ============ MODAL: BEGIN DELIVERY ============ */
+  function openOfdModal(o) { $('#ofd-modal').classList.add('active'); }
+  $('#ofd-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const btn = $('#ofd-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Starting';
+    try {
+      const data = await callBackend('markOutForDelivery', { orderId: activeActionOrder.orderId });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Out for delivery. Customer notified.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Begin delivery';
+    }
+  });
+
+  /* ============ MODAL: MARK DELIVERED ============ */
+  function openDeliveredModal(o) {
+    $('#delivered-pin-display').textContent = o.deliveryPin || '----';
+    $('#delivered-modal').classList.add('active');
+  }
+  $('#delivered-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const btn = $('#delivered-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Marking';
+    try {
+      const data = await callBackend('markDelivered', { orderId: activeActionOrder.orderId });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Delivered. Customer notified.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Mark delivered';
+    }
+  });
+
+  /* ============ MODAL: CANCEL ORDER ============ */
+  function openCancelModal(o) {
+    $('#cancel-reason').value = '';
+    $('#cancel-modal').classList.add('active');
+    setTimeout(() => $('#cancel-reason').focus(), 100);
+  }
+  $('#cancel-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const reason = $('#cancel-reason').value.trim();
+    if (!reason) { showToast('Reason is required.', 'error'); return; }
+    const btn = $('#cancel-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cancelling';
+    try {
+      const data = await callBackend('cancelOrder', {
+        orderId: activeActionOrder.orderId, reason: reason,
+      });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Order cancelled.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Cancel order';
+    }
+  });
+
+  /* ============ EDIT MODAL (generic field edit) ============ */
+  function openEditModal(order, key, label, type, options) {
+    pendingEdit = { order, key, label, type };
+    $('#edit-title').textContent = 'Edit ' + label;
+    $('#edit-sub').textContent = 'Update ' + label.toLowerCase() + ' for order ' + order.orderId + '.';
+
+    const currentVal = order[key] != null ? order[key] : '';
+    let inputHtml = '';
+    if (type === 'textarea') {
+      inputHtml = `<label>${escapeHtml(label)}</label><textarea id="edit-input" rows="3">${escapeHtml(currentVal)}</textarea>`;
+    } else if (type === 'select') {
+      const opts = options.map(v => `<option value="${escapeHtml(v)}" ${v === currentVal ? 'selected' : ''}>${escapeHtml(v)}</option>`).join('');
+      inputHtml = `<label>${escapeHtml(label)}</label><select id="edit-input">${opts}</select>`;
+    } else {
+      inputHtml = `<label>${escapeHtml(label)}</label><input type="text" id="edit-input" value="${escapeHtml(currentVal)}" />`;
+    }
+    $('#edit-body').innerHTML = inputHtml;
+    $('#edit-modal').classList.add('active');
+    setTimeout(() => $('#edit-input').focus(), 100);
+  }
+
+  $('#edit-save').addEventListener('click', async () => {
+    if (!pendingEdit) return;
+    const value = $('#edit-input').value;
+    const btn = $('#edit-save');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving';
+    try {
+      const fields = {};
+      fields[pendingEdit.key] = value;
+      const data = await callBackend('updateOrder', { orderId: pendingEdit.order.orderId, fields });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Saved.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Save failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save';
+    }
+  });
+
+  /* ============ MODAL CLOSE handlers ============ */
+  $$('[data-modal-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $('#' + btn.dataset.modalClose).classList.remove('active');
+    });
+  });
+  $$('.modal-overlay').forEach(ov => {
+    ov.addEventListener('click', e => {
+      if (e.target === ov) ov.classList.remove('active');
+    });
+  });
+  function closeAllModals() {
+    $$('.modal-overlay').forEach(o => o.classList.remove('active'));
+  }
+
+  /* ============ Update order in place after backend response ============ */
+  function updateOrderInPlace(updatedOrder) {
+    if (!updatedOrder) return;
+    const idx = allOrders.findIndex(x => x.orderId === updatedOrder.orderId);
+    if (idx >= 0) allOrders[idx] = updatedOrder;
+    renderTable();
+    renderFilterCounts();
+    renderStats();
+    if (activeOrderId === updatedOrder.orderId) {
+      $('#drawer-body').innerHTML = drawerHtml(updatedOrder);
+      bindDrawerActions(updatedOrder);
+    }
+  }
+
+  /* ============ TOAST ============ */
+  let toastTimer;
+  function showToast(text, kind) {
+    const t = $('#toast');
+    t.textContent = text;
+    t.className = 'toast show ' + (kind || '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+  }
+
+  /* ============ BOOT ============ */
+  if (passcode) {
+    tryLogin(passcode).then(ok => {
+      if (ok) showApp();
+      else {
+        passcode = '';
+        sessionStorage.removeItem(STORAGE_KEY);
+        showGate();
+      }
+    });
+  } else {
+    showGate();
+  }
+</script>
+
+</body>
+</html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 
