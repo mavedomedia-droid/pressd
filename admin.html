@@ -244,6 +244,7 @@
   .drawer-overlay {
     position: fixed; inset: 0;
     background: rgba(42,31,31,0.5);
+    -webkit-backdrop-filter: blur(4px);  /* FIX: Safari/iOS support */
     backdrop-filter: blur(4px);
     z-index: 50;
     opacity: 0; pointer-events: none;
@@ -383,6 +384,13 @@
     font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--brand-warning); font-weight: 600;
     margin-bottom: 4px;
+  }
+
+  /* Edit hint shown above the panels in the drawer */
+  .edit-hint {
+    font-size: 12px; color: var(--brand-muted);
+    text-align: center; margin: -4px 0 16px;
+    font-style: italic;
   }
 
   /* ============ MODAL ============ */
@@ -884,7 +892,6 @@
   function cleanPhone(p) {
     if (!p) return '';
     let s = String(p).replace(/[^\d+]/g, '');
-    // wa.me prefers no leading + but full international
     if (s.startsWith('+')) s = s.slice(1);
     if (s.startsWith('0')) s = '234' + s.slice(1);  // Nigerian local → international
     return s;
@@ -954,6 +961,15 @@
       default:
         return { label: '—', action: null, available: false, intent: 'closed' };
     }
+  }
+
+  /* FIX: Cancellation is only safe before the laundry leaves the customer's hands.
+     Once it's been picked up, "cancel" doesn't really mean "stop" — it means
+     "physically return their stuff", which needs ops, not a button click.
+     Allow cancellation only while the order is still pre-pickup. */
+  function isCancellable(o) {
+    const stage = stageOf(o);
+    return stage === 'pickup_paid' || stage === 'pickup_scheduled';
   }
 
   /* ============ LOAD ORDERS ============ */
@@ -1176,7 +1192,8 @@
       ctaBar = `<div class="drawer-cta-waiting">${escapeHtml(cta.label)}</div>`;
     }
 
-    const cancelable = stage !== 'delivered' && stage !== 'cancelled' && stage !== 'awaiting_payment';
+    // FIX: cancellation only allowed in early states (pre-pickup)
+    const cancelable = isCancellable(o);
 
     // Tap-to links
     const waNum = cleanPhone(o.phoneWhatsapp);
@@ -1184,6 +1201,13 @@
     const mapsLink = o.pickupAddress
       ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.pickupAddress)}`
       : null;
+
+    // FIX: removed the no-op "Edit details" button. Show a tip line instead.
+    const otherActionsHtml = cancelable
+      ? `<div class="drawer-actions-row">
+           <button class="drawer-action-btn danger" data-drawer-action="cancelOrder">Cancel order</button>
+         </div>`
+      : '';
 
     return `
       <div class="badges-row">
@@ -1196,11 +1220,10 @@
       <div class="drawer-cta">
         <div class="drawer-cta-label">Next action</div>
         ${ctaBar}
-        <div class="drawer-actions-row">
-          ${cancelable ? '<button class="drawer-action-btn danger" data-drawer-action="cancelOrder">Cancel order</button>' : ''}
-          <button class="drawer-action-btn" data-drawer-action="editDetails">Edit details</button>
-        </div>
+        ${otherActionsHtml}
       </div>
+
+      <p class="edit-hint">Tap any row below to edit it.</p>
 
       <div class="panel">
         <div class="panel-title">Financials</div>
@@ -1308,11 +1331,6 @@
     $$('[data-drawer-action]', $('#drawer-body')).forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.drawerAction;
-        if (action === 'editDetails') {
-          // No-op: editing happens by clicking the rows. Could surface a hint here.
-          showToast('Tap any row above to edit it.', 'success');
-          return;
-        }
         triggerAction(action, o);
       });
     });
