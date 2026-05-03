@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Your laundry is ready</title>
+<!--[if mso]><style>* { font-family: Arial, sans-serif !important; }</style><![endif]-->
+<style>
+  @media only screen and (max-width: 600px) {
+    .container { width: 100% !important; max-width: 100% !important; }
+    .px { padding-left: 24px !important; padding-right: 24px !important; }
+    .h1 { font-size: 32px !important; line-height: 1.1 !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#FAF6EE; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#2A1F1F;">
+<div style="display:none; max-height:0; overflow:hidden;">Washed, dried, pressed. We'll dispatch in the next few hours.</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FAF6EE;">
+  <tr><td align="center">
+    <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+
+      <!-- Header -->
+      <tr>
+        <td align="left" style="background:#643C3C; padding:22px 32px;" class="px">
+          <a href="{{siteUrl}}" style="text-decoration:none;"><img src="{{logoUrl}}" alt="Pressd" width="100" style="display:block; height:auto; border:0; max-width:100px;"></a>
+        </td>
+      </tr>
+
+      <!-- Iconograph: folded-stack tick -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:48px 32px 24px;" class="px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td width="72" height="72" align="center" valign="middle" style="background:#D2E6B4; border-radius:50%;">
+              <span style="display:inline-block; color:#643C3C; font-size:36px; font-weight:700; line-height:1;">✓</span>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Headline -->
+      <tr>
+        <td align="center" style="background:#FAF6EE; padding:0 32px 8px;" class="px">
+          <div style="display:inline-block; background:#D2E6B4; color:#643C3C; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:16px;">Ready for delivery</div>
+          <h1 class="h1" style="margin:0 0 12px; font-size:42px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#643C3C;">
+            Washed, dried, <em style="font-family:Georgia,serif; font-style:italic; font-weight:400;">pressd.</em>
+          </h1>
+          <p style="margin:0 0 32px; font-size:17px; line-height:1.55; color:#7C6A6A;">
+            Hi {{name}}, your laundry's all done. We're arranging dispatch now and you'll hear from us again as soon as a rider's on the way.
+          </p>
+        </td>
+      </tr>
+
+      <!-- Order summary card -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FFFFFF; border:1px solid #E8DFD4; border-radius:24px;">
+            <tr><td style="padding:32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Order ID</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{orderId}}</td></tr>
+                <tr><td style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; color:#7C6A6A;">Delivering to</td><td align="right" style="padding:10px 0; border-bottom:1px solid #E8DFD4; font-size:14px; font-weight:500; color:#2A1F1F;">{{pickupAddress}}</td></tr>
+                <tr><td style="padding:10px 0; font-size:14px; color:#7C6A6A;">Estimated dispatch</td><td align="right" style="padding:10px 0; font-size:14px; font-weight:500; color:#2A1F1F;">Within the next few hours</td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- What to do now -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#D2E6B4; border-radius:16px;">
+            <tr><td style="padding:24px 28px;">
+              <h3 style="margin:0 0 12px; font-size:16px; font-weight:600; color:#643C3C;">A small heads-up</h3>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px; line-height:1.65; color:#4D2E2E;">
+                <tr><td valign="top" width="20" style="padding:4px 8px 0 0; color:#643C3C; font-weight:600;">→</td><td style="padding:4px 0;">Make sure someone's home in the next few hours to receive the bag</td></tr>
+                <tr><td valign="top" width="20" style="padding:4px 8px 0 0; color:#643C3C; font-weight:600;">→</td><td style="padding:4px 0;">We'll send another email the moment the rider's on their way</td></tr>
+                <tr><td valign="top" width="20" style="padding:4px 8px 0 0; color:#643C3C; font-weight:600;">→</td><td style="padding:4px 0;">Need a different time? Reply to this email or message us on WhatsApp</td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Delivery PIN reminder -->
+      <tr>
+        <td style="background:#FAF6EE; padding:0 32px 24px;" class="px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FFFFFF; border:1px solid #E8DFD4; border-radius:16px;">
+            <tr><td style="padding:20px 24px;">
+              <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#7C6A6A; font-weight:600; margin-bottom:8px;">For when the rider arrives</div>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding-right:20px;">
+                    <div style="font-size:13px; color:#7C6A6A; margin-bottom:4px;">Delivery PIN</div>
+                    <div style="font-family:monospace; font-size:28px; font-weight:600; color:#643C3C; letter-spacing:6px; line-height:1;">{{deliveryPin}}</div>
+                  </td>
+                  <td valign="middle" style="font-size:13px; line-height:1.5; color:#7C6A6A;">
+                    Share this only when the rider's at your door.
+                  </td>
+                </tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Closing -->
+      <tr>
+        <td style="background:#FAF6EE; padding:8px 32px 40px;" class="px">
+          <p style="margin:0 0 16px; font-size:15px; line-height:1.6; color:#7C6A6A;">
+            Questions? Just reply or message us on
+            <a href="{{whatsappUrl}}" style="color:#643C3C; font-weight:500;">WhatsApp</a>.
+          </p>
+          <p style="margin:0; font-size:15px; color:#643C3C; font-weight:500;">— The Pressd team</p>
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="background:#643C3C; padding:32px; text-align:center;" class="px">
+          <p style="margin:0 0 8px; font-family:Georgia,serif; font-style:italic; font-size:14px; color:#D2E6B4; letter-spacing:0.5px;">washed • dried • pressd</p>
+          <p style="margin:0; font-size:12px; color:rgba(210,230,180,0.6);">
+            <a href="mailto:{{supportEmail}}" style="color:#D2E6B4; text-decoration:underline;">{{supportEmail}}</a> &nbsp;·&nbsp;
+            <a href="{{whatsappUrl}}" style="color:#D2E6B4; text-decoration:underline;">WhatsApp us</a>
+          </p>
+          <p style="margin:16px 0 0; font-size:11px; color:rgba(210,230,180,0.45);">Order {{orderId}} · © {{year}} Pressd</p>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>
