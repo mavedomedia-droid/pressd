@@ -86,7 +86,7 @@
     color: var(--brand-primary); letter-spacing: -0.02em;
   }
   .gate-card h1 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
-  .gate-sub { color: var(--brand-muted); font-size: 14px; margin: 0 0 24px; }
+  .gate-sub { color: var(--brand-muted); font-size: 16px; margin: 0 0 24px; }
   .gate input {
     width: 100%; padding: 14px 16px;
     border: 1.5px solid var(--brand-line);
@@ -97,7 +97,7 @@
   .gate button {
     width: 100%; padding: 14px;
     background: var(--brand-primary); color: var(--brand-accent);
-    border-radius: var(--r-pill); font-weight: 600; font-size: 15px;
+    border-radius: var(--r-pill); font-weight: 600; font-size: 16px;
     transition: background .15s;
   }
   .gate button:hover:not(:disabled) { background: var(--brand-primary-deep); }
@@ -112,7 +112,7 @@
     color: var(--brand-primary); margin: 0 0 4px;
   }
   .page-head h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
-  .page-head p { margin: 0; color: var(--brand-muted); font-size: 14px; }
+  .page-head p { margin: 0; color: var(--brand-muted); font-size: 16px; }
 
   .filter-bar {
     display: flex; align-items: center; gap: 8px;
@@ -224,7 +224,7 @@
   }
   .detail-row {
     display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 12px; padding: 6px 0; font-size: 14px;
+    gap: 12px; padding: 6px 0; font-size: 16px;
   }
   .detail-row .key { color: var(--brand-muted); flex-shrink: 0; }
   .detail-row .val { color: var(--brand-ink); font-weight: 500; text-align: right; word-break: break-word; }
@@ -281,7 +281,7 @@
     padding: 12px 14px;
     border: 1.5px solid var(--brand-line);
     border-radius: var(--r-md); background: #fff;
-    font-size: 14px; color: var(--brand-ink);
+    font-size: 16px; color: var(--brand-ink);
     line-height: 1.5; resize: vertical;
     min-height: 60px;
   }
@@ -292,7 +292,7 @@
     padding: 14px;
     background: var(--brand-primary); color: var(--brand-accent);
     border-radius: var(--r-pill);
-    font-weight: 600; font-size: 15px;
+    font-weight: 600; font-size: 16px;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background .15s, opacity .15s;
   }
@@ -304,7 +304,7 @@
     padding: 14px;
     background: var(--brand-success); color: #fff;
     border-radius: var(--r-pill);
-    font-weight: 600; font-size: 15px;
+    font-weight: 600; font-size: 16px;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background .15s, opacity .15s;
   }
@@ -315,7 +315,7 @@
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120%);
     background: var(--brand-primary); color: var(--brand-accent);
     padding: 14px 22px; border-radius: var(--r-pill);
-    font-size: 14px; font-weight: 500;
+    font-size: 16px; font-weight: 500;
     box-shadow: 0 12px 32px rgba(100,60,60,0.25);
     opacity: 0;
     transition: transform .25s, opacity .25s;
@@ -351,7 +351,7 @@
     font-family: var(--font-display); font-weight: 600;
     font-size: 18px; color: var(--brand-primary); margin: 0 0 6px;
   }
-  .empty-state p { margin: 0; color: var(--brand-muted); font-size: 14px; }
+  .empty-state p { margin: 0; color: var(--brand-muted); font-size: 16px; }
 
   .hidden { display: none !important; }
 </style>
@@ -780,7 +780,6 @@
     return `
       <div class="order-detail">
         <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
-        <div class="detail-row"><span class="key">Cost submitted</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
         ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
         <p style="font-size:13px; color:var(--brand-muted); margin:14px 0 0; text-align:center;">
           ${o.costStatus === 'pending_review' ? 'Admin is reviewing your submission.' : 'Customer has been invoiced. Keep working — you can mark ready as soon as the laundry is done.'}
@@ -793,7 +792,6 @@
     return `
       <div class="order-detail">
         <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
-        <div class="detail-row"><span class="key">Final cost</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
         ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
         <p style="font-size:13px; color:var(--brand-muted); margin:14px 0 0; text-align:center;">
           Customer has been billed and is yet to pay. You can keep working — mark ready when done.
@@ -809,7 +807,6 @@
     return `
       <div class="order-detail">
         <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
-        <div class="detail-row"><span class="key">Final cost</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
         ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
         <p style="font-size:13px; color:var(--brand-success); margin:14px 0 0; text-align:center; font-weight:500;">
           Customer is fully paid. Mark ready as soon as the laundry is done.
