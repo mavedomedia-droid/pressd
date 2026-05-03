@@ -50,7 +50,6 @@
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
   input, select, textarea { font-family: inherit; font-size: inherit; }
 
-  /* ============ TOP BAR ============ */
   .topbar {
     background: var(--brand-primary); color: var(--brand-accent);
     padding: 14px 20px;
@@ -71,7 +70,6 @@
   }
   .icon-btn:hover { background: rgba(210,230,180,0.25); }
 
-  /* ============ LOGIN GATE ============ */
   .gate {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
     padding: 24px; background: var(--brand-cream);
@@ -106,48 +104,58 @@
   .gate button:disabled { opacity: .5; cursor: not-allowed; }
   .gate-error { color: var(--brand-danger); font-size: 13px; margin-top: 12px; min-height: 18px; }
 
-  /* ============ MAIN APP ============ */
   .app { padding: 16px; max-width: 720px; margin: 0 auto; }
   .page-head { margin-bottom: 16px; }
   .page-head h2 {
     font-family: var(--font-display); font-weight: 600;
-    font-size: 22px; letter-spacing: -0.02em;
+    font-size: 24px; letter-spacing: -0.02em;
     color: var(--brand-primary); margin: 0 0 4px;
   }
   .page-head h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
-  .page-head p { margin: 0; color: var(--brand-muted); font-size: 13px; }
+  .page-head p { margin: 0; color: var(--brand-muted); font-size: 14px; }
 
-  .empty {
+  .filter-bar {
+    display: flex; align-items: center; gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-pill {
+    flex-shrink: 0;
+    font-size: 13px; padding: 8px 14px;
     background: #fff; border: 1px solid var(--brand-line);
-    border-radius: var(--r-lg); padding: 60px 24px;
-    text-align: center;
+    color: var(--brand-ink); border-radius: var(--r-pill);
+    font-weight: 500;
+    transition: all .15s;
+    white-space: nowrap;
   }
-  .empty-icon {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: var(--brand-success-bg); color: var(--brand-success);
-    display: grid; place-items: center;
-    margin: 0 auto 16px;
+  .filter-pill:hover { border-color: var(--brand-primary); }
+  .filter-pill.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-color: var(--brand-primary); font-weight: 600;
   }
-  .empty h3 {
-    font-family: var(--font-display); font-weight: 600;
-    font-size: 18px; color: var(--brand-primary); margin: 0 0 6px;
+  .filter-pill .count {
+    opacity: .7; margin-left: 4px; font-weight: 500;
   }
-  .empty p { margin: 0; color: var(--brand-muted); font-size: 14px; }
+  .filter-pill.active .count { opacity: .85; }
 
-  /* ============ ORDER CARDS ============ */
-  .order-list { display: flex; flex-direction: column; gap: 12px; }
+  .order-list { display: flex; flex-direction: column; gap: 10px; }
   .order-card {
     background: #fff; border: 1px solid var(--brand-line);
-    border-radius: var(--r-lg); padding: 18px;
+    border-radius: var(--r-lg); padding: 16px 18px;
     transition: border-color .2s ease;
   }
   .order-card.expanded { border-color: var(--brand-primary); }
   .order-head {
     display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 12px; margin-bottom: 14px; cursor: pointer;
+    gap: 12px; cursor: pointer;
   }
+  .order-head.no-toggle { cursor: default; }
   .order-id {
-    font-family: var(--font-mono); font-size: 12px;
+    font-family: var(--font-mono); font-size: 11px;
     color: var(--brand-muted); margin-bottom: 4px;
     letter-spacing: 0.02em;
   }
@@ -158,7 +166,7 @@
   }
   .order-meta { font-size: 13px; color: var(--brand-muted); margin-top: 4px; }
   .order-toggle {
-    width: 32px; height: 32px; border-radius: 50%;
+    width: 30px; height: 30px; border-radius: 50%;
     background: var(--brand-cream-deep);
     color: var(--brand-primary);
     display: grid; place-items: center;
@@ -170,18 +178,50 @@
     transform: rotate(180deg);
   }
 
-  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-  .badge {
-    display: inline-block; font-size: 11px; padding: 3px 9px;
-    border-radius: var(--r-pill); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.04em;
+  .tags-row {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 12px;
   }
-  .badge.b-info    { background: var(--brand-info-bg); color: var(--brand-info); }
-  .badge.b-warning { background: var(--brand-warning-bg); color: var(--brand-warning); }
-  .badge.b-muted   { background: var(--brand-cream-deep); color: var(--brand-muted); }
-  .badge.b-success { background: var(--brand-success-bg); color: var(--brand-success); }
+  .tag {
+    display: inline-flex; align-items: center;
+    font-size: 11px; padding: 5px 10px;
+    border-radius: var(--r-pill); font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .tag-service {
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+  }
+  .tag-status-new {
+    background: var(--brand-primary);
+    color: var(--brand-accent);
+  }
+  .tag-status-pending {
+    background: var(--brand-cream-deep);
+    color: var(--brand-muted);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .tag-status-payment {
+    background: var(--brand-warning-bg);
+    color: var(--brand-warning);
+  }
+  .tag-status-paid {
+    background: var(--brand-success-bg);
+    color: var(--brand-success);
+  }
+  .tag-status-coming {
+    background: var(--brand-info-bg);
+    color: var(--brand-info);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
 
-  .order-detail { padding-top: 14px; border-top: 1px solid var(--brand-line); }
+  .order-detail {
+    padding-top: 14px; margin-top: 12px;
+    border-top: 1px solid var(--brand-line);
+  }
   .detail-row {
     display: flex; justify-content: space-between; align-items: flex-start;
     gap: 12px; padding: 6px 0; font-size: 14px;
@@ -201,7 +241,6 @@
     color: var(--brand-muted); font-weight: 600; margin-bottom: 4px;
   }
 
-  /* ============ COST INPUT ============ */
   .cost-input-block {
     background: var(--brand-cream); border: 1.5px solid var(--brand-line);
     border-radius: var(--r-md); padding: 14px;
@@ -260,7 +299,18 @@
   .submit-btn:hover:not(:disabled) { background: var(--brand-primary-deep); }
   .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
 
-  /* ============ TOAST ============ */
+  .ready-btn {
+    width: 100%; margin-top: 12px;
+    padding: 14px;
+    background: var(--brand-success); color: #fff;
+    border-radius: var(--r-pill);
+    font-weight: 600; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s, opacity .15s;
+  }
+  .ready-btn:hover:not(:disabled) { background: #4a7332; }
+  .ready-btn:disabled { opacity: .5; cursor: not-allowed; }
+
   .toast {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(120%);
     background: var(--brand-primary); color: var(--brand-accent);
@@ -286,23 +336,38 @@
 
   .loading-state { padding: 60px; text-align: center; color: var(--brand-muted); }
 
+  .empty-state {
+    background: #fff; border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: 60px 24px;
+    text-align: center;
+  }
+  .empty-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--brand-success-bg); color: var(--brand-success);
+    display: grid; place-items: center;
+    margin: 0 auto 16px;
+  }
+  .empty-state h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--brand-primary); margin: 0 0 6px;
+  }
+  .empty-state p { margin: 0; color: var(--brand-muted); font-size: 14px; }
+
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- Login gate -->
 <div class="gate" id="gate">
   <div class="gate-card">
     <h1>Pressd <em>laundry</em></h1>
-    <p class="gate-sub">Enter your passcode to see today's pickups.</p>
+    <p class="gate-sub">Enter your passcode to see your queue.</p>
     <input type="password" id="passcode-input" placeholder="Passcode" autocomplete="off" autofocus />
     <button id="login-btn">Continue</button>
     <div class="gate-error" id="gate-error"></div>
   </div>
 </div>
 
-<!-- Main app -->
 <div id="app" class="hidden">
   <div class="topbar">
     <div class="topbar-brand">Pressd <em>laundry</em></div>
@@ -318,11 +383,13 @@
 
   <div class="app">
     <div class="page-head">
-      <h2>Today's <em>pickups</em></h2>
+      <h2>Your <em>orders</em></h2>
       <p id="page-sub">Loading…</p>
     </div>
 
-    <div id="orders-wrap">
+    <div class="filter-bar" id="filter-bar"></div>
+
+    <div id="queue-wrap">
       <div class="loading-state"><span class="spinner"></span> Loading orders…</div>
     </div>
   </div>
@@ -340,9 +407,18 @@
 
   let passcode = sessionStorage.getItem(STORAGE_KEY) || '';
   let allOrders = [];
+  let activeFilter = 'new';
   let expandedId = null;
 
-  /* ============ LOGIN ============ */
+  const FILTERS = [
+    { key: 'new',     label: 'New orders' },
+    { key: 'washing', label: 'Currently washing' },
+    { key: 'payment', label: 'Awaiting payment' },
+    { key: 'paid',    label: 'Paid · ready to mark' },
+    { key: 'coming',  label: 'Coming up' },
+    { key: 'all',     label: 'All' },
+  ];
+
   function showGate() {
     $('#gate').classList.remove('hidden');
     $('#app').classList.add('hidden');
@@ -351,7 +427,7 @@
   function showApp() {
     $('#gate').classList.add('hidden');
     $('#app').classList.remove('hidden');
-    loadOrders();
+    loadQueue();
   }
 
   async function tryLogin(code) {
@@ -363,10 +439,7 @@
       });
       const data = await res.json();
       return !!(data && data.ok);
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
+    } catch (err) { console.error(err); return false; }
   }
 
   $('#login-btn').addEventListener('click', async () => {
@@ -398,8 +471,7 @@
     showGate();
   });
 
-  /* ============ BACKEND ============ */
-  async function callBackend(action, extra = {}) {
+  let callBackend = async function(action, extra = {}) {
     const res = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -414,9 +486,8 @@
     }
     if (data && data.ok === false) throw new Error(data.error || 'Request failed');
     return data;
-  }
+  };
 
-  /* ============ FORMATTING ============ */
   function fmtNaira(n) {
     if (n == null || isNaN(n) || n === '') return '—';
     return '₦' + Math.round(Number(n)).toLocaleString('en-NG');
@@ -435,18 +506,70 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  /* ============ LOAD ORDERS ============ */
-  async function loadOrders() {
+  function classifyOrder(o) {
+    if (o.orderReadyAt || o.outForDeliveryAt || o.deliveryStatus === 'delivered') return null;
+    const pickupStatus = (o.pickupStatus || '').toLowerCase();
+    const costStatus = (o.costStatus || '').toLowerCase();
+
+    if (pickupStatus === 'pickup_paid' || pickupStatus === 'pickup_scheduled' || pickupStatus === 'scheduled') {
+      return 'coming';
+    }
+    if (pickupStatus === 'picked_up' && (!costStatus || costStatus === 'not_submitted')) {
+      return 'new';
+    }
+    if (o.invoiceStatus === 'paid_in_full') return 'paid';
+    if (o.invoiceStatus === 'balance_due' && o.secondPaymentStatus === 'paid') return 'paid';
+    if (o.invoiceStatus === 'balance_due') return 'payment';
+    if (costStatus === 'pending_review' || costStatus === 'confirmed') return 'washing';
+    return null;
+  }
+
+  function serviceTagFor(o) {
+    if (o.pickupOnly) {
+      return { label: 'Wash + Iron · estimate', cls: 'tag-service' };
+    }
+    if (o.loadEnabled && o.careEnabled) {
+      const n = o.loads || 1;
+      return { label: `${n} load + ${fmtNaira(o.careTabPrepaid)} care tab`, cls: 'tag-service' };
+    }
+    if (o.loadEnabled) {
+      const n = o.loads || 1;
+      return { label: `Wash + Fold · ${n} load${n > 1 ? 's' : ''}`, cls: 'tag-service' };
+    }
+    if (o.careEnabled) {
+      return { label: `Wash + Iron · ${fmtNaira(o.careTabPrepaid)} tab`, cls: 'tag-service' };
+    }
+    return { label: 'Mixed laundry', cls: 'tag-service' };
+  }
+
+  function statusTagFor(o, bucket) {
+    switch (bucket) {
+      case 'new':
+        return { label: 'New order', cls: 'tag-status-new' };
+      case 'washing':
+        return { label: o.costStatus === 'pending_review' ? 'Price pending admin' : 'Currently washing', cls: 'tag-status-pending' };
+      case 'payment':
+        return { label: 'Awaiting payment', cls: 'tag-status-payment' };
+      case 'paid':
+        return { label: 'Paid · mark ready', cls: 'tag-status-paid' };
+      case 'coming':
+        return { label: o.pickupScheduledFor ? ('Scheduled · ' + fmtDate(o.pickupScheduledFor)) : 'Coming up', cls: 'tag-status-coming' };
+      default:
+        return { label: '—', cls: 'tag-status-pending' };
+    }
+  }
+
+  async function loadQueue() {
     try {
-      const data = await callBackend('getLaundryOrders');
-      allOrders = data.orders || [];
-      renderOrders();
-      $('#page-sub').textContent = allOrders.length === 0
-        ? 'Nothing to invoice right now.'
-        : (allOrders.length === 1 ? '1 order ready' : allOrders.length + ' orders ready');
+      const data = await callBackend('getLaundryQueue');
+      const q = data.queue || { headsUp: [], active: [], inProgress: [] };
+      allOrders = [...q.active, ...q.inProgress, ...q.headsUp];
+      renderFilters();
+      renderQueue();
+      updateSubtitle();
     } catch (err) {
-      $('#orders-wrap').innerHTML = `
-        <div class="empty">
+      $('#queue-wrap').innerHTML = `
+        <div class="empty-state">
           <h3>Couldn't load orders</h3>
           <p>${escapeHtml(err.message || 'Try again in a moment.')}</p>
         </div>
@@ -454,22 +577,85 @@
     }
   }
 
-  function renderOrders() {
-    const wrap = $('#orders-wrap');
-    if (!allOrders.length) {
+  function countsByBucket() {
+    const counts = { new: 0, washing: 0, payment: 0, paid: 0, coming: 0, all: 0 };
+    allOrders.forEach(o => {
+      const b = classifyOrder(o);
+      if (b && counts[b] != null) counts[b]++;
+      if (b) counts.all++;
+    });
+    return counts;
+  }
+
+  function renderFilters() {
+    const counts = countsByBucket();
+    const bar = $('#filter-bar');
+    bar.innerHTML = FILTERS.map(f => {
+      const isActive = activeFilter === f.key;
+      const count = counts[f.key] || 0;
+      return `
+        <button class="filter-pill ${isActive ? 'active' : ''}" data-filter="${f.key}">
+          ${escapeHtml(f.label)} <span class="count">${count}</span>
+        </button>
+      `;
+    }).join('');
+    $$('.filter-pill', bar).forEach(p => {
+      p.addEventListener('click', () => {
+        activeFilter = p.dataset.filter;
+        renderFilters();
+        renderQueue();
+        updateSubtitle();
+      });
+    });
+  }
+
+  function updateSubtitle() {
+    const total = allOrders.length;
+    if (total === 0) {
+      $('#page-sub').textContent = 'Nothing in your queue right now.';
+      return;
+    }
+    const counts = countsByBucket();
+    const activeLabel = (FILTERS.find(f => f.key === activeFilter) || {}).label || 'All';
+    const activeCount = counts[activeFilter] || 0;
+    $('#page-sub').textContent = `${activeLabel} · ${activeCount} of ${total} total`;
+  }
+
+  function renderQueue() {
+    const wrap = $('#queue-wrap');
+    const visible = allOrders.filter(o => {
+      const b = classifyOrder(o);
+      if (!b) return false;
+      if (activeFilter === 'all') return true;
+      return b === activeFilter;
+    });
+
+    if (visible.length === 0) {
+      const emptyMessages = {
+        new:     { h: 'No new orders', p: 'When pickups arrive at the laundry, they show up here.' },
+        washing: { h: 'Nothing washing', p: 'Orders you\'ve submitted cost on appear here while admin reviews and customers pay.' },
+        payment: { h: 'No pending payments', p: 'Orders waiting for the customer to settle their balance show up here.' },
+        paid:    { h: 'Nothing to mark ready', p: 'Once a customer\'s laundry is paid for and washed, you can mark it ready here.' },
+        coming:  { h: 'Nothing coming up', p: 'Future pickups appear here as a heads-up.' },
+        all:     { h: 'All caught up', p: 'No orders in your queue right now.' },
+      };
+      const msg = emptyMessages[activeFilter] || emptyMessages.all;
       wrap.innerHTML = `
-        <div class="empty">
+        <div class="empty-state">
           <div class="empty-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <h3>All caught up</h3>
-          <p>No orders waiting for cost entry right now.</p>
+          <h3>${escapeHtml(msg.h)}</h3>
+          <p>${escapeHtml(msg.p)}</p>
         </div>
       `;
       return;
     }
-    wrap.innerHTML = '<div class="order-list">' + allOrders.map(o => orderCardHtml(o)).join('') + '</div>';
-    $$('.order-head').forEach(h => {
+
+    wrap.innerHTML = '<div class="order-list">' + visible.map(o => orderCardHtml(o)).join('') + '</div>';
+
+    $$('.order-head[data-order-id]').forEach(h => {
+      if (h.classList.contains('no-toggle')) return;
       h.addEventListener('click', () => toggleCard(h.dataset.orderId));
     });
     $$('.cost-form').forEach(f => {
@@ -478,11 +664,14 @@
         submitCost(f.dataset.orderId, f);
       });
     });
+    $$('.ready-btn-trigger').forEach(b => {
+      b.addEventListener('click', () => markReady(b.dataset.orderId));
+    });
   }
 
   function toggleCard(orderId) {
     expandedId = (expandedId === orderId) ? null : orderId;
-    renderOrders();
+    renderQueue();
     if (expandedId) {
       const card = document.querySelector(`.order-card[data-order-id="${CSS.escape(expandedId)}"]`);
       if (card) {
@@ -495,28 +684,57 @@
   }
 
   function orderCardHtml(o) {
+    const bucket = classifyOrder(o);
     const isExpanded = expandedId === o.orderId;
-    const badges = [];
-    if (o.pickupOnly) badges.push('<span class="badge b-warning">Pickup-only</span>');
-    if (o.loadEnabled) badges.push(`<span class="badge b-info">Load × ${o.loads}</span>`);
-    if (o.careEnabled) badges.push(`<span class="badge b-info">Care · ${fmtNaira(o.careTabPrepaid)}</span>`);
-    if (!o.loadEnabled && !o.careEnabled && !o.pickupOnly) badges.push('<span class="badge b-muted">Mixed</span>');
+    const serviceTag = serviceTagFor(o);
+    const statusTag = statusTagFor(o, bucket);
+    const canExpand = bucket !== 'coming';
 
+    const area = (fmtZone(o.zone) + (o.area ? ', ' + o.area : '')) || '—';
+    const metaLine = (bucket === 'coming' || !o.pickupDate) ? area : (fmtDate(o.pickupDate) + ' · ' + area);
+
+    const detailHtml = isExpanded ? expandedDetail(o, bucket) : '';
+
+    return `
+      <div class="order-card${isExpanded ? ' expanded' : ''}" data-order-id="${escapeHtml(o.orderId)}">
+        <div class="order-head${canExpand ? '' : ' no-toggle'}" data-order-id="${escapeHtml(o.orderId)}">
+          <div>
+            <div class="order-id">${escapeHtml(o.orderId)}</div>
+            <div class="order-name">${escapeHtml(o.firstName || '—')}</div>
+            <div class="order-meta">${escapeHtml(metaLine)}</div>
+          </div>
+          ${canExpand ? `
+          <div class="order-toggle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>` : ''}
+        </div>
+        <div class="tags-row">
+          <span class="tag ${serviceTag.cls}">${escapeHtml(serviceTag.label)}</span>
+          <span class="tag ${statusTag.cls}">${escapeHtml(statusTag.label)}</span>
+        </div>
+        ${detailHtml}
+      </div>
+    `;
+  }
+
+  function expandedDetail(o, bucket) {
+    if (bucket === 'new') return newOrderDetail(o);
+    if (bucket === 'washing') return washingDetail(o);
+    if (bucket === 'payment') return paymentDetail(o);
+    if (bucket === 'paid') return paidDetail(o);
+    return '';
+  }
+
+  function newOrderDetail(o) {
     const summary = describeWhatWasOrdered(o);
-
     const notes = (o.pickupNotes && o.pickupNotes.trim())
       ? `<div class="notes-block"><div class="notes-label">Pickup notes</div>${escapeHtml(o.pickupNotes)}</div>`
       : '';
-
-    const detail = isExpanded ? `
+    return `
       <div class="order-detail">
-        <div class="badges">${badges.join('')}</div>
-        <div class="detail-row"><span class="key">Order ID</span><span class="val" style="font-family:var(--font-mono);font-size:12px;">${escapeHtml(o.orderId)}</span></div>
         <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
-        <div class="detail-row"><span class="key">Zone · Area</span><span class="val">${fmtZone(o.zone)} · ${escapeHtml(o.area)}</span></div>
         <div class="detail-row"><span class="key">What was ordered</span><span class="val">${escapeHtml(summary)}</span></div>
         ${notes}
-
         <form class="cost-form" data-order-id="${escapeHtml(o.orderId)}" autocomplete="off">
           <div class="cost-input-block">
             <div class="cost-input-label">Final laundry cost</div>
@@ -524,84 +742,112 @@
               <span class="currency">₦</span>
               <input type="number" name="finalCost" min="0" step="500" placeholder="0" inputmode="numeric" value="${o.finalLaundryCost > 0 ? o.finalLaundryCost : ''}" required />
             </div>
-            <textarea name="laundryNotes" class="notes-textarea" placeholder="Notes for admin (optional) — e.g. heavy stains, missing items, special handling…" rows="2"></textarea>
+            <textarea name="laundryNote" class="notes-textarea" placeholder="Notes for admin (optional) — heavy stains, missing items, special handling…" rows="2"></textarea>
           </div>
           <button type="submit" class="submit-btn">
-            <span class="btn-label">Save & Submit</span>
+            <span class="btn-label">Send to admin for review</span>
           </button>
         </form>
       </div>
-    ` : '';
+    `;
+  }
 
+  function washingDetail(o) {
     return `
-      <div class="order-card${isExpanded ? ' expanded' : ''}" data-order-id="${escapeHtml(o.orderId)}">
-        <div class="order-head" data-order-id="${escapeHtml(o.orderId)}">
-          <div>
-            <div class="order-id">${escapeHtml(o.orderId)}</div>
-            <div class="order-name">${escapeHtml(o.firstName || '—')}</div>
-            <div class="order-meta">${fmtDate(o.pickupDate)} · ${fmtZone(o.zone)}</div>
-          </div>
-          <div class="order-toggle">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-        </div>
-        ${detail}
+      <div class="order-detail">
+        <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
+        <div class="detail-row"><span class="key">Cost submitted</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
+        ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
+        <p style="font-size:13px; color:var(--brand-muted); margin:14px 0 0; text-align:center;">
+          ${o.costStatus === 'pending_review' ? 'Admin is reviewing your submission.' : 'Customer has been invoiced. Keep working — you can mark ready as soon as the laundry is done.'}
+        </p>
+      </div>
+    `;
+  }
+
+  function paymentDetail(o) {
+    return `
+      <div class="order-detail">
+        <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
+        <div class="detail-row"><span class="key">Final cost</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
+        ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
+        <p style="font-size:13px; color:var(--brand-muted); margin:14px 0 0; text-align:center;">
+          Customer has been billed and is yet to pay. You can keep working — mark ready when done.
+        </p>
+        <button class="ready-btn ready-btn-trigger" data-order-id="${escapeHtml(o.orderId)}">
+          <span class="btn-label">Mark ready for delivery →</span>
+        </button>
+      </div>
+    `;
+  }
+
+  function paidDetail(o) {
+    return `
+      <div class="order-detail">
+        <div class="detail-row"><span class="key">Picked up</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
+        <div class="detail-row"><span class="key">Final cost</span><span class="val">${fmtNaira(o.finalLaundryCost)}</span></div>
+        ${o.laundryNote ? `<div class="notes-block"><div class="notes-label">Your note to admin</div>${escapeHtml(o.laundryNote)}</div>` : ''}
+        <p style="font-size:13px; color:var(--brand-success); margin:14px 0 0; text-align:center; font-weight:500;">
+          Customer is fully paid. Mark ready as soon as the laundry is done.
+        </p>
+        <button class="ready-btn ready-btn-trigger" data-order-id="${escapeHtml(o.orderId)}">
+          <span class="btn-label">Mark ready for delivery →</span>
+        </button>
       </div>
     `;
   }
 
   function describeWhatWasOrdered(o) {
     const parts = [];
-    if (o.loadEnabled) parts.push((o.loads || 1) + ' Load' + ((o.loads || 1) > 1 ? 's' : ''));
-    if (o.careEnabled) parts.push('Care tab ' + fmtNaira(o.careTabPrepaid));
-    if (o.pickupOnly) parts.push('Pickup-only (cost on you to estimate)');
+    if (o.loadEnabled) parts.push((o.loads || 1) + ' Load' + ((o.loads || 1) > 1 ? 's' : '') + ' (Wash + Fold)');
+    if (o.careEnabled) parts.push('Care tab ' + fmtNaira(o.careTabPrepaid) + ' (Wash + Iron)');
+    if (o.pickupOnly) parts.push('Pickup-only · estimate the cost');
     if (!parts.length) parts.push('Mixed laundry');
     return parts.join(' · ');
   }
 
-  /* ============ SUBMIT COST ============ */
   async function submitCost(orderId, form) {
     const finalCost = Number(form.elements.finalCost.value);
-    const laundryNotes = (form.elements.laundryNotes.value || '').trim();
-
+    const laundryNote = (form.elements.laundryNote.value || '').trim();
     if (!finalCost || isNaN(finalCost) || finalCost <= 0) {
       showToast('Enter a valid amount', 'error');
       return;
     }
-
     const btn = form.querySelector('.submit-btn');
     const lbl = btn.querySelector('.btn-label');
-    btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span> Saving';
-
+    btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span> Sending';
     try {
-      await callBackend('submitFinalCost', {
-        orderId: orderId,
-        finalCost: finalCost,
-        laundryNotes: laundryNotes,
-      });
-
-      // Remove this order from the list (it's now invoiced)
-      allOrders = allOrders.filter(o => o.orderId !== orderId);
+      await callBackend('submitFinalCost', { orderId, finalCost, laundryNote });
+      showToast('Sent to admin for review.', 'success');
       expandedId = null;
-      renderOrders();
-      $('#page-sub').textContent = allOrders.length === 0
-        ? 'Nothing to invoice right now.'
-        : (allOrders.length === 1 ? '1 order ready' : allOrders.length + ' orders ready');
-
-      showToast('Saved. Invoice will go out shortly.', 'success');
+      await loadQueue();
     } catch (err) {
-      btn.disabled = false; lbl.textContent = 'Save & Submit';
+      btn.disabled = false; lbl.textContent = 'Send to admin for review';
       showToast(err.message || 'Save failed', 'error');
     }
   }
 
-  /* ============ REFRESH ============ */
+  async function markReady(orderId) {
+    const btn = document.querySelector(`.ready-btn-trigger[data-order-id="${CSS.escape(orderId)}"]`);
+    if (!btn) return;
+    const lbl = btn.querySelector('.btn-label');
+    btn.disabled = true; lbl.innerHTML = '<span class="spinner"></span> Marking';
+    try {
+      await callBackend('laundryMarkReady', { orderId });
+      showToast('Customer notified. Admin will dispatch shortly.', 'success');
+      expandedId = null;
+      await loadQueue();
+    } catch (err) {
+      btn.disabled = false; lbl.textContent = 'Mark ready for delivery →';
+      showToast(err.message || 'Failed', 'error');
+    }
+  }
+
   $('#refresh-btn').addEventListener('click', () => {
-    $('#orders-wrap').innerHTML = '<div class="loading-state"><span class="spinner"></span> Refreshing…</div>';
-    loadOrders();
+    $('#queue-wrap').innerHTML = '<div class="loading-state"><span class="spinner"></span> Refreshing…</div>';
+    loadQueue();
   });
 
-  /* ============ TOAST ============ */
   let toastTimer;
   function showToast(text, kind) {
     const t = $('#toast');
@@ -611,7 +857,6 @@
     toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
   }
 
-  /* ============ BOOT ============ */
   if (passcode) {
     tryLogin(passcode).then(ok => {
       if (ok) showApp();
