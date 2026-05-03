@@ -407,16 +407,25 @@
 
   let passcode = sessionStorage.getItem(STORAGE_KEY) || '';
   let allOrders = [];
-  let activeFilter = 'new';
+  let activeFilter = 'all';   // FIX: default to 'all' so the laundry guy sees everything sorted by urgency
   let expandedId = null;
 
+  /* Bucket priority — sort order in the 'all' view, lower = more urgent */
+  const BUCKET_PRIORITY = {
+    new:     0,  // awaiting cost entry — most urgent action
+    paid:    1,  // fully paid, mark ready as soon as wash is done
+    payment: 2,  // cost submitted, waiting on customer payment — laundry can keep working
+    washing: 3,  // admin reviewing or customer paying — passive
+    coming:  4,  // future pickups — heads-up only
+  };
+
   const FILTERS = [
-    { key: 'new',     label: 'New orders' },
-    { key: 'washing', label: 'Currently washing' },
-    { key: 'payment', label: 'Awaiting payment' },
-    { key: 'paid',    label: 'Paid · ready to mark' },
-    { key: 'coming',  label: 'Coming up' },
     { key: 'all',     label: 'All' },
+    { key: 'new',     label: 'New orders' },
+    { key: 'paid',    label: 'Paid · ready to mark' },
+    { key: 'payment', label: 'Awaiting payment' },
+    { key: 'washing', label: 'Currently washing' },
+    { key: 'coming',  label: 'Coming up' },
   ];
 
   function showGate() {
@@ -471,7 +480,7 @@
     showGate();
   });
 
-  let callBackend = async function(action, extra = {}) {
+  async function callBackend(action, extra = {}) {
     const res = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -486,7 +495,7 @@
     }
     if (data && data.ok === false) throw new Error(data.error || 'Request failed');
     return data;
-  };
+  }
 
   function fmtNaira(n) {
     if (n == null || isNaN(n) || n === '') return '—';
@@ -618,17 +627,32 @@
     const counts = countsByBucket();
     const activeLabel = (FILTERS.find(f => f.key === activeFilter) || {}).label || 'All';
     const activeCount = counts[activeFilter] || 0;
-    $('#page-sub').textContent = `${activeLabel} · ${activeCount} of ${total} total`;
+    if (activeFilter === 'all') {
+      $('#page-sub').textContent = `${total} order${total === 1 ? '' : 's'} · most urgent first`;
+    } else {
+      $('#page-sub').textContent = `${activeLabel} · ${activeCount} of ${total} total`;
+    }
   }
 
   function renderQueue() {
     const wrap = $('#queue-wrap');
-    const visible = allOrders.filter(o => {
-      const b = classifyOrder(o);
-      if (!b) return false;
-      if (activeFilter === 'all') return true;
-      return b === activeFilter;
-    });
+    let visible = allOrders
+      .map(o => ({ order: o, bucket: classifyOrder(o) }))
+      .filter(x => {
+        if (!x.bucket) return false;
+        if (activeFilter === 'all') return true;
+        return x.bucket === activeFilter;
+      });
+
+    /* FIX: sort 'all' view by bucket priority so urgent work bubbles to top */
+    if (activeFilter === 'all') {
+      visible.sort((a, b) => {
+        const pa = BUCKET_PRIORITY[a.bucket] ?? 99;
+        const pb = BUCKET_PRIORITY[b.bucket] ?? 99;
+        if (pa !== pb) return pa - pb;
+        return 0;  // same bucket: keep backend's order (oldest pickup first)
+      });
+    }
 
     if (visible.length === 0) {
       const emptyMessages = {
@@ -652,7 +676,7 @@
       return;
     }
 
-    wrap.innerHTML = '<div class="order-list">' + visible.map(o => orderCardHtml(o)).join('') + '</div>';
+    wrap.innerHTML = '<div class="order-list">' + visible.map(x => orderCardHtml(x.order)).join('') + '</div>';
 
     $$('.order-head[data-order-id]').forEach(h => {
       if (h.classList.contains('no-toggle')) return;
