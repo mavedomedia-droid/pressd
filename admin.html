@@ -1043,38 +1043,43 @@
       return;
     }
     body.innerHTML = rows.map(o => {
-      const stage = stageOf(o);
-      const meta = STAGE_META[stage] || { label: stage, cls: 'b-muted' };
-      const cta = nextCtaFor(o);
-      const upfront = o.bookingPaymentStatus === 'paid'
-        ? fmtNaira(o.bookingTotal)
-        : '<span style="color:var(--brand-muted);">' + (o.bookingPaymentStatus || 'pending') + '</span>';
-      const laundryCost = o.finalLaundryCost > 0 ? fmtNaira(o.finalLaundryCost) : '<span style="color:var(--brand-muted);">—</span>';
-      const diff = computeDifference(o);
+      try {
+        const stage = stageOf(o);
+        const meta = STAGE_META[stage] || { label: stage, cls: 'b-muted' };
+        const cta = nextCtaFor(o);
+        const upfront = o.bookingPaymentStatus === 'paid'
+          ? fmtNaira(o.bookingTotal)
+          : '<span style="color:var(--brand-muted);">' + (o.bookingPaymentStatus || 'pending') + '</span>';
+        const laundryCost = o.finalLaundryCost > 0 ? fmtNaira(o.finalLaundryCost) : '<span style="color:var(--brand-muted);">—</span>';
+        const diff = computeDifference(o);
 
-      let ctaHtml;
-      if (cta.available) {
-        const cls = cta.intent === 'warn' ? 'cta-warn' : (cta.intent === 'muted' ? 'cta-muted' : '');
-        ctaHtml = `<button class="cta-btn ${cls}" data-cta-action="${cta.action}" data-cta-order="${escapeHtml(o.orderId)}">${escapeHtml(cta.label)} →</button>`;
-      } else {
-        const cls = cta.intent === 'closed' ? 'cta-closed' : '';
-        ctaHtml = `<span class="cta-text ${cls}">${escapeHtml(cta.label)}</span>`;
+        let ctaHtml;
+        if (cta.available) {
+          const cls = cta.intent === 'warn' ? 'cta-warn' : (cta.intent === 'muted' ? 'cta-muted' : '');
+          ctaHtml = `<button class="cta-btn ${cls}" data-cta-action="${cta.action}" data-cta-order="${escapeHtml(o.orderId)}">${escapeHtml(cta.label)} →</button>`;
+        } else {
+          const cls = cta.intent === 'closed' ? 'cta-closed' : '';
+          ctaHtml = `<span class="cta-text ${cls}">${escapeHtml(cta.label)}</span>`;
+        }
+
+        return `
+          <tr data-order-id="${escapeHtml(o.orderId)}">
+            <td><span class="order-id">${escapeHtml(o.orderId)}</span></td>
+            <td>
+              <div class="customer-name">${escapeHtml(o.name || '—')}</div>
+              <div class="customer-meta">${escapeHtml(o.area || '')} · ${fmtWindow(o.pickupWindow)}</div>
+            </td>
+            <td class="col-hide-sm"><span class="badge ${meta.cls}">${meta.label}</span></td>
+            <td class="cta-cell">${ctaHtml}</td>
+            <td class="col-num col-hide-sm">${upfront}</td>
+            <td class="col-num col-hide-sm">${laundryCost}</td>
+            <td class="col-num col-hide-sm">${diff.html}</td>
+          </tr>
+        `;
+      } catch (err) {
+        console.error('Row render failed for', o && o.orderId, err);
+        return `<tr data-order-id="${escapeHtml(o && o.orderId || '?')}"><td colspan="7" style="color:var(--brand-danger);font-size:12px;padding:10px 16px;">⚠ Render error for ${escapeHtml(o && o.orderId || 'unknown')} — see console.</td></tr>`;
       }
-
-      return `
-        <tr data-order-id="${escapeHtml(o.orderId)}">
-          <td><span class="order-id">${escapeHtml(o.orderId)}</span></td>
-          <td>
-            <div class="customer-name">${escapeHtml(o.name || '—')}</div>
-            <div class="customer-meta">${escapeHtml(o.area || '')} · ${fmtWindow(o.pickupWindow)}</div>
-          </td>
-          <td class="col-hide-sm"><span class="badge ${meta.cls}">${meta.label}</span></td>
-          <td class="cta-cell">${ctaHtml}</td>
-          <td class="col-num col-hide-sm">${upfront}</td>
-          <td class="col-num col-hide-sm">${laundryCost}</td>
-          <td class="col-num col-hide-sm">${diff.html}</td>
-        </tr>
-      `;
     }).join('');
 
     body.querySelectorAll('tr').forEach(tr => {
