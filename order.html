@@ -58,6 +58,38 @@
   .pin-value { font-size: 30px; font-weight: 600; color: var(--brand-primary); letter-spacing: 0.05em; line-height: 1; }
   .pin-help { font-size: 11px; color: var(--brand-muted); margin-top: var(--s-2); line-height: 1.4; }
 
+  /* Dispatch round card + pop-up */
+  .round-card { background: #fff; border: 1.5px solid var(--brand-primary); border-radius: var(--r-lg); padding: var(--s-5) var(--s-6); margin-bottom: var(--s-4); }
+  .round-card .rc-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--brand-muted); font-weight: 600; margin-bottom: 6px; }
+  .round-card .rc-when { font-size: 20px; font-weight: 600; color: var(--brand-primary); letter-spacing: -0.01em; }
+  .round-card .rc-status { font-size: 13px; margin-top: 6px; color: var(--brand-muted); }
+  .round-card .rc-status strong { color: var(--brand-primary); }
+  .round-card .rc-actions { display: flex; gap: 8px; margin-top: var(--s-4); flex-wrap: wrap; }
+  .round-card .rc-actions .btn { flex: 1; min-width: 150px; padding: 13px 16px; font-size: 15px; }
+  .rd-overlay { position: fixed; inset: 0; background: rgba(42,31,31,0.55); z-index: 100; display: none; align-items: flex-end; justify-content: center; padding: 0; }
+  .rd-overlay.active { display: flex; }
+  @media (min-width: 640px) { .rd-overlay { align-items: center; padding: 20px; } }
+  .rd-modal { background: var(--brand-cream); width: 100%; max-width: 460px; border-radius: 24px 24px 0 0; padding: 26px 22px 28px; max-height: 92vh; overflow-y: auto; animation: rdUp .3s ease; }
+  @media (min-width: 640px) { .rd-modal { border-radius: 24px; } }
+  @keyframes rdUp { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .rd-badge { display: inline-block; background: var(--brand-accent); color: var(--brand-primary); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; margin-bottom: 12px; }
+  .rd-modal h3 { font-size: 24px; font-weight: 600; color: var(--brand-primary); letter-spacing: -0.02em; margin: 0 0 8px; line-height: 1.15; }
+  .rd-modal h3 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .rd-modal p { font-size: 15px; color: var(--brand-muted); line-height: 1.55; margin: 0 0 16px; }
+  .rd-modal p strong { color: var(--brand-primary); }
+  .rd-when { background: #fff; border: 1px solid var(--brand-line); border-radius: 16px; padding: 14px 16px; margin-bottom: 16px; }
+  .rd-when .d { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--brand-muted); font-weight: 600; }
+  .rd-when .w { font-size: 18px; font-weight: 600; color: var(--brand-primary); margin-top: 2px; }
+  .rd-btns { display: flex; flex-direction: column; gap: 10px; }
+  .rd-opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .rd-opt { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 1.5px solid var(--brand-line); border-radius: 14px; font-size: 15px; text-align: left; width: 100%; }
+  .rd-opt.on { border-color: var(--brand-primary); background: var(--brand-cream-deep); }
+  .rd-opt .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--brand-line); flex-shrink: 0; }
+  .rd-opt.on .dot { border-color: var(--brand-primary); background: radial-gradient(var(--brand-primary) 45%, transparent 50%); }
+  .rd-modal textarea { width: 100%; padding: 12px 14px; font-size: 16px; border: 1.5px solid var(--brand-line); border-radius: 14px; background: #fff; margin-bottom: 14px; resize: vertical; font-family: inherit; }
+  .rd-modal textarea:focus { outline: none; border-color: var(--brand-primary); }
+  .rd-close { display: block; margin: 14px auto 0; font-size: 14px; color: var(--brand-muted); text-decoration: underline; }
+
   /* Cancelled */
   .cancelled { background: var(--brand-cream-deep); border: 1px solid var(--brand-line); border-radius: var(--r-lg); padding: var(--s-8); text-align: center; margin-bottom: var(--s-4); }
   .cancelled h3 { font-weight: 600; font-size: 20px; color: var(--brand-primary); margin: 0 0 var(--s-2); }
@@ -112,6 +144,9 @@
       <p>This order has been cancelled. If that was a mistake, please reach out.</p>
     </div>
 
+    <!-- Dispatch round -->
+    <div class="round-card hidden" id="round-card"></div>
+
     <!-- Unpaid booking OR balance due -->
     <div class="pay-panel hidden" id="pay-panel">
       <h3 id="pay-title">Complete <em>payment</em></h3>
@@ -137,7 +172,7 @@
 
     <div class="card">
       <div class="card-title">Pickup details</div>
-      <div class="kv"><span class="k">Pickup window</span><span class="v" id="d-window">—</span></div>
+      <div class="kv"><span class="k">Preferred window</span><span class="v" id="d-window">—</span></div>
       <div class="kv"><span class="k">Pickup address</span><span class="v" id="d-address">—</span></div>
       <div class="kv"><span class="k">Estimated delivery</span><span class="v"><span data-cfg="TURNAROUND">48–72 hrs</span> after pickup</span></div>
       <div class="kv"><span class="k">Paid at booking</span><span class="v" id="d-paid">—</span></div>
@@ -149,6 +184,11 @@
 
 <div data-pressd-footer></div>
 
+<!-- Dispatch round pop-up -->
+<div class="rd-overlay" id="rd-overlay" role="dialog" aria-modal="true">
+  <div class="rd-modal" id="rd-modal"></div>
+</div>
+
 <script>
 (function () {
   'use strict';
@@ -157,6 +197,9 @@
   var q = new URLSearchParams(location.search);
   var orderId = (q.get('id') || q.get('order') || q.get('reference') || q.get('trxref') || '').trim().toUpperCase().replace(/-2$/, '').split('-')[0];
   var current = null;
+  var roundToken = q.get('r') || '';
+  var roundAnswer = (q.get('a') || '').toLowerCase();
+  var roundHandled = false;
 
   var I = {
     booking:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
@@ -172,11 +215,11 @@
     var paid = o.bookingPaymentStatus === 'paid';
     var steps = [
       { label: paid ? 'Booking paid' : 'Booking confirmed', meta: paid ? fmtDate(o.bookingPaidAt) : 'Awaiting payment', icon: I.booking, done: paid },
-      { label: 'Pickup scheduled', meta: o.pickupScheduledFor ? fmtDate(o.pickupScheduledFor) : Pressd.fmtWindow(o.pickupWindow), icon: I.calendar, done: !!o.pickupScheduledFor || (paid && !!o.pickupWindow) },
+      { label: o.pickupScheduledFor ? 'Pickup scheduled' : 'Pickup slot', meta: o.pickupScheduledFor ? fmtDate(o.pickupScheduledFor) : 'We will confirm your exact slot', icon: I.calendar, done: !!o.pickupScheduledFor },
       { label: 'Picked up', meta: fmtDate(o.pickupDate), icon: I.truck, done: o.pickupStatus === 'picked_up' && !!o.pickupDate },
       { label: 'Being processed', meta: o.invoiceSentAt ? fmtDate(o.invoiceSentAt) : '', icon: I.wash, done: o.costStatus === 'confirmed' || (o.invoiceStatus && o.invoiceStatus !== 'not_invoiced') },
       { label: (o.secondPaymentStatus === 'paid' || o.invoiceStatus === 'paid_in_full') ? 'Balance paid' : 'Balance payment', meta: fmtDate(o.secondPaidAt), icon: I.booking, done: o.secondPaymentStatus === 'paid' || o.invoiceStatus === 'paid_in_full', skipped: o.invoiceStatus === 'paid_in_full' && o.secondPaymentStatus !== 'paid' },
-      { label: 'Ready for delivery', meta: fmtDate(o.orderReadyAt), icon: I.box, done: !!o.orderReadyAt },
+      { label: 'Ready for delivery', meta: o.orderReadyAt ? fmtDate(o.orderReadyAt) + (o.deliveryScheduledFor && !o.outForDeliveryAt ? ' · delivery ' + fmtDate(o.deliveryScheduledFor) : '') : '', icon: I.box, done: !!o.orderReadyAt },
       { label: 'Out for delivery', meta: fmtDate(o.outForDeliveryAt), icon: I.ship, done: !!o.outForDeliveryAt },
       { label: 'Delivered', meta: fmtDate(o.deliveryDate), icon: I.home, done: o.deliveryStatus === 'delivered' && !!o.deliveryDate },
     ];
@@ -195,6 +238,7 @@
     $('d-paid').textContent = o.bookingPaymentStatus === 'paid' ? fmtNaira(o.bookingTotal) : 'Not yet';
 
     $('cancelled-banner').classList.toggle('hidden', !cancelled);
+    renderRound(o, cancelled);
     $('timeline-card').classList.toggle('hidden', cancelled);
     $('pay-panel').classList.add('hidden');
     $('pins-card').classList.add('hidden');
@@ -225,6 +269,131 @@
       $('pickup-pin-card').classList.toggle('spent', o.pickupStatus === 'picked_up');
     }
   }
+
+  /* ---------------- Dispatch round ---------------- */
+  var WIN = Pressd.WINDOWS;
+  function roundLive(o) {
+    return o.roundId && o.roundStartsAt && new Date(o.roundStartsAt).getTime() > Date.now() - 6 * 3600 * 1000;
+  }
+  function roundDay(o) {
+    return new Date(o.roundStartsAt).toLocaleDateString('en-NG', { weekday: 'long', day: 'numeric', month: 'short' });
+  }
+  function needsPay(o) {
+    if (o.roundLeg === 'pickup') return o.bookingPaymentStatus !== 'paid';
+    return o.invoiceStatus === 'balance_due' && o.secondPaymentStatus !== 'paid';
+  }
+  function amountDue(o) {
+    return o.roundLeg === 'pickup' ? o.bookingTotal : Math.max(0, o.finalLaundryCost - o.additionalCostPaid);
+  }
+
+  function renderRound(o, cancelled) {
+    var card = $('round-card');
+    if (cancelled || !roundLive(o)) { card.classList.add('hidden'); return; }
+    var leg = o.roundLeg === 'delivery' ? 'Delivery' : 'Pickup';
+    var status = o.roundResponse === 'yes' ? '<strong>You confirmed.</strong> See you then.'
+      : o.roundResponse === 'no' ? 'You said this doesn\'t work' + (o.roundPreferredWindow && WIN[o.roundPreferredWindow] ? ' and prefer <strong>' + WIN[o.roundPreferredWindow].label + '</strong>' : '') + '. We will reach out with a new slot.'
+      : 'No reply yet, so we will come then unless you tell us otherwise.';
+    if (needsPay(o) && o.roundResponse !== 'no') status += '<br><strong>Pay ' + fmtNaira(amountDue(o)) + ' to join this round.</strong>';
+    card.innerHTML = '<div class="rc-label">' + leg + ' round</div>' +
+      '<div class="rc-when">' + esc(roundDay(o)) + ', ' + esc(o.roundWindow) + '</div>' +
+      '<div class="rc-status">' + status + '</div>' +
+      (roundToken ? '<div class="rc-actions">' +
+        (o.roundResponse !== 'yes' ? '<button class="btn btn-primary" data-rd="yes">' + (needsPay(o) ? 'Pay and join' : 'Yes, that works') + '</button>' : '') +
+        (o.roundResponse !== 'no' ? '<button class="btn btn-ghost" data-rd="no">That doesn\'t work</button>' : '') +
+        '</div>' : '');
+    card.classList.remove('hidden');
+
+    if (roundToken && !roundHandled) {
+      roundHandled = true;
+      if (roundAnswer === 'yes') sendRound('yes');
+      else if (roundAnswer === 'no') rdNoForm();
+      else if (o.roundResponse === 'pending') rdAsk();
+    }
+  }
+
+  function rdOpen(html) { $('rd-modal').innerHTML = html; $('rd-overlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function rdClose() { $('rd-overlay').classList.remove('active'); document.body.style.overflow = ''; }
+  $('rd-overlay').addEventListener('click', function (e) { if (e.target.id === 'rd-overlay') rdClose(); });
+  function whenBlock(o) {
+    return '<div class="rd-when"><div class="d">' + esc(roundDay(o)) + '</div><div class="w">' + esc(o.roundWindow) + '</div></div>';
+  }
+
+  function rdAsk() {
+    var o = current, isDel = o.roundLeg === 'delivery';
+    rdOpen('<span class="rd-badge">' + (isDel ? 'Delivery round' : 'Pickup round') + '</span>' +
+      '<h3>Can we ' + (isDel ? 'deliver' : 'come') + ' <em>then?</em></h3>' +
+      '<p>' + (isDel ? 'Your laundry is ready. We are doing a round of deliveries in this window.'
+        : 'You chose <strong>' + esc(Pressd.fmtWindow(o.pickupWindow)) + '</strong>, but we are doing a round of pickups in this window.') + '</p>' +
+      whenBlock(o) +
+      '<div class="rd-btns"><button class="btn btn-primary btn-block" data-rd="yes">' + (needsPay(o) ? 'Pay ' + fmtNaira(amountDue(o)) + ' and join' : (isDel ? 'Yes, deliver then' : 'Yes, pick up then')) + '</button>' +
+      '<button class="btn btn-ghost btn-block" data-rd="no">That doesn\'t work for me</button></div>' +
+      '<button class="rd-close" data-rd="close">Decide later</button>');
+  }
+
+  function rdNoForm() {
+    var o = current;
+    rdOpen('<span class="rd-badge">No problem</span><h3>What works <em>better?</em></h3>' +
+      '<p>Pick the time of day that suits you. We will reach out with a new slot.</p>' +
+      '<div class="rd-opts" id="rd-opts">' + Object.keys(WIN).map(function (k) {
+        return '<button type="button" class="rd-opt" data-win="' + k + '"><span class="dot"></span><span><strong>' + WIN[k].label + '</strong> · ' + WIN[k].time + '</span></button>';
+      }).join('') + '</div>' +
+      '<textarea id="rd-note" rows="2" maxlength="300" placeholder="Anything else? e.g. Any day after Wednesday"></textarea>' +
+      '<div class="form-error hidden" id="rd-err" style="margin:0 0 12px;"></div>' +
+      '<button class="btn btn-primary btn-block" data-rd="send-no">Send</button>' +
+      '<button class="rd-close" data-rd="back">Actually, ' + (o.roundLeg === 'delivery' ? 'deliver' : 'pick up') + ' then</button>');
+  }
+
+  function rdDoneYes(o) {
+    var pay = needsPay(o);
+    rdOpen('<span class="rd-badge">You\'re in</span><h3>See you <em>then.</em></h3>' + whenBlock(o) +
+      (pay ? '<p>One step left: pay <strong>' + fmtNaira(amountDue(o)) + '</strong> to lock in your spot on this round.</p>' +
+        '<button class="btn btn-primary btn-block" data-rd="pay">Pay ' + fmtNaira(amountDue(o)) + ' now</button>'
+        : '<p>' + (o.roundLeg === 'delivery' ? 'Have someone home to receive the bag. Your Delivery PIN is <strong>' + esc(o.deliveryPin) + '</strong>.'
+          : 'Have your laundry bagged and ready. Your Pickup PIN is <strong>' + esc(o.pickupPin) + '</strong>.') + '</p>' +
+        '<button class="btn btn-primary btn-block" data-rd="close">Done</button>'));
+  }
+
+  function rdDoneNo() {
+    rdOpen('<span class="rd-badge">Got it</span><h3>We\'ll find you a <em>better slot.</em></h3>' +
+      '<p>Thanks for letting us know. We will reach out with a new time.</p>' +
+      '<button class="btn btn-primary btn-block" data-rd="close">Done</button>');
+  }
+
+  function sendRound(answer, extra) {
+    var payload = Object.assign({ orderId: current.orderId, token: roundToken, answer: answer }, extra || {});
+    if (answer === 'yes') rdOpen('<div class="state-icon" style="margin:20px auto;"><span class="spinner"></span></div><p style="text-align:center;">Saving…</p>');
+    return Pressd.api('respondDispatch', payload).then(function (r) {
+      if (!r || !r.ok) throw new Error((r && r.error) || 'Could not save');
+      render(r.order);
+      Pressd.track('dispatch_round_response', { order_id: r.order.orderId, answer: answer, leg: r.order.roundLeg });
+      if (answer === 'yes') rdDoneYes(r.order); else rdDoneNo();
+      history.replaceState({}, '', location.pathname + '?id=' + encodeURIComponent(r.order.orderId) + '&r=' + encodeURIComponent(roundToken));
+    }).catch(function (e) {
+      if (answer === 'yes') rdOpen('<span class="rd-badge">Hmm</span><h3>That didn\'t <em>save.</em></h3><p>' + esc(e.message) + '</p><button class="btn btn-primary btn-block" data-rd="yes">Try again</button><button class="rd-close" data-rd="close">Close</button>');
+      else { var el = $('rd-err'); if (el) { el.textContent = e.message; el.classList.remove('hidden'); } }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-rd]');
+    if (b) {
+      var act = b.getAttribute('data-rd');
+      if (act === 'yes' || act === 'back') sendRound('yes');
+      else if (act === 'no') rdNoForm();
+      else if (act === 'close') rdClose();
+      else if (act === 'pay') { rdClose(); var pb = $('pay-btn'); if (pb && !$('pay-panel').classList.contains('hidden')) pb.click(); }
+      else if (act === 'send-no') {
+        var on = document.querySelector('.rd-opt.on');
+        b.disabled = true;
+        sendRound('no', { preferredWindow: on ? on.getAttribute('data-win') : '', note: ($('rd-note') || {}).value || '' }).then(function () { b.disabled = false; });
+      }
+      return;
+    }
+    var opt = e.target.closest('.rd-opt');
+    if (opt) {
+      Array.prototype.forEach.call(document.querySelectorAll('.rd-opt'), function (x) { x.classList.toggle('on', x === opt); });
+    }
+  });
 
   $('pay-btn').addEventListener('click', function () {
     var btn = this, type = btn.dataset.type, err = $('pay-error');
