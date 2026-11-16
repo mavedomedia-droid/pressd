@@ -66,10 +66,10 @@
     root.innerHTML =
       '<div class="success-icon">' + ICON.tick + '</div>' +
       '<h1 class="page-headline">Pickup <em>locked in.</em></h1>' +
-      '<p class="page-lede">' + (o.name ? 'Thanks ' + esc(o.name) + '. ' : '') + 'Payment received. A rider will message you on WhatsApp the day before pickup.</p>' +
+      '<p class="page-lede">' + (o.name ? 'Thanks ' + esc(o.name) + '. ' : '') + 'Payment received. We will email you to confirm your exact pickup slot.</p>' +
       '<div class="order-id-box"><div class="order-id-label">Order ID</div><div class="order-id-value">' + esc(o.orderId) + '</div></div>' +
       '<div class="card">' +
-        kv('Pickup window', esc(Pressd.fmtWindow(o.pickupWindow)), 'hl') +
+        kv('Preferred window', esc(Pressd.fmtWindow(o.pickupWindow)), 'hl') +
         kv('Area', esc([o.area, o.zone === 'island' ? 'Island' : 'Mainland'].filter(Boolean).join(' · '))) +
         kv('Pickup days', esc(CFG.PICKUP_DAYS)) +
         kv('Delivery', esc(CFG.TURNAROUND) + ' after pickup') +
@@ -80,8 +80,8 @@
       (o.pickupOnly ? '<div class="callout callout-warn">' + ICON.info + '<div><strong>You chose pickup only.</strong> After we sort your laundry, we email you the cost with a payment link.</div></div>' : '') +
       '<div class="next-card"><h3>What happens next</h3><ul>' +
         '<li>Your receipt and PINs are in your inbox</li>' +
-        '<li>A rider messages you the day before pickup</li>' +
-        '<li>Have your laundry ready by the start of your window</li>' +
+        '<li>We email you to confirm your exact pickup slot</li>' +
+        '<li>Have your laundry ready by the start of that slot</li>' +
         '<li>We deliver back to the same address within ' + esc(CFG.TURNAROUND) + '</li>' +
       '</ul></div>' +
       '<div class="actions">' +
