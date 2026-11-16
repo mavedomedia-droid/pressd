@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-no-gtm>
 <head>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+<meta name="robots" content="noindex, nofollow" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <meta name="theme-color" content="#643C3C" />
@@ -91,7 +93,7 @@
     width: 100%; padding: 14px 16px;
     border: 1.5px solid var(--brand-line);
     border-radius: var(--r-md); background: #fff;
-    color: var(--brand-ink); margin-bottom: 12px;
+    color: var(--brand-ink); margin-bottom: 12px; font-size: 16px;
   }
   .gate input:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(100,60,60,0.08); }
   .gate button {
@@ -397,7 +399,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="pressd-config.js"></script>
+<script src="/js/config.js"></script>
 <script>
   const APPS_SCRIPT_URL = (window.PRESSD_CONFIG && window.PRESSD_CONFIG.APPS_SCRIPT_URL) || '';
   const STORAGE_KEY = 'pressd_laundry_passcode';
@@ -766,7 +768,7 @@
               <span class="currency">₦</span>
               <input type="number" name="finalCost" min="0" step="any" placeholder="0" inputmode="numeric" value="${o.finalLaundryCost > 0 ? o.finalLaundryCost : ''}" required />
             </div>
-            <textarea name="laundryNote" class="notes-textarea" placeholder="Notes for admin (optional) — heavy stains, missing items, special handling…" rows="2"></textarea>
+            <textarea name="laundryNote" class="notes-textarea" placeholder="Notes for admin (optional): heavy stains, missing items, special handling…" rows="2"></textarea>
           </div>
           <button type="submit" class="submit-btn">
             <span class="btn-label">Send to admin for review</span>

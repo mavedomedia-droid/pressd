@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-no-gtm>
 <head>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+<meta name="robots" content="noindex, nofollow" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#643C3C" />
@@ -94,7 +96,7 @@
     width: 100%; padding: 14px 16px;
     border: 1.5px solid var(--brand-line);
     border-radius: var(--r-md); background: #fff;
-    color: var(--brand-ink); margin-bottom: 12px;
+    color: var(--brand-ink); margin-bottom: 12px; font-size: 16px;
   }
   .gate input:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(100,60,60,0.08); }
   .gate button {
@@ -163,7 +165,7 @@
   }
   .search-input {
     flex: 1; min-width: 200px; max-width: 280px;
-    padding: 8px 12px; font-size: 13px;
+    padding: 8px 12px; font-size: 16px;
     background: #fff; border: 1px solid var(--brand-line);
     border-radius: var(--r-pill); color: var(--brand-ink);
   }
@@ -422,7 +424,7 @@
     width: 100%; padding: 12px 14px;
     border: 1.5px solid var(--brand-line);
     border-radius: var(--r-md); background: #fff;
-    color: var(--brand-ink); font-size: 14px;
+    color: var(--brand-ink); font-size: 16px;
     margin-bottom: 16px; font-family: inherit;
   }
   .modal textarea { resize: vertical; min-height: 80px; }
@@ -765,7 +767,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="pressd-config.js"></script>
+<script src="/js/config.js"></script>
 <script>
   /* ============================================================
      PRESSD ADMIN — frontend script

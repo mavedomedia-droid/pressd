@@ -1,0 +1,4 @@
+# Old Paystack callback + old email links keep working. Query string is passed through.
+/thank-you.html   /thank-you/payment/   301
+/thank-you        /thank-you/payment/   301
+/book             /#book                302
