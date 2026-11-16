@@ -699,7 +699,7 @@
 <div class="modal-overlay" id="ready-modal">
   <div class="modal">
     <h3>Mark ready for delivery?</h3>
-    <p class="modal-sub">The laundry is washed, dried, folded and packed. No customer email is sent for this step.</p>
+    <p class="modal-sub">The laundry is washed, dried, folded and packed. The customer gets a "your laundry is ready" email.</p>
     <div class="modal-actions">
       <button class="btn btn-ghost" data-modal-close="ready-modal">Cancel</button>
       <button class="btn btn-primary" id="ready-confirm">Mark ready</button>
@@ -737,6 +737,26 @@
 </div>
 
 <!-- 7. Cancel order -->
+<div class="modal-overlay" id="paid-modal">
+  <div class="modal">
+    <h3>Mark booking paid</h3>
+    <p class="modal-sub">For payments outside Paystack. The customer gets the normal payment receipt with both PINs.</p>
+    <label>How did they pay?</label>
+    <select id="paid-method">
+      <option value="transfer">Bank transfer</option>
+      <option value="cash">Cash</option>
+      <option value="pos">POS</option>
+    </select>
+    <label style="margin-top:12px;">Note (optional)</label>
+    <textarea id="paid-note" rows="2" placeholder="e.g. Transfer from Ada O., GTB, 4:12pm"></textarea>
+    <div class="modal-warn" id="paid-amount-line">Confirm you have received the money before marking paid.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-modal-close="paid-modal">Cancel</button>
+      <button class="btn btn-primary" id="paid-confirm">Mark paid</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="cancel-modal">
   <div class="modal">
     <h3>Cancel order</h3>
@@ -935,7 +955,7 @@
     const stage = stageOf(o);
     switch (stage) {
       case 'awaiting_payment':
-        return { label: 'Awaiting payment', action: null, available: false, intent: 'waiting' };
+        return { label: 'Mark booking paid (transfer / cash)', action: 'markBookingPaid', available: true, intent: 'muted' };
       case 'pickup_paid':
         return { label: 'Schedule pickup', action: 'schedulePickup', available: true, intent: 'primary' };
       case 'pickup_scheduled':
@@ -1205,16 +1225,24 @@
       : null;
 
     // FIX: removed the no-op "Edit details" button. Show a tip line instead.
-    const otherActionsHtml = cancelable
+    const unpaid = stage === 'awaiting_payment';
+    const followUpHtml = unpaid
+      ? `<div class="drawer-actions-row">
+           <button class="drawer-action-btn" data-drawer-action="waPayLink"${waNum ? '' : ' disabled'}>WhatsApp pay link</button>
+           <button class="drawer-action-btn" data-drawer-action="copyPayLink">Copy pay link</button>
+         </div>`
+      : '';
+    const otherActionsHtml = followUpHtml + (cancelable
       ? `<div class="drawer-actions-row">
            <button class="drawer-action-btn danger" data-drawer-action="cancelOrder">Cancel order</button>
          </div>`
-      : '';
+      : '');
 
     return `
       <div class="badges-row">
         <span class="badge ${stageMeta.cls}">${stageMeta.label}</span>
         ${o.pickupOnly ? '<span class="badge b-muted">Pickup-only</span>' : ''}
+        ${o.customerOrderNumber > 1 ? `<span class="badge b-info">Repeat · order #${o.customerOrderNumber}</span>` : (o.customerOrderNumber === 1 ? '<span class="badge b-muted">First order</span>' : '')}
         ${o.bookingPaymentStatus === 'paid' ? '<span class="badge b-success">Booking paid</span>' : ''}
         ${o.secondPaymentStatus === 'paid' ? '<span class="badge b-success">Balance paid</span>' : ''}
       </div>
@@ -1310,6 +1338,15 @@
       </div>
 
       <div class="panel">
+        <div class="panel-title">Source</div>
+        <div class="row"><span class="key">Landing area</span><span class="val">${escapeHtml(o.landingArea) || '—'}</span></div>
+        <div class="row"><span class="key">UTM source</span><span class="val">${escapeHtml(o.utmSource) || (o.source ? escapeHtml(o.source) + ' (direct)' : '—')}</span></div>
+        <div class="row"><span class="key">UTM medium</span><span class="val">${escapeHtml(o.utmMedium) || '—'}</span></div>
+        <div class="row"><span class="key">Campaign</span><span class="val">${escapeHtml(o.utmCampaign) || '—'}</span></div>
+        <div class="row"><span class="key">Ad click ID</span><span class="val">${o.clickId ? 'Captured' : '—'}</span></div>
+      </div>
+
+      <div class="panel">
         <div class="panel-title">Audit</div>
         <div class="row"><span class="key">Created</span><span class="val">${fmtDate(o.createdAt)}</span></div>
         <div class="row"><span class="key">Booking paid at</span><span class="val">${fmtDate(o.bookingPaidAt)}</span></div>
@@ -1350,6 +1387,9 @@
       case 'markOutForDelivery':   return openOfdModal(order);
       case 'markDelivered':        return openDeliveredModal(order);
       case 'cancelOrder':          return openCancelModal(order);
+      case 'markBookingPaid':      return openPaidModal(order);
+      case 'copyPayLink':          return copyPayLink(order);
+      case 'waPayLink':            return whatsappPayLink(order);
       default: console.warn('Unknown action:', action);
     }
   }
@@ -1501,7 +1541,7 @@
       const data = await callBackend('markOrderReady', { orderId: activeActionOrder.orderId });
       updateOrderInPlace(data.order);
       closeAllModals();
-      showToast('Marked ready for delivery.', 'success');
+      showToast('Marked ready. Customer notified.', 'success');
     } catch (err) {
       showToast(err.message || 'Failed.', 'error');
     } finally {
@@ -1549,6 +1589,50 @@
   });
 
   /* ============ MODAL: CANCEL ORDER ============ */
+  /* ============ UNPAID BOOKINGS: mark paid by hand + follow-up ============ */
+  function payLinkFor(o) {
+    const site = ((window.PRESSD_CONFIG && window.PRESSD_CONFIG.SITE_URL) || location.origin + '/').replace(/\/+$/, '');
+    return site + '/order.html?id=' + encodeURIComponent(o.orderId);
+  }
+  function payMessageFor(o) {
+    const first = String(o.name || '').trim().split(/\s+/)[0] || 'there';
+    return 'Hi ' + first + ', your Pressd booking ' + o.orderId + ' is saved. Pay ' + fmtNaira(o.bookingTotal) +
+      ' here to lock in your pickup: ' + payLinkFor(o);
+  }
+  async function copyPayLink(o) {
+    try { await navigator.clipboard.writeText(payMessageFor(o)); showToast('Pay message copied.', 'success'); }
+    catch (e) { window.prompt('Copy this message:', payMessageFor(o)); }
+  }
+  function whatsappPayLink(o) {
+    const n = cleanPhone(o.phoneWhatsapp);
+    if (!n) { showToast('No WhatsApp number on this order.', 'error'); return; }
+    window.open('https://wa.me/' + n + '?text=' + encodeURIComponent(payMessageFor(o)), '_blank', 'noopener');
+  }
+
+  function openPaidModal(o) {
+    $('#paid-method').value = 'transfer';
+    $('#paid-note').value = '';
+    $('#paid-amount-line').textContent = 'Confirm you have received ' + fmtNaira(o.bookingTotal) + ' before marking paid.';
+    $('#paid-modal').classList.add('active');
+  }
+  $('#paid-confirm').addEventListener('click', async () => {
+    if (!activeActionOrder) return;
+    const btn = $('#paid-confirm');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving';
+    try {
+      const data = await callBackend('markBookingPaid', {
+        orderId: activeActionOrder.orderId, method: $('#paid-method').value, note: $('#paid-note').value.trim(),
+      });
+      updateOrderInPlace(data.order);
+      closeAllModals();
+      showToast('Marked paid. Receipt sent to customer.', 'success');
+    } catch (err) {
+      showToast(err.message || 'Failed.', 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Mark paid';
+    }
+  });
+
   function openCancelModal(o) {
     $('#cancel-reason').value = '';
     $('#cancel-modal').classList.add('active');
