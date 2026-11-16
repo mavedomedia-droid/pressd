@@ -25,7 +25,7 @@ window.PRESSD_CONFIG = {
   SITE_URL: 'https://pressdng.netlify.app/',
 
   /* ---- Backend ---------------------------------------------------------- */
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwlzwb__G0FGiLsB-8fCGfnRKLpAglojA93-a_UJQRSTW_0UVQIgCuIIVKMYtdPZ49B/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzWl6tbopagAG9Lu5Sf8TWpzY-T7ilh_21P5prXrmUkvguOXEAlXRpYH8S5zmwUZsD9/exec',
 
   /* ---- Tracking --------------------------------------------------------- */
   GTM_ID: 'GTM-NK68TBMQ',
