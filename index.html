@@ -1787,9 +1787,10 @@
       $('#booked-order-link').href = (PATHS.ORDER || '/order.html') + '?id=' + encodeURIComponent(res.orderId);
       showStep('booked');
     }).catch(function (e) {
-      err.innerHTML = 'We could not place your booking. ' + helpLine();
+      err.innerHTML = 'We could not place your booking. ' + helpLine() +
+        '<br><small style="opacity:.75;">Reason: ' + esc((e && e.message) || 'unknown') + '</small>';
       err.classList.remove('hidden');
-      console.error(e);
+      console.error('createOrder failed:', e);
     }).then(function () { setLoading(btn, false, 'Confirm booking'); });
   });
 
@@ -1821,8 +1822,8 @@
       if (!r || !r.ok) throw new Error(r && r.error);
       state.paymentLink = r.paymentLink; state.accessCode = r.accessCode;
       openCheckout();
-    }).catch(function () {
-      $('#pay-error').innerHTML = 'Payment could not open. ' + helpLine();
+    }).catch(function (e) {
+      $('#pay-error').innerHTML = 'Payment could not open. ' + helpLine() + '<br><small style="opacity:.75;">Reason: ' + esc((e && e.message) || 'unknown') + '</small>';
       $('#pay-error').classList.remove('hidden');
     }).then(function () { setLoading(btn, false, 'Pay ' + fmtNaira(state.totalAmount) + ' now'); });
   });
