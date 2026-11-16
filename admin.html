@@ -532,6 +532,63 @@
     .cta-cell { min-width: 140px; }
     .cta-btn { font-size: 11px; padding: 6px 12px; }
   }
+
+  /* ============ DISPATCH FRENZY ============ */
+  .topbar-actions button.frenzy-btn { background: var(--brand-accent); color: var(--brand-primary); font-weight: 600; }
+  .topbar-actions button.frenzy-btn:hover { background: var(--brand-accent-deep); }
+  .frenzy { position: fixed; inset: 0; z-index: 60; background: var(--brand-cream); display: none; flex-direction: column; }
+  .frenzy.active { display: flex; }
+  .fz-head { background: var(--brand-primary); color: var(--brand-accent); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .fz-title { font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .fz-title em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .fz-tabs { display: flex; gap: 6px; }
+  .fz-tab { background: rgba(210,230,180,0.15); color: var(--brand-accent); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; }
+  .fz-tab.active { background: var(--brand-accent); color: var(--brand-primary); }
+  .fz-close { background: rgba(210,230,180,0.15); color: var(--brand-accent); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; }
+  .fz-body { flex: 1; overflow-y: auto; padding: 20px 24px 120px; max-width: 1100px; width: 100%; margin: 0 auto; }
+  .fz-card { background: #fff; border: 1px solid var(--brand-line); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+  .fz-card h4 { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--brand-muted); font-weight: 600; }
+  .fz-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 2fr; gap: 12px; }
+  @media (max-width: 760px) { .fz-grid { grid-template-columns: 1fr 1fr; } .fz-body { padding: 16px 14px 140px; } .fz-head { flex-wrap: wrap; } }
+  .fz-grid label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 6px; color: var(--brand-ink); }
+  .fz-grid input, .fz-grid select, .fz-filters select {
+    width: 100%; padding: 11px 12px; font-size: 16px; font-family: inherit;
+    border: 1.5px solid var(--brand-line); border-radius: 12px; background: #fff; color: var(--brand-ink);
+  }
+  .fz-grid input:focus, .fz-grid select:focus { outline: none; border-color: var(--brand-primary); }
+  .fz-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .fz-chip { padding: 7px 12px; border-radius: 999px; font-size: 13px; border: 1px solid var(--brand-line); background: #fff; color: var(--brand-ink); }
+  .fz-chip.active { background: var(--brand-primary); color: var(--brand-accent); border-color: var(--brand-primary); }
+  .fz-filters select { width: auto; min-width: 160px; padding: 7px 10px; }
+  .fz-group { margin-bottom: 14px; }
+  .fz-group-head { display: flex; align-items: center; gap: 10px; padding: 10px 4px; font-size: 14px; font-weight: 600; color: var(--brand-primary); }
+  .fz-group-head .count { font-weight: 500; color: var(--brand-muted); font-size: 13px; }
+  .fz-row { display: grid; grid-template-columns: 28px 130px 1fr 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; background: #fff; border: 1px solid var(--brand-line); border-radius: 12px; margin-bottom: 6px; font-size: 13px; cursor: pointer; }
+  .fz-row:hover { border-color: var(--brand-primary); }
+  .fz-row.on { border-color: var(--brand-primary); box-shadow: 0 0 0 2px rgba(100,60,60,0.08); }
+  @media (max-width: 760px) { .fz-row { grid-template-columns: 24px 1fr auto; } .fz-row .fz-addr, .fz-row .fz-id { display: none; } }
+  .fz-row input[type=checkbox], .fz-group-head input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--brand-primary); }
+  .fz-id { font-family: var(--font-mono); font-size: 12px; color: var(--brand-muted); }
+  .fz-who strong { display: block; color: var(--brand-ink); }
+  .fz-who span, .fz-addr { color: var(--brand-muted); font-size: 12px; }
+  .fz-tag { font-size: 11px; padding: 3px 8px; border-radius: 999px; white-space: nowrap; background: var(--brand-cream-deep); color: var(--brand-muted); }
+  .fz-tag.warn { background: var(--brand-warning-bg); color: var(--brand-warning); }
+  .fz-tag.ok { background: var(--brand-success-bg); color: var(--brand-success); }
+  .fz-tag.bad { background: var(--brand-danger-bg); color: var(--brand-danger); }
+  .fz-empty { padding: 14px; color: var(--brand-muted); font-size: 13px; }
+  .fz-foot { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--brand-line); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 61; }
+  .fz-foot .meta { font-size: 13px; color: var(--brand-muted); }
+  .fz-foot .meta strong { color: var(--brand-primary); }
+  .fz-round { background: #fff; border: 1px solid var(--brand-line); border-radius: 16px; margin-bottom: 14px; overflow: hidden; }
+  .fz-round-head { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--brand-line); }
+  .fz-round-head h5 { margin: 0; font-size: 16px; color: var(--brand-primary); }
+  .fz-round-head .sub { font-size: 12px; color: var(--brand-muted); margin-top: 2px; }
+  .fz-stats { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fz-rrow { display: grid; grid-template-columns: 90px 1fr 1fr 1.3fr; gap: 10px; padding: 10px 18px; border-bottom: 1px solid var(--brand-line); font-size: 13px; align-items: start; }
+  .fz-rrow:last-child { border-bottom: none; }
+  @media (max-width: 760px) { .fz-rrow { grid-template-columns: 1fr; gap: 4px; } }
+  .fz-rrow a { color: var(--brand-primary); text-decoration: underline; }
+  .fz-actions { padding: 12px 18px; display: flex; gap: 8px; flex-wrap: wrap; background: var(--brand-cream); }
 </style>
 </head>
 <body>
@@ -553,6 +610,7 @@
     <div class="topbar-brand">Pressd <em>admin</em></div>
     <div class="topbar-actions">
       <span id="last-updated" style="opacity:.7;font-size:12px;"></span>
+      <button id="fz-open" class="frenzy-btn">Dispatch Frenzy</button>
       <button id="refresh-btn">Refresh</button>
       <button id="logout-btn">Log out</button>
     </div>
@@ -610,6 +668,52 @@
 </div>
 
 <!-- DETAIL DRAWER -->
+
+<!-- ============ DISPATCH FRENZY ============ -->
+<div class="frenzy" id="frenzy">
+  <div class="fz-head">
+    <div class="fz-title">Dispatch <em>frenzy</em></div>
+    <div class="fz-tabs">
+      <button class="fz-tab active" data-fz-tab="new">New round</button>
+      <button class="fz-tab" data-fz-tab="rounds">Rounds</button>
+    </div>
+    <button class="fz-close" id="fz-close" aria-label="Close">×</button>
+  </div>
+
+  <div class="fz-body" id="fz-new">
+    <div class="fz-card">
+      <h4>Round</h4>
+      <div class="fz-grid">
+        <div><label for="fz-date">Date</label><input type="date" id="fz-date" /></div>
+        <div><label for="fz-start">From</label><select id="fz-start"></select></div>
+        <div><label for="fz-end">To</label><select id="fz-end"></select></div>
+        <div><label for="fz-note">Note for your records (optional)</label><input type="text" id="fz-note" placeholder="e.g. Mainland run, 2 riders" /></div>
+      </div>
+    </div>
+    <div class="fz-card">
+      <h4>Orders</h4>
+      <div class="fz-filters" id="fz-filters">
+        <button class="fz-chip active" data-fz-leg="all">All</button>
+        <button class="fz-chip" data-fz-leg="pickup">Pickups</button>
+        <button class="fz-chip" data-fz-leg="delivery">Deliveries</button>
+        <span style="width:8px;"></span>
+        <button class="fz-chip active" data-fz-zone="all">All zones</button>
+        <button class="fz-chip" data-fz-zone="mainland">Mainland</button>
+        <button class="fz-chip" data-fz-zone="island">Island</button>
+        <select id="fz-area"><option value="">All areas</option></select>
+      </div>
+    </div>
+    <div id="fz-list"><div class="fz-empty"><span class="spinner"></span> Loading orders…</div></div>
+  </div>
+
+  <div class="fz-body hidden" id="fz-rounds"><div class="fz-empty"><span class="spinner"></span> Loading rounds…</div></div>
+
+  <div class="fz-foot" id="fz-foot">
+    <div class="meta" id="fz-meta"><strong>0</strong> selected</div>
+    <button class="btn btn-primary" id="fz-send" disabled>Send Dispatch Frenzy</button>
+  </div>
+</div>
+
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-head">
@@ -739,8 +843,8 @@
 <!-- 7. Cancel order -->
 <div class="modal-overlay" id="paid-modal">
   <div class="modal">
-    <h3>Mark booking paid</h3>
-    <p class="modal-sub">For payments outside Paystack. The customer gets the normal payment receipt with both PINs.</p>
+    <h3 id="paid-title">Mark booking paid</h3>
+    <p class="modal-sub" id="paid-sub">For payments outside Paystack. The customer gets the normal payment receipt with both PINs.</p>
     <label>How did they pay?</label>
     <select id="paid-method">
       <option value="transfer">Bank transfer</option>
@@ -968,7 +1072,7 @@
       case 'cost_pending_review':
         return { label: 'Confirm cost & send invoice', action: 'confirmCostAndInvoice', available: true, intent: 'warn' };
       case 'invoiced_balance_due':
-        return { label: 'Awaiting customer payment', action: null, available: false, intent: 'waiting' };
+        return { label: 'Mark balance paid (transfer / cash)', action: 'markBalancePaid', available: true, intent: 'muted' };
       case 'invoiced_paid_in_full':
       case 'balance_paid':
         return { label: 'Mark order ready', action: 'markOrderReady', available: true, intent: 'primary' };
@@ -1215,7 +1319,7 @@
     }
 
     // FIX: cancellation only allowed in early states (pre-pickup)
-    const cancelable = isCancellable(o);
+    
 
     // Tap-to links
     const waNum = cleanPhone(o.phoneWhatsapp);
@@ -1225,18 +1329,15 @@
       : null;
 
     // FIX: removed the no-op "Edit details" button. Show a tip line instead.
-    const unpaid = stage === 'awaiting_payment';
+    const unpaid = stage === 'awaiting_payment' || stage === 'invoiced_balance_due';
     const followUpHtml = unpaid
       ? `<div class="drawer-actions-row">
            <button class="drawer-action-btn" data-drawer-action="waPayLink"${waNum ? '' : ' disabled'}>WhatsApp pay link</button>
            <button class="drawer-action-btn" data-drawer-action="copyPayLink">Copy pay link</button>
          </div>`
       : '';
-    const otherActionsHtml = followUpHtml + (cancelable
-      ? `<div class="drawer-actions-row">
-           <button class="drawer-action-btn danger" data-drawer-action="cancelOrder">Cancel order</button>
-         </div>`
-      : '');
+    // Cancelling is done in the sheet only (no button here by design).
+    const otherActionsHtml = followUpHtml;
 
     return `
       <div class="badges-row">
@@ -1315,6 +1416,7 @@
         </div>
         <div class="row"><span class="key">Pickup PIN</span><span class="val" style="font-family:var(--font-mono);">${escapeHtml(o.pickupPin) || '—'}</span></div>
         <div class="row"><span class="key">Scheduled for</span><span class="val">${o.pickupScheduledFor ? fmtDateOnly(o.pickupScheduledFor) : '—'}</span></div>
+        ${o.roundId ? `<div class="row"><span class="key">Dispatch round</span><span class="val">${escapeHtml(o.roundLeg === 'delivery' ? 'Delivery' : 'Pickup')} · ${fmtDateOnly(o.roundStartsAt)}, ${escapeHtml(o.roundWindow)}<br><span style="font-size:12px;color:var(--brand-muted);">${o.roundResponse === 'yes' ? 'Confirmed' : o.roundResponse === 'no' ? "Can't make it" + (o.roundPreferredWindow ? ', prefers ' + escapeHtml(fmtWindow(o.roundPreferredWindow)) : '') + (o.roundCustomerNote ? ' · ' + escapeHtml(o.roundCustomerNote) : '') : 'No reply · counts as yes'}</span></span></div>` : ''}
         <div class="row"><span class="key">Picked up at</span><span class="val">${fmtDate(o.pickupDate)}</span></div>
         <div class="row editable" data-edit-key="pickupNotes" data-edit-label="Pickup notes" data-edit-type="textarea"><span class="key">Notes</span><span class="val">${escapeHtml(o.pickupNotes) || '—'}</span></div>
       </div>
@@ -1322,6 +1424,7 @@
       <div class="panel">
         <div class="panel-title">Delivery</div>
         <div class="row"><span class="key">Delivery PIN</span><span class="val" style="font-family:var(--font-mono);">${escapeHtml(o.deliveryPin) || '—'}</span></div>
+        ${o.deliveryScheduledFor ? `<div class="row"><span class="key">Delivery scheduled</span><span class="val">${fmtDate(o.deliveryScheduledFor)}</span></div>` : ''}
         <div class="row"><span class="key">Order ready at</span><span class="val">${fmtDate(o.orderReadyAt)}</span></div>
         <div class="row"><span class="key">Out for delivery at</span><span class="val">${fmtDate(o.outForDeliveryAt)}</span></div>
         <div class="row"><span class="key">Delivered at</span><span class="val">${fmtDate(o.deliveryDate)}</span></div>
@@ -1387,7 +1490,8 @@
       case 'markOutForDelivery':   return openOfdModal(order);
       case 'markDelivered':        return openDeliveredModal(order);
       case 'cancelOrder':          return openCancelModal(order);
-      case 'markBookingPaid':      return openPaidModal(order);
+      case 'markBookingPaid':      return openPaidModal(order, 'booking');
+      case 'markBalancePaid':      return openPaidModal(order, 'balance');
       case 'copyPayLink':          return copyPayLink(order);
       case 'waPayLink':            return whatsappPayLink(order);
       default: console.warn('Unknown action:', action);
@@ -1430,7 +1534,7 @@
       const data = await callBackend('schedulePickup', payload);
       updateOrderInPlace(data.order);
       closeAllModals();
-      showToast('Pickup scheduled.', 'success');
+      showToast('Pickup scheduled. Customer notified.', 'success');
     } catch (err) {
       showToast(err.message || 'Failed to schedule.', 'error');
     } finally {
@@ -1594,8 +1698,13 @@
     const site = ((window.PRESSD_CONFIG && window.PRESSD_CONFIG.SITE_URL) || location.origin + '/').replace(/\/+$/, '');
     return site + '/order.html?id=' + encodeURIComponent(o.orderId);
   }
+  function balanceOf(o) { return Math.max(0, Number(o.finalLaundryCost || 0) - Number(o.additionalCostPaid || 0)); }
   function payMessageFor(o) {
     const first = String(o.name || '').trim().split(/\s+/)[0] || 'there';
+    if (stageOf(o) === 'invoiced_balance_due') {
+      return 'Hi ' + first + ', your Pressd laundry for order ' + o.orderId + ' came to ' + fmtNaira(o.finalLaundryCost) +
+        '. Balance to pay: ' + fmtNaira(balanceOf(o)) + '. Pay here and we deliver: ' + payLinkFor(o);
+    }
     return 'Hi ' + first + ', your Pressd booking ' + o.orderId + ' is saved. Pay ' + fmtNaira(o.bookingTotal) +
       ' here to lock in your pickup: ' + payLinkFor(o);
   }
@@ -1609,10 +1718,17 @@
     window.open('https://wa.me/' + n + '?text=' + encodeURIComponent(payMessageFor(o)), '_blank', 'noopener');
   }
 
-  function openPaidModal(o) {
+  let paidKind = 'booking';
+  function openPaidModal(o, kind) {
+    paidKind = kind || 'booking';
+    const amount = paidKind === 'balance' ? balanceOf(o) : o.bookingTotal;
+    $('#paid-title').textContent = paidKind === 'balance' ? 'Mark balance paid' : 'Mark booking paid';
+    $('#paid-sub').textContent = paidKind === 'balance'
+      ? 'For balances paid outside Paystack. The customer gets the balance receipt with their Delivery PIN.'
+      : 'For payments outside Paystack. The customer gets the normal payment receipt with both PINs.';
     $('#paid-method').value = 'transfer';
     $('#paid-note').value = '';
-    $('#paid-amount-line').textContent = 'Confirm you have received ' + fmtNaira(o.bookingTotal) + ' before marking paid.';
+    $('#paid-amount-line').textContent = 'Confirm you have received ' + fmtNaira(amount) + ' before marking paid.';
     $('#paid-modal').classList.add('active');
   }
   $('#paid-confirm').addEventListener('click', async () => {
@@ -1620,7 +1736,7 @@
     const btn = $('#paid-confirm');
     btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving';
     try {
-      const data = await callBackend('markBookingPaid', {
+      const data = await callBackend(paidKind === 'balance' ? 'markBalancePaid' : 'markBookingPaid', {
         orderId: activeActionOrder.orderId, method: $('#paid-method').value, note: $('#paid-note').value.trim(),
       });
       updateOrderInPlace(data.order);
@@ -1750,6 +1866,230 @@
   } else {
     showGate();
   }
+
+  /* ============ DISPATCH FRENZY ============ */
+  const FZ = { groups: null, labels: {}, quota: null, provider: 'gmail', selected: new Set(), leg: 'all', zone: 'all', area: '', armed: false };
+  const FZ_ORDER = ['pickupPaid', 'pickupUnpaid', 'deliveryReady', 'deliveryBalance'];
+
+  (function fzInitTimes() {
+    const opts = [];
+    for (let h = 7; h <= 20; h++) for (const m of [0, 30]) {
+      const v = String(h).padStart(2, '0') + ':' + (m ? '30' : '00');
+      const label = ((h % 12) || 12) + (m ? ':30' : '') + (h < 12 ? ' AM' : ' PM');
+      opts.push(`<option value="${v}">${label}</option>`);
+    }
+    $('#fz-start').innerHTML = opts.join(''); $('#fz-end').innerHTML = opts.join('');
+    $('#fz-start').value = '10:00'; $('#fz-end').value = '14:00';
+    const t = new Date(Date.now() + 86400000);
+    $('#fz-date').value = t.toISOString().slice(0, 10);
+    $('#fz-date').min = new Date().toISOString().slice(0, 10);
+  })();
+
+  function fzOpen() {
+    $('#frenzy').classList.add('active'); document.body.style.overflow = 'hidden';
+    fzTab('new'); fzLoad();
+  }
+  function fzClose() { $('#frenzy').classList.remove('active'); document.body.style.overflow = ''; }
+  function fzTab(t) {
+    $$('.fz-tab').forEach(b => b.classList.toggle('active', b.dataset.fzTab === t));
+    $('#fz-new').classList.toggle('hidden', t !== 'new');
+    $('#fz-rounds').classList.toggle('hidden', t !== 'rounds');
+    $('#fz-foot').classList.toggle('hidden', t !== 'new');
+    if (t === 'rounds') fzLoadRounds();
+  }
+
+  async function fzLoad() {
+    FZ.selected.clear(); fzDisarm();
+    $('#fz-list').innerHTML = '<div class="fz-empty"><span class="spinner"></span> Loading orders…</div>';
+    try {
+      const d = await callBackend('getDispatchCandidates');
+      FZ.groups = d.groups; FZ.labels = d.labels || {}; FZ.quota = d.emailQuota; FZ.provider = d.provider;
+      const areas = [...new Set(FZ_ORDER.flatMap(k => (FZ.groups[k] || []).map(o => o.area)).filter(Boolean))].sort();
+      $('#fz-area').innerHTML = '<option value="">All areas</option>' + areas.map(a => `<option>${escapeHtml(a)}</option>`).join('');
+      // Default: tick everything that is paid and ready
+      ['pickupPaid', 'deliveryReady'].forEach(k => (FZ.groups[k] || []).forEach(o => FZ.selected.add(o.orderId)));
+      fzRender();
+    } catch (e) {
+      $('#fz-list').innerHTML = `<div class="fz-empty">Could not load orders: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+
+  function fzVisible(o) {
+    if (FZ.leg !== 'all' && o.leg !== FZ.leg) return false;
+    if (FZ.zone !== 'all' && o.zone !== FZ.zone) return false;
+    if (FZ.area && o.area !== FZ.area) return false;
+    return true;
+  }
+
+  function fzTagFor(o, key) {
+    if (key === 'pickupUnpaid') return `<span class="fz-tag bad">Unpaid ${fmtNaira(o.bookingTotal)}</span>`;
+    if (key === 'deliveryBalance') return `<span class="fz-tag warn">Balance ${fmtNaira(o.balance)}</span>`;
+    if (o.roundId && o.roundResponse !== 'no' && o.roundStartsAt && new Date(o.roundStartsAt) > new Date()) {
+      return `<span class="fz-tag ok">In a round · ${fmtDateOnly(o.roundStartsAt)}</span>`;
+    }
+    return key === 'deliveryReady' ? '<span class="fz-tag ok">Ready</span>' : '<span class="fz-tag ok">Paid</span>';
+  }
+
+  function fzRender() {
+    if (!FZ.groups) return;
+    const html = FZ_ORDER.map(key => {
+      const rows = (FZ.groups[key] || []).filter(fzVisible);
+      if (!rows.length) return '';
+      const allOn = rows.every(o => FZ.selected.has(o.orderId));
+      return `<div class="fz-group">
+        <div class="fz-group-head">
+          <input type="checkbox" data-fz-all="${key}" ${allOn ? 'checked' : ''} aria-label="Select all">
+          ${escapeHtml(FZ.labels[key] || key)} <span class="count">${rows.length}</span>
+        </div>
+        ${rows.map(o => `
+          <div class="fz-row ${FZ.selected.has(o.orderId) ? 'on' : ''}" data-fz-id="${o.orderId}">
+            <input type="checkbox" ${FZ.selected.has(o.orderId) ? 'checked' : ''} tabindex="-1">
+            <span class="fz-id">${escapeHtml(o.orderId)}</span>
+            <span class="fz-who"><strong>${escapeHtml(o.name || '—')}</strong><span>${escapeHtml(o.area)} · ${fmtZone(o.zone)}${o.leg === 'pickup' ? ' · prefers ' + escapeHtml(fmtWindow(o.window).split(' ·')[0]) : ''}</span></span>
+            <span class="fz-addr">${escapeHtml(o.address)}</span>
+            ${fzTagFor(o, key)}
+          </div>`).join('')}
+      </div>`;
+    }).join('');
+    $('#fz-list').innerHTML = html || '<div class="fz-empty">No orders match these filters.</div>';
+    fzMeta();
+  }
+
+  function fzMeta() {
+    const n = FZ.selected.size;
+    const all = FZ_ORDER.flatMap(k => FZ.groups[k] || []);
+    const picked = all.filter(o => FZ.selected.has(o.orderId));
+    const p = picked.filter(o => o.leg === 'pickup').length, d = picked.length - p;
+    const quota = FZ.provider === 'gmail' && FZ.quota != null ? ` · Gmail sends left today: <strong>${FZ.quota}</strong>` : '';
+    const over = FZ.provider === 'gmail' && FZ.quota != null && n > FZ.quota;
+    $('#fz-meta').innerHTML = `<strong>${n}</strong> selected (${p} pickup${p === 1 ? '' : 's'}, ${d} deliver${d === 1 ? 'y' : 'ies'})${quota}${over ? ' · <span style="color:var(--brand-danger);">over today\'s limit</span>' : ''}`;
+    $('#fz-send').disabled = !n || over;
+    if (!FZ.armed) $('#fz-send').textContent = n ? `Send Dispatch Frenzy (${n})` : 'Send Dispatch Frenzy';
+  }
+
+  function fzDisarm() { FZ.armed = false; clearTimeout(FZ.armTimer); fzMetaSafe(); }
+  function fzMetaSafe() { if (FZ.groups) fzMeta(); }
+
+  $('#fz-list').addEventListener('click', e => {
+    const all = e.target.closest('[data-fz-all]');
+    if (all) {
+      const rows = (FZ.groups[all.dataset.fzAll] || []).filter(fzVisible);
+      rows.forEach(o => all.checked ? FZ.selected.add(o.orderId) : FZ.selected.delete(o.orderId));
+      fzDisarm(); fzRender(); return;
+    }
+    const row = e.target.closest('[data-fz-id]');
+    if (!row) return;
+    const id = row.dataset.fzId;
+    FZ.selected.has(id) ? FZ.selected.delete(id) : FZ.selected.add(id);
+    fzDisarm(); fzRender();
+  });
+  $('#fz-filters').addEventListener('click', e => {
+    const b = e.target.closest('[data-fz-leg],[data-fz-zone]');
+    if (!b) return;
+    if (b.dataset.fzLeg) { FZ.leg = b.dataset.fzLeg; $$('[data-fz-leg]').forEach(x => x.classList.toggle('active', x === b)); }
+    if (b.dataset.fzZone) { FZ.zone = b.dataset.fzZone; $$('[data-fz-zone]').forEach(x => x.classList.toggle('active', x === b)); }
+    fzRender();
+  });
+  $('#fz-area').addEventListener('change', e => { FZ.area = e.target.value; fzRender(); });
+
+  $('#fz-send').addEventListener('click', async () => {
+    const btn = $('#fz-send');
+    const date = $('#fz-date').value, start = $('#fz-start').value, end = $('#fz-end').value;
+    if (!date) { showToast('Pick a date.', 'error'); return; }
+    if (end <= start) { showToast('End time must be after start time.', 'error'); return; }
+    if (!FZ.armed) {
+      FZ.armed = true;
+      const dayLabel = new Date(date + 'T12:00:00').toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short' });
+      btn.textContent = `Tap again to email ${FZ.selected.size} customer${FZ.selected.size === 1 ? '' : 's'} for ${dayLabel}`;
+      FZ.armTimer = setTimeout(() => { FZ.armed = false; fzMetaSafe(); }, 5000);
+      return;
+    }
+    clearTimeout(FZ.armTimer); FZ.armed = false;
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Sending…';
+    try {
+      const r = await callBackend('createDispatchRound', {
+        date, start, end, note: $('#fz-note').value.trim(), orderIds: [...FZ.selected],
+      });
+      showToast(`Round set for ${r.dayLabel}, ${r.window}. ${r.sent} email${r.sent === 1 ? '' : 's'} sent.` + (r.skipped.length ? ` ${r.skipped.length} skipped.` : ''), 'success');
+      loadOrders();
+      fzTab('rounds');
+    } catch (e) {
+      showToast(e.message || 'Could not send.', 'error');
+    } finally {
+      fzMetaSafe();
+    }
+  });
+
+  const FZ_RESP = {
+    yes:     ['Confirmed', 'ok'],
+    pending: ['No reply · counts as yes', ''],
+    no:      ["Can't make it", 'bad'],
+  };
+
+  async function fzLoadRounds() {
+    $('#fz-rounds').innerHTML = '<div class="fz-empty"><span class="spinner"></span> Loading rounds…</div>';
+    try {
+      const d = await callBackend('getDispatchRounds');
+      FZ.rounds = d.rounds || [];
+      if (!FZ.rounds.length) { $('#fz-rounds').innerHTML = '<div class="fz-empty">No rounds yet. Create one in "New round".</div>'; return; }
+      $('#fz-rounds').innerHTML = FZ.rounds.map((r, i) => {
+        const c = { yes: 0, pending: 0, no: 0 };
+        r.orders.forEach(o => c[o.response] = (c[o.response] || 0) + 1);
+        const p = r.orders.filter(o => o.leg === 'pickup').length;
+        return `<div class="fz-round">
+          <div class="fz-round-head">
+            <div><h5>${escapeHtml(r.dayLabel)} · ${escapeHtml(r.window)}</h5>
+              <div class="sub">${escapeHtml(r.roundId)} · ${p} pickup${p === 1 ? '' : 's'}, ${r.orders.length - p} deliver${r.orders.length - p === 1 ? 'y' : 'ies'}${r.note ? ' · ' + escapeHtml(r.note) : ''}</div></div>
+            <div class="fz-stats">
+              <span class="fz-tag ok">${c.yes} confirmed</span>
+              <span class="fz-tag">${c.pending} no reply</span>
+              <span class="fz-tag bad">${c.no} can't make it</span>
+            </div>
+          </div>
+          ${r.orders.map(o => {
+            const resp = FZ_RESP[o.response] || FZ_RESP.pending;
+            const wa = cleanPhone(o.phone);
+            const money = o.leg === 'pickup' && !o.paid ? `<span class="fz-tag bad">Unpaid</span>` : (o.balanceDue ? `<span class="fz-tag warn">Balance ${fmtNaira(o.balance)}</span>` : '');
+            return `<div class="fz-rrow">
+              <span><span class="fz-tag ${o.leg === 'delivery' ? 'ok' : ''}">${o.leg === 'delivery' ? 'Delivery' : 'Pickup'}</span></span>
+              <span><strong>${escapeHtml(o.name)}</strong><br><span class="fz-id">${escapeHtml(o.orderId)}</span> ${money}</span>
+              <span>${escapeHtml(o.area)}<br><span style="color:var(--brand-muted);font-size:12px;">${escapeHtml(o.address)}</span></span>
+              <span><span class="fz-tag ${resp[1]}">${resp[0]}</span>
+                ${o.response === 'no' ? `<div style="margin-top:6px;font-size:12px;">Prefers: <strong>${escapeHtml(fmtWindow(o.preferredWindow) || 'not given')}</strong>${o.note ? '<br>' + escapeHtml(o.note) : ''}</div>` : ''}
+                ${wa ? `<div style="margin-top:6px;font-size:12px;"><a href="https://wa.me/${wa}" target="_blank" rel="noopener">WhatsApp</a></div>` : ''}</span>
+            </div>`;
+          }).join('')}
+          <div class="fz-actions">
+            <button class="btn btn-ghost" data-fz-copy="${i}">Copy rider list</button>
+          </div>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      $('#fz-rounds').innerHTML = `<div class="fz-empty">Could not load rounds: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+
+  function fzRiderList(r) {
+    const going = r.orders.filter(o => o.response !== 'no');
+    const line = (o, n) => {
+      const pin = o.leg === 'pickup' ? 'Pickup PIN ' + o.pickupPin : 'Delivery PIN ' + o.deliveryPin;
+      const flag = o.leg === 'pickup' && !o.paid ? ' · NOT PAID, do not collect' : (o.balanceDue ? ' · BALANCE DUE ' + fmtNaira(o.balance) : '');
+      return `${n}. ${o.leg === 'pickup' ? 'PICKUP' : 'DELIVERY'} · ${o.name} · ${o.phone} · ${o.area} · ${o.address} · ${pin}${flag}`;
+    };
+    return `Pressd round ${r.dayLabel}, ${r.window}\n\n` + going.map((o, i) => line(o, i + 1)).join('\n') +
+      (r.orders.length > going.length ? `\n\nNot in this round: ${r.orders.filter(o => o.response === 'no').map(o => o.name).join(', ')}` : '');
+  }
+  $('#fz-rounds').addEventListener('click', async e => {
+    const b = e.target.closest('[data-fz-copy]');
+    if (!b) return;
+    const text = fzRiderList(FZ.rounds[+b.dataset.fzCopy]);
+    try { await navigator.clipboard.writeText(text); showToast('Rider list copied.', 'success'); }
+    catch (err) { window.prompt('Copy the rider list:', text); }
+  });
+
+  $('#fz-open').addEventListener('click', fzOpen);
+  $('#fz-close').addEventListener('click', fzClose);
+  $$('.fz-tab').forEach(b => b.addEventListener('click', () => fzTab(b.dataset.fzTab)));
 </script>
 
 </body>
