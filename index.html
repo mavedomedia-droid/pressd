@@ -955,7 +955,7 @@
         <div class="how-num">02 / Collect</div>
         <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></div>
         <h3>We collect your laundry</h3>
-        <p>A rider comes to your address on the next pickup day and takes what you have ready.</p>
+        <p>We confirm your pickup slot by email, then a rider comes to your address and takes what you have ready.</p>
       </div>
       <div class="how-card reveal">
         <div class="how-num">03 / Process &amp; Deliver</div>
@@ -1108,7 +1108,7 @@
       </details>
       <details class="faq-item reveal">
         <summary>What days do you do pickups?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq-content">Pickups run on <strong data-cfg="PICKUP_DAYS_LONG">Tuesdays, Thursdays, and Saturdays.</strong> You are scheduled for the next available day on that rotation.</div>
+        <div class="faq-content">Pickups run on <strong data-cfg="PICKUP_DAYS_LONG">Tuesdays, Thursdays, and Saturdays.</strong> We confirm your exact slot by email after you book.</div>
       </details>
       <details class="faq-item reveal">
         <summary>How long until I get my clothes back?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
@@ -1295,8 +1295,8 @@
 
       <!-- 4a. Window -->
       <div class="step hidden" data-step="pickup-window">
-        <h3 class="step-heading">When should we come?</h3>
-        <p class="step-sub">Pick a time window. Pickups run <span data-cfg="PICKUP_DAYS">Tue · Thu · Sat</span>.</p>
+        <h3 class="step-heading">What time suits you?</h3>
+        <p class="step-sub">Pick the time of day that suits you. Pickups run <span data-cfg="PICKUP_DAYS">Tue · Thu · Sat</span>. We'll confirm your exact slot.</p>
         <div class="window-list" id="window-list"></div>
         <button class="btn btn-primary btn-block" id="btn-window-next" disabled>Continue</button>
       </div>
@@ -1738,7 +1738,7 @@
     if (state.careEnabled) { rows.push(['Pressd Care (tab)', fmtNaira(state.careAmount)]); total += state.careAmount; }
     if (state.pickupOnlyBilledAfter) rows.push(['Laundry', 'Billed after sorting']);
     rows.push(['Pickup address', esc(state.pickupAddress)]);
-    rows.push(['Pickup window', Pressd.fmtWindow(state.pickupWindow)]);
+    rows.push(['Preferred window', Pressd.fmtWindow(state.pickupWindow) + '<br><span style="font-size:12px;opacity:.75;">We confirm your exact slot</span>']);
     $('#summary-box').innerHTML = rows.map(function (r) {
       return '<div class="summary-row"><span>' + r[0] + '</span><span style="text-align:right;max-width:60%;">' + r[1] + '</span></div>';
     }).join('') + '<div class="summary-row total"><span>Total to pay</span><span class="amt">' + fmtNaira(total) + '</span></div>';
