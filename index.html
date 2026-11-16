@@ -4,27 +4,1877 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <meta name="theme-color" content="#643C3C" />
-<meta name="robots" content="noindex" />
-<title>Pressd | Balance paid</title>
-<meta name="description" content="Your Pressd balance is settled." />
+<title>Pressd | Laundry service in Lagos, picked up and delivered</title>
+<meta name="description" content="Laundry pickup and delivery in Ilupeju, Gbagada, Ikoyi, VI and across Lagos. Book in a few clicks. Pickups Tue, Thu, Sat. Back in 48 to 72 hours." />
+<meta property="og:title" content="Pressd | Laundry service in Lagos" />
+<meta property="og:description" content="Laundry picked up and delivered in a few clicks." />
+<meta property="og:image" content="/assets/icon-192.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png" />
 <link rel="apple-touch-icon" href="/assets/icon-192.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/brand.css" />
+
 <script src="/js/config.js"></script>
 <script src="/js/ui.js"></script>
+
+<style>
+  /* HERO */
+  .hero { position: relative; padding: var(--s-12) 0 var(--s-16); overflow: hidden; }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(210,230,180,0.4) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid; grid-template-columns: 1fr;
+    gap: var(--s-10); align-items: center;
+  }
+  @media (min-width: 960px) {
+    .hero { padding: var(--s-20) 0; }
+    .hero-grid { grid-template-columns: 1.15fr 1fr; gap: var(--s-12); }
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    padding: 6px 14px; border-radius: var(--r-pill);
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--brand-muted); margin-bottom: var(--s-6);
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand-success);
+    box-shadow: 0 0 0 3px rgba(90,140,63,0.18);
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(38px, 7vw, 68px);
+    line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--brand-primary); margin: 0 0 var(--s-5);
+  }
+  .hero h1 em {
+    font-family: var(--font-editorial);
+    font-style: italic; font-weight: 400;
+  }
+  .hero h1 .accent {
+    background: var(--brand-accent);
+    padding: 0 .15em; border-radius: 8px;
+    font-style: normal; display: inline-block;
+    transform: rotate(-1deg);
+  }
+  .hero p.lede {
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: var(--brand-muted); max-width: 480px;
+    margin: 0 0 var(--s-8); line-height: 1.5;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-bottom: var(--s-8); }
+  .hero-trust { display: flex; align-items: center; gap: var(--s-5); font-size: 14px; color: var(--brand-muted); flex-wrap: wrap; }
+  .trust-item { display: flex; align-items: center; gap: var(--s-2); }
+  .trust-item svg { color: var(--brand-primary); }
+
+  .hero-visual { position: relative; aspect-ratio: 5/3; max-width: 460px; margin: 0 auto; width: 100%; }
+  @media (min-width: 960px) { .hero-visual { aspect-ratio: 4/5; } }
+  .hero-card {
+    position: absolute; border-radius: var(--r-lg);
+    background: var(--brand-surface); box-shadow: var(--shadow-lg);
+    padding: var(--s-5); border: 1px solid var(--brand-line);
+  }
+  .hero-card.main {
+    inset: 0;
+    background: var(--brand-primary); color: var(--brand-accent);
+    border: none; overflow: hidden; padding: var(--s-5);
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  @media (min-width: 960px) { .hero-card.main { padding: var(--s-8); } }
+  .hero-card.main::before {
+    content: '';
+    position: absolute; top: -40%; right: -30%;
+    width: 90%; height: 90%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .15;
+  }
+  .hero-card.main .label {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--brand-accent);
+    font-weight: 500; opacity: .9;
+  }
+  .hero-card.main .price {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 68px);
+    line-height: 1; margin-top: var(--s-3);
+    font-weight: 500; letter-spacing: -0.04em;
+  }
+  .hero-card.main .breakdown { font-size: 14px; opacity: .75; margin-top: var(--s-4); }
+  .hero-card-icon { position: relative; display: none; }
+  @media (min-width: 960px) { .hero-card-icon { display: block; } }
+  .hero-card.floating { width: 65%; bottom: -22px; right: -10px; z-index: 2; transform: rotate(2deg); }
+  @media (min-width: 960px) { .hero-card.floating { width: 75%; bottom: -30px; right: -40px; } }
+  .float-row { display: flex; align-items: center; gap: var(--s-3); }
+  .float-icon {
+    width: 36px; height: 36px; border-radius: 12px;
+    background: var(--brand-accent); display: grid; place-items: center;
+    color: var(--brand-primary); flex-shrink: 0;
+  }
+  .float-text strong { display: block; font-size: 14px; color: var(--brand-ink); font-weight: 600; }
+  .float-text span { font-size: 12px; color: var(--brand-muted); }
+
+  /* HOW IT WORKS */
+  .how-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-5); }
+  @media (min-width: 768px) { .how-grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+  .how-card {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .how-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand-primary); }
+  .how-num {
+    font-family: var(--font-display); font-size: 13px; font-weight: 600;
+    color: var(--brand-muted); margin-bottom: var(--s-12);
+    display: flex; align-items: center; gap: var(--s-3);
+    letter-spacing: 0.05em;
+  }
+  .how-num::after { content: ''; flex: 1; height: 1px; background: var(--brand-line); }
+  .how-card h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 22px; line-height: 1.2;
+    margin: 0 0 var(--s-3); color: var(--brand-primary);
+    letter-spacing: -0.02em;
+  }
+  .how-card p { color: var(--brand-muted); margin: 0; font-size: 15px; }
+  .how-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: var(--brand-accent);
+    display: grid; place-items: center;
+    color: var(--brand-primary); margin-bottom: var(--s-5);
+  }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-5); }
+  @media (min-width: 768px) { .services-grid { grid-template-columns: 1fr 1fr; gap: var(--s-6); } }
+  .service-card {
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative; overflow: hidden; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform .25s ease;
+  }
+  .service-card:hover { transform: translateY(-4px); }
+  .service-card.load { background: var(--brand-primary); color: var(--brand-accent); }
+  .service-card.care { background: var(--brand-accent); color: var(--brand-primary); }
+  .service-name {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 600; line-height: 1.05;
+    letter-spacing: -0.03em; margin: 0 0 var(--s-3);
+  }
+  .service-desc {
+    font-size: 16px; opacity: .85;
+    margin: 0 0 var(--s-6); max-width: 320px; line-height: 1.5;
+  }
+  .service-card.load .service-desc { color: rgba(210,230,180,0.85); }
+  .service-meta { display: flex; align-items: baseline; gap: var(--s-2); margin-top: auto; }
+  .service-price { font-family: var(--font-display); font-size: 32px; font-weight: 600; letter-spacing: -0.02em; }
+  .service-unit { font-size: 14px; opacity: .7; }
+  .service-tag {
+    position: absolute; top: var(--s-5); right: var(--s-5);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 6px 12px; border-radius: var(--r-pill); font-weight: 500;
+  }
+  .service-card.load .service-tag { background: rgba(210,230,180,0.15); color: var(--brand-accent); }
+  .service-card.care .service-tag { background: rgba(100,60,60,0.12); color: var(--brand-primary); }
+
+  /* DONUT — Telegram support bot section */
+  .donut-block {
+    display: grid; grid-template-columns: 1fr; gap: var(--s-10);
+    align-items: center;
+  }
+  @media (min-width: 880px) { .donut-block { grid-template-columns: 1fr 1fr; gap: var(--s-12); } }
+  .donut-card {
+    background: linear-gradient(140deg, var(--brand-primary) 0%, var(--brand-primary-deep) 100%);
+    color: var(--brand-accent);
+    border-radius: var(--r-xl);
+    padding: var(--s-10) var(--s-8);
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    min-height: 360px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .donut-card::before {
+    content: ''; position: absolute;
+    top: -30%; right: -20%;
+    width: 70%; height: 70%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .18; pointer-events: none;
+  }
+  .donut-avatar {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: var(--brand-accent);
+    overflow: hidden;
+    margin-bottom: var(--s-5);
+    position: relative;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  }
+  .donut-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .donut-avatar::after {
+    content: ''; position: absolute;
+    bottom: 4px; right: 4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--brand-success);
+    border: 3px solid var(--brand-primary);
+  }
+  .donut-card h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(28px, 4vw, 38px);
+    letter-spacing: -0.03em; line-height: 1.05;
+    margin: 0 0 var(--s-3); color: var(--brand-accent);
+    position: relative;
+  }
+  .donut-card h3 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .donut-card .donut-tagline {
+    font-size: 16px; line-height: 1.55;
+    color: rgba(210,230,180,0.8);
+    margin: 0 0 var(--s-6); position: relative;
+    max-width: 360px;
+  }
+  .donut-cta {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    background: var(--brand-accent); color: var(--brand-primary);
+    padding: 14px 22px; border-radius: var(--r-pill);
+    font-weight: 600; font-size: 15px;
+    align-self: flex-start;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+  .donut-cta:hover { background: var(--brand-accent-deep); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+  .donut-features { display: flex; flex-direction: column; gap: var(--s-4); }
+  .donut-feature {
+    display: flex; gap: var(--s-4);
+    padding: var(--s-5);
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .donut-feature:hover { border-color: var(--brand-primary); transform: translateY(-2px); }
+  .donut-feature-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--brand-accent);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .donut-feature-text { flex: 1; }
+  .donut-feature-text strong {
+    display: block; font-size: 15px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .donut-feature-text span { font-size: 13px; color: var(--brand-muted); line-height: 1.5; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: var(--s-3); }
+  .faq-item {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); overflow: hidden;
+    transition: border-color .2s ease;
+  }
+  .faq-item[open] { border-color: var(--brand-primary); }
+  .faq-item summary {
+    list-style: none; padding: var(--s-5) var(--s-6);
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; font-weight: 500;
+    color: var(--brand-primary); font-size: 16px; gap: var(--s-4);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    display: grid; place-items: center;
+    transition: transform .25s ease, background .2s ease;
+    flex-shrink: 0; color: var(--brand-primary);
+  }
+  .faq-item[open] .faq-icon { transform: rotate(45deg); background: var(--brand-accent); }
+  .faq-content { padding: 0 var(--s-6) var(--s-6); color: var(--brand-muted); font-size: 15px; line-height: 1.6; }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-xl); padding: var(--s-12) var(--s-6);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  @media (min-width: 768px) { .final-cta { padding: var(--s-20) var(--s-8); } }
+  .final-cta::before {
+    content: ''; position: absolute; bottom: -50%; left: -10%;
+    width: 60%; height: 100%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 60%);
+    opacity: .12;
+  }
+  .final-cta h2 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(32px, 5vw, 56px); line-height: 1.05;
+    letter-spacing: -0.03em; margin: 0 0 var(--s-4);
+    position: relative; color: var(--brand-accent);
+  }
+  .final-cta h2 em { font-family: var(--font-editorial); font-style: italic; font-weight: 400; }
+  .final-cta p { font-size: 17px; color: rgba(210,230,180,0.7); margin: 0 0 var(--s-8); position: relative; }
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,31,31,0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: flex-end; justify-content: center;
+    z-index: 100; padding: 0;
+    animation: fadeIn .2s ease;
+  }
+  @media (min-width: 640px) { .modal-overlay { align-items: center; padding: var(--s-5); } }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  .modal {
+    background: var(--brand-cream);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    width: 100%; max-width: 520px; max-height: 92vh;
+    overflow-y: auto; position: relative;
+    animation: slideUp .3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  @media (min-width: 640px) { .modal { border-radius: var(--r-xl); } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-header {
+    position: sticky; top: 0; background: var(--brand-cream);
+    padding: var(--s-5) var(--s-6);
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 2; border-bottom: 1px solid var(--brand-line);
+  }
+  .modal-title {
+    font-family: var(--font-display); font-size: 18px; font-weight: 600;
+    color: var(--brand-primary); margin: 0; letter-spacing: -0.02em;
+  }
+  .modal-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    display: grid; place-items: center;
+    color: var(--brand-primary);
+    transition: background .2s ease;
+  }
+  .modal-close:hover { background: #fff; }
+  .modal-body { padding: var(--s-6); }
+
+  .stepper { display: flex; gap: 6px; margin-bottom: var(--s-6); }
+  .step-dot {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--brand-line);
+    transition: background .3s ease;
+  }
+  .step-dot.active { background: var(--brand-primary); }
+  .step-dot.completed { background: var(--brand-success); }
+
+  .step-heading {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 24px; line-height: 1.2;
+    color: var(--brand-primary); margin: 0 0 var(--s-2);
+    letter-spacing: -0.025em;
+  }
+  .step-sub { color: var(--brand-muted); margin: 0 0 var(--s-6); font-size: 15px; }
+
+  .user-card {
+    background: var(--brand-surface); border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); padding: var(--s-5);
+    margin-bottom: var(--s-5);
+  }
+  .user-card-row {
+    display: flex; justify-content: space-between;
+    padding: var(--s-3) 0; font-size: 14px;
+    border-bottom: 1px solid var(--brand-line);
+  }
+  .user-card-row:last-child { border: none; }
+  .user-card-row span:first-child { color: var(--brand-muted); }
+  .user-card-row span:last-child { font-weight: 500; color: var(--brand-ink); }
+
+  .opt-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-5); }
+  .opt {
+    display: block; padding: var(--s-5);
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    cursor: pointer; transition: all .2s ease;
+    position: relative;
+  }
+  .opt:hover { border-color: var(--brand-primary); }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt:has(input:checked) {
+    border-color: var(--brand-primary); background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .opt-title {
+    font-weight: 600; font-size: 16px;
+    display: flex; align-items: center; gap: var(--s-3);
+    color: var(--brand-primary);
+  }
+  .opt-title::before {
+    content: ''; width: 18px; height: 18px;
+    border-radius: 50%; border: 1.5px solid var(--brand-line);
+    flex-shrink: 0; transition: all .2s ease;
+  }
+  .opt:has(input:checked) .opt-title::before {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    box-shadow: inset 0 0 0 3px var(--brand-cream);
+  }
+  .opt-desc { font-size: 13px; color: var(--brand-muted); margin-top: 4px; padding-left: 30px; }
+
+  .counter {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--s-4) var(--s-5);
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+  }
+  .counter-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    font-size: 22px; font-weight: 500;
+    display: grid; place-items: center;
+    transition: background .15s ease;
+  }
+  .counter-btn:hover:not(:disabled) { background: var(--brand-accent); }
+  .counter-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .counter-value {
+    font-family: var(--font-display); font-size: 28px;
+    font-weight: 600; color: var(--brand-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .summary {
+    background: var(--brand-surface); border: 1px solid var(--brand-line);
+    border-radius: var(--r-md); padding: var(--s-5);
+    margin-bottom: var(--s-5);
+  }
+  .summary-row {
+    display: flex; justify-content: space-between;
+    padding: var(--s-2) 0; font-size: 14px; color: var(--brand-ink);
+  }
+  .summary-row span:first-child { color: var(--brand-muted); }
+  .summary-row.total {
+    border-top: 1.5px dashed var(--brand-line);
+    margin-top: var(--s-2); padding-top: var(--s-3);
+    font-size: 18px; font-weight: 600;
+    color: var(--brand-primary);
+  }
+  .summary-row.total span:first-child { color: var(--brand-primary); }
+  .summary-row.total .amt {
+    font-family: var(--font-display); font-size: 24px; letter-spacing: -0.02em;
+  }
+
+  /* HERO — pickup price pair */
+  .price-pair { margin-top: var(--s-3); display: flex; flex-direction: column; gap: var(--s-2); }
+  .price-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .price-zone {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em;
+    opacity: .8; font-weight: 500;
+  }
+  .price-amt {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4.5vw, 38px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+  }
+  @media (min-width: 960px) {
+    .price-pair { gap: var(--s-3); }
+    .price-zone { font-size: 13px; }
+    .price-amt { font-size: clamp(32px, 5.5vw, 44px); }
+  }
+
+  /* PICKUP NOTE BANNER (How It Works) */
+  .pickup-note {
+    margin-top: var(--s-8);
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-left: 4px solid var(--brand-primary);
+    border-radius: var(--r-md);
+    padding: var(--s-5) var(--s-6);
+    display: flex; gap: var(--s-4); align-items: flex-start;
+  }
+  .pickup-note svg { flex-shrink: 0; color: var(--brand-primary); margin-top: 2px; }
+  .pickup-note p { margin: 0; font-size: 15px; color: var(--brand-ink); line-height: 1.55; }
+  .pickup-note strong { color: var(--brand-primary); font-weight: 600; }
+
+  /* PRICING SECTION */
+  .pricing-block { display: grid; grid-template-columns: 1fr; gap: var(--s-10); }
+  @media (min-width: 1080px) { .pricing-block { grid-template-columns: 1fr 1.4fr; gap: var(--s-12); } }
+  .pricing-block h3 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 24px; letter-spacing: -0.02em;
+    color: var(--brand-primary); margin: 0 0 var(--s-2);
+  }
+  .pricing-block .pricing-sub { color: var(--brand-muted); font-size: 14px; margin: 0 0 var(--s-5); }
+
+  .load-cards { display: grid; grid-template-columns: 1fr; gap: var(--s-3); }
+  @media (min-width: 480px) { .load-cards { grid-template-columns: 1fr 1fr; } }
+  .load-card {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .load-card:hover { border-color: var(--brand-primary); transform: translateY(-2px); }
+  .load-card-name {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--brand-muted); margin-bottom: var(--s-2); font-weight: 500;
+  }
+  .load-card-price {
+    font-family: var(--font-display); font-size: 28px; font-weight: 600;
+    color: var(--brand-primary); letter-spacing: -0.02em; line-height: 1;
+  }
+  .load-card-meta { font-size: 13px; color: var(--brand-muted); margin-top: 4px; }
+
+  .care-table {
+    background: var(--brand-surface);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .care-table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    align-items: center;
+    padding: var(--s-3) var(--s-5);
+    border-bottom: 1px solid var(--brand-line);
+    font-size: 14px;
+    gap: var(--s-3);
+  }
+  @media (min-width: 480px) {
+    .care-table-row {
+      grid-template-columns: 2fr 1fr 1fr;
+      padding: var(--s-4) var(--s-5);
+      font-size: 15px;
+    }
+  }
+  .care-table-row:last-child { border-bottom: none; }
+  .care-table-row.head {
+    background: var(--brand-cream-deep);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--brand-muted); font-weight: 600;
+    padding: var(--s-3) var(--s-5);
+  }
+  .care-item { color: var(--brand-ink); }
+  .care-price { font-family: var(--font-display); font-weight: 600; color: var(--brand-primary); letter-spacing: -0.01em; text-align: right; }
+  .care-price.empty { color: var(--brand-line); font-weight: 400; }
+  .care-loading { padding: var(--s-8); text-align: center; color: var(--brand-muted); font-size: 14px; }
+
+  /* OUR WORK */
+  .work-block {
+    display: grid; grid-template-columns: 1fr; gap: var(--s-8);
+    align-items: center;
+  }
+  @media (min-width: 880px) { .work-block { grid-template-columns: 1fr 1fr; gap: var(--s-12); } }
+  .work-text p {
+    font-size: 17px; line-height: 1.65; color: var(--brand-ink);
+    margin: 0 0 var(--s-4); max-width: 480px;
+  }
+  .work-text p:first-of-type {
+    font-family: var(--font-editorial); font-style: italic;
+    font-size: clamp(22px, 3vw, 28px); line-height: 1.3;
+    color: var(--brand-primary); font-weight: 500;
+    margin-bottom: var(--s-5);
+  }
+  .work-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5);
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-radius: var(--r-lg); padding: var(--s-8);
+    position: relative; overflow: hidden;
+  }
+  .work-stats::before {
+    content: ''; position: absolute; top: -40%; right: -30%;
+    width: 80%; height: 80%;
+    background: radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    opacity: .12; pointer-events: none;
+  }
+  .work-stat { position: relative; }
+  .work-stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 48px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+  .work-stat-label {
+    font-size: 13px; letter-spacing: 0.05em;
+    color: rgba(210,230,180,0.75); line-height: 1.4;
+  }
+
+  /* MODAL — LOCATION TOGGLE */
+  .zone-toggle {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    background: var(--brand-cream-deep);
+    padding: 6px; border-radius: var(--r-pill);
+    margin-bottom: var(--s-5);
+  }
+  .zone-btn {
+    padding: 12px 14px; border-radius: var(--r-pill);
+    background: transparent; color: var(--brand-muted);
+    font-size: 14px; font-weight: 500;
+    transition: all .2s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    line-height: 1.1;
+  }
+  .zone-btn .zone-fee { font-size: 12px; opacity: .75; font-weight: 400; }
+  .zone-btn.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    box-shadow: var(--shadow-sm);
+  }
+  .zone-btn.active .zone-fee { opacity: .85; color: var(--brand-accent); }
+
+  /* MODAL — ADD-ON SECTIONS (replaces single radio choice) */
+  .addon-block {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    margin-bottom: var(--s-3);
+    transition: border-color .2s ease;
+  }
+  .addon-block.is-active { border-color: var(--brand-primary); }
+  .addon-head {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: var(--s-3);
+  }
+  .addon-title {
+    font-weight: 600; font-size: 15px; color: var(--brand-primary);
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .addon-sub { font-size: 12px; color: var(--brand-muted); margin-top: 3px; }
+  .addon-body { margin-top: var(--s-4); }
+  .addon-body.hidden { display: none; }
+  .addon-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    transition: transform .25s ease, background .2s ease;
+    flex-shrink: 0;
+  }
+  .addon-block.is-active .addon-toggle {
+    background: var(--brand-accent);
+    transform: rotate(45deg);
+  }
+
+  .load-pills { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s-2); }
+  .load-pill {
+    padding: 12px 8px; border-radius: var(--r-md);
+    background: var(--brand-cream); color: var(--brand-primary);
+    border: 1.5px solid var(--brand-line);
+    font-weight: 600; font-size: 14px;
+    transition: all .15s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    line-height: 1.2;
+  }
+  .load-pill .load-pill-amt { font-size: 11px; opacity: .65; font-weight: 400; }
+  .load-pill:hover { border-color: var(--brand-primary); }
+  .load-pill.active {
+    background: var(--brand-primary); color: var(--brand-accent);
+    border-color: var(--brand-primary);
+  }
+  .load-pill.active .load-pill-amt { opacity: .85; }
+
+  .care-slider-wrap { margin-top: var(--s-2); }
+  .care-amount-display {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 32px; font-weight: 600;
+    color: var(--brand-primary);
+    letter-spacing: -0.02em; line-height: 1;
+    margin-bottom: var(--s-3);
+  }
+  .care-amount-display .naira { font-size: .65em; opacity: .6; margin-right: 2px; }
+  .care-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px; border-radius: 999px;
+    background: var(--brand-line); outline: none;
+    margin: var(--s-3) 0;
+  }
+  .care-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--brand-primary);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(100,60,60,0.3);
+    border: 3px solid var(--brand-cream);
+  }
+  .care-slider::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--brand-primary);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(100,60,60,0.3);
+    border: 3px solid var(--brand-cream);
+  }
+  .care-range-labels {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--brand-muted);
+    margin-top: 4px;
+  }
+  .care-input-group {
+    display: flex; align-items: center; gap: var(--s-2);
+    margin-top: var(--s-3);
+  }
+  .care-input-group label {
+    font-size: 12px; color: var(--brand-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .care-input-group input {
+    flex: 1; padding: 10px 12px;
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md); background: #fff;
+    font-size: 16px; color: var(--brand-ink);
+  }
+  .care-input-group input:focus {
+    outline: none; border-color: var(--brand-primary);
+  }
+
+  /* PICKUP WINDOW STEP */
+  .window-list {
+    display: flex; flex-direction: column;
+    gap: var(--s-3); margin-bottom: var(--s-5);
+  }
+  .window-opt {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    cursor: pointer;
+    transition: all .15s ease;
+    display: flex; align-items: center; gap: var(--s-4);
+  }
+  .window-opt:hover { border-color: var(--brand-primary); }
+  .window-opt.active {
+    border-color: var(--brand-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .window-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .window-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--brand-cream-deep);
+    color: var(--brand-primary);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    transition: background .15s ease;
+  }
+  .window-opt.active .window-icon { background: var(--brand-accent); }
+  .window-text { flex: 1; }
+  .window-label {
+    font-weight: 600; font-size: 15px;
+    color: var(--brand-primary);
+    letter-spacing: -0.01em;
+  }
+  .window-time { font-size: 13px; color: var(--brand-muted); margin-top: 2px; }
+  .window-radio {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--brand-line);
+    flex-shrink: 0; transition: all .2s ease;
+  }
+  .window-opt.active .window-radio {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    box-shadow: inset 0 0 0 3px var(--brand-cream);
+  }
+
+  /* PICKUP ADDRESS SELECTOR (returning users with 2 addresses) */
+  .addr-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-5); }
+  .addr-opt {
+    background: var(--brand-surface);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--r-md);
+    padding: var(--s-4) var(--s-5);
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .addr-opt:hover { border-color: var(--brand-primary); }
+  .addr-opt.active {
+    border-color: var(--brand-primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(100,60,60,0.06);
+  }
+  .addr-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--brand-muted); font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .addr-text {
+    font-size: 14px; color: var(--brand-ink); line-height: 1.5;
+    word-break: break-word;
+  }
+
+  /* Two-stage payment notice */
+  .billing-note {
+    background: var(--brand-cream-deep);
+    border-radius: var(--r-md);
+    padding: var(--s-3) var(--s-4);
+    margin-top: var(--s-3);
+    font-size: 13px; color: var(--brand-ink);
+    line-height: 1.5;
+    display: flex; gap: var(--s-3); align-items: flex-start;
+  }
+  .billing-note svg { color: var(--brand-primary); flex-shrink: 0; margin-top: 2px; }
+  .billing-note strong { color: var(--brand-primary); }
+  .window-opt { width: 100%; text-align: left; font: inherit; color: inherit; }
+
+
+  /* ===== v4 additions ===== */
+  .hero h1 .accent.area-rotator { transition: opacity .25s ease, transform .25s ease; }
+  .hero h1 .accent.is-swapping { opacity: 0; transform: rotate(-1deg) translateY(8px); }
+  @media (max-width: 959px) {
+    .hero-copy { text-align: center; }
+    .hero p.lede { margin-left: auto; margin-right: auto; }
+    .hero-actions, .hero-trust { justify-content: center; }
+  }
+  .hero-trust { gap: var(--s-2) var(--s-5); }
+  .hero h1 { font-size: clamp(36px, 6vw, 56px); }
+  @media (min-width: 960px) { .hero h1 .h1-line { white-space: nowrap; } }
+  .care-input-group input { min-width: 0; width: 100%; }
+
+  .booked-head { text-align: center; margin-bottom: var(--s-5); }
+  .booked-tick {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--brand-success); color: #fff;
+    display: grid; place-items: center; margin: 0 auto var(--s-3);
+    box-shadow: 0 10px 24px rgba(90,140,63,0.25); animation: pop .5s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  }
+  .booked-note { font-size: 13px; color: var(--brand-muted); text-align: center; margin: var(--s-4) 0 0; line-height: 1.5; }
+  .booked-note a { color: var(--brand-primary); text-decoration: underline; }
+
+  .estimator { margin-top: var(--s-4); border-top: 1px dashed var(--brand-line); padding-top: var(--s-4); }
+  .est-toggle { font-size: 14px; font-weight: 600; color: var(--brand-primary); text-decoration: underline; text-underline-offset: 3px; padding: 0; }
+  .est-body textarea {
+    width: 100%; margin: var(--s-3) 0; padding: 12px 14px; font-size: 16px;
+    border: 1.5px solid var(--brand-line); border-radius: var(--r-md); background: #fff; resize: vertical;
+  }
+  .est-body textarea:focus { outline: none; border-color: var(--brand-primary); }
+  .est-result { margin-top: var(--s-3); font-size: 13px; }
+  .est-line { display: flex; justify-content: space-between; gap: var(--s-3); padding: 6px 0; border-bottom: 1px solid var(--brand-line); }
+  .est-line span:last-child { font-weight: 600; color: var(--brand-primary); white-space: nowrap; }
+  .est-total { display: flex; justify-content: space-between; padding: var(--s-3) 0; font-weight: 600; color: var(--brand-primary); font-size: 15px; }
+  .est-note { color: var(--brand-muted); margin: 4px 0 var(--s-3); }
+  .est-use { width: 100%; }
+</style>
 </head>
 <body>
-<div data-pressd-nav="page"></div>
 
-<!-- Conversion URL: /thank-you/balance/ . Content is rendered by /js/thank-you.js -->
-<main class="page-wrap" id="ty-root" data-mode="balance">
-  <div class="state"><div class="state-icon"><span class="spinner"></span></div><h2>Confirming your payment</h2><p>This takes a few seconds.</p></div>
-</main>
+<!-- NAV (from /js/ui.js) -->
+<div data-pressd-nav="home" data-sticky></div>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span> Now serving Lagos</div>
+        <h1>
+          <span class="h1-line">Laundry service in</span><br>
+          <span class="accent area-rotator" id="hero-area">Ilupeju</span>
+        </h1>
+        <p class="lede">Picked up and delivered in a few clicks.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-open-pickup>
+            Request Pickup
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <a href="#how" class="btn btn-ghost">How It Works</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><span data-cfg="PICKUP_DAYS">Tue · Thu · Sat</span> pickups</span>
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><span data-cfg="TURNAROUND">48–72 hrs</span> delivery</span>
+          </div>
+          <div class="trust-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            15+ years of experience
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card main">
+          <div>
+            <div class="label">Pickup &amp; Delivery</div>
+            <div class="price-pair">
+              <div class="price-row"><span class="price-zone">Mainland</span><span class="price-amt" data-price="mainland">₦3,500</span></div>
+              <div class="price-row"><span class="price-zone">Island</span><span class="price-amt" data-price="island">₦4,500</span></div>
+            </div>
+            <div class="breakdown">One fee. Covers pickup &amp; delivery.</div>
+          </div>
+          <div class="hero-card-icon">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+              <path d="M3 16h18l-2-7a3 3 0 00-2.9-2.2H10A4 4 0 006 9v0"/><path d="M3 16v2a1 1 0 001 1h16a1 1 0 001-1v-2"/><path d="M9 9V6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="hero-card floating">
+          <div class="float-row">
+            <div class="float-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div class="float-text"><strong>Pickup confirmed</strong><span>Tuesday, 10:00 AM</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">How it works</div>
+      <h2>Three steps. <em>That's it.</em></h2>
+      <p>Book the pickup. We take care of the rest.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">01 / Request</div>
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Request a pickup</h3>
+        <p>Pick your area, confirm your details and pay the pickup fee. That kicks everything off.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">02 / Collect</div>
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></div>
+        <h3>We collect your laundry</h3>
+        <p>A rider comes to your address on the next pickup day and takes what you have ready.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">03 / Process &amp; Deliver</div>
+        <div class="how-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-6 9 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <h3>We process and deliver</h3>
+        <p>Sorted, washed and, where chosen, ironed. Delivered back to the same address.</p>
+      </div>
+    </div>
+    <div class="pickup-note reveal">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <p><strong>Pickups run on <span data-cfg="PICKUP_DAYS_LONG">Tuesdays, Thursdays, and Saturdays</span>.</strong> Delivery is 48–72 hours after pickup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Services</div>
+      <h2>Two ways to <em>get pressd.</em></h2>
+      <p>Add one, both, or neither. Pickup is all you need to get started.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card load reveal">
+        <div class="service-tag">Best for everyday</div>
+        <div>
+          <h3 class="service-name">Pressd Load</h3>
+          <p class="service-desc">Bulk washing, no ironing.</p>
+        </div>
+        <div class="service-meta"><a href="#pricing" class="service-unit" style="text-decoration: underline; opacity: .85;">See load pricing →</a></div>
+      </div>
+      <div class="service-card care reveal">
+        <div class="service-tag">Detailed care</div>
+        <div>
+          <h3 class="service-name">Pressd Care</h3>
+          <p class="service-desc">Detailed wash and iron, handled per item.</p>
+        </div>
+        <div class="service-meta"><a href="#pricing" class="service-unit" style="text-decoration: underline; opacity: .85;">See item pricing →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Pricing</div>
+      <h2>What things <em>cost.</em></h2>
+      <p>Pickup &amp; delivery is <span data-price="mainland">₦3,500</span> on the Mainland or <span data-price="island">₦4,500</span> on the Island. Laundry goes on top, your call.</p>
+    </div>
+    <div class="pricing-block">
+      <div class="reveal">
+        <h3>Pressd Load</h3>
+        <p class="pricing-sub">Bulk wash, folded back. Choose how many loads.</p>
+        <div class="load-cards" id="load-pricing-cards"></div>
+      </div>
+      <div class="reveal">
+        <h3>Pressd Care</h3>
+        <p class="pricing-sub">Per-item pricing. Set a tab that covers what you are sending.</p>
+        <div class="care-table" id="care-pricing-table"><div class="care-loading">Loading prices…</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR WORK -->
+<section class="section" id="our-work">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Our work</div>
+      <h2>Handled with <em>care.</em></h2>
+    </div>
+    <div class="work-block">
+      <div class="work-text reveal">
+        <p>Behind every Pressd order is experience.</p>
+        <p>Your clothes are handled by a professional with over 15 years of hands-on laundry experience across fabrics, stains and finishes.</p>
+        <p>From knowing when to hand wash to treating delicate materials properly, every item gets attention to detail.</p>
+      </div>
+      <div class="work-stats reveal">
+        <div class="work-stat"><div class="work-stat-value">15+</div><div class="work-stat-label">Years of hands-on laundry experience</div></div>
+        <div class="work-stat"><div class="work-stat-value">All</div><div class="work-stat-label">Fabric types &amp; finishes handled</div></div>
+        <div class="work-stat"><div class="work-stat-value">By hand</div><div class="work-stat-label">When the fabric calls for it</div></div>
+        <div class="work-stat"><div class="work-stat-value">Every</div><div class="work-stat-label">Item gets attention to detail</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONUT -->
+<section class="section" id="donut">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Support</div>
+      <h2>Meet <em>Donut.</em></h2>
+      <p>Your 24/7 support agent on Telegram. Book pickups and get answers without leaving your chat.</p>
+    </div>
+    <div class="donut-block">
+      <div class="donut-card reveal">
+        <div>
+          <div class="donut-avatar">
+            <img id="donut-img" src="/assets/donut.jpg" alt="Donut, the Pressd support mascot" onerror="this.onerror=null;this.src=(window.Pressd&&Pressd.paths.DONUT_FALLBACK)||'';" />
+          </div>
+          <h3>Always <em>on.</em></h3>
+          <p class="donut-tagline">Donut handles the small stuff so you never wait. Anything else goes straight to the team.</p>
+        </div>
+        <a data-tg class="donut-cta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.938z"/></svg>
+          Chat with Donut on Telegram
+        </a>
+      </div>
+      <div class="donut-features reveal">
+        <div class="donut-feature">
+          <div class="donut-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <div class="donut-feature-text"><strong>Book a pickup</strong><span>The same booking flow, right inside Telegram.</span></div>
+        </div>
+        <div class="donut-feature">
+          <div class="donut-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+          <div class="donut-feature-text"><strong>Ask questions, get answers</strong><span>Pickup days, delivery windows, pricing, the whole FAQ.</span></div>
+        </div>
+        <div class="donut-feature">
+          <div class="donut-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 14h2M12 14h4"/></svg></div>
+          <div class="donut-feature-text"><strong>Calculate your laundry cost</strong><span>Add up loads or Care items before you book. No surprises.</span></div>
+        </div>
+        <div class="donut-feature">
+          <div class="donut-feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div class="donut-feature-text"><strong>Skip to a real human</strong><span>Anything Donut cannot handle goes straight to support.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background: var(--brand-cream-deep);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">FAQ</div>
+      <h2>Quick <em>answers.</em></h2>
+    </div>
+    <div class="faq-list" style="max-width: 760px;">
+      <details class="faq-item reveal">
+        <summary>Which areas do you cover?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content" id="faq-areas">Ilupeju, Gbagada, Yaba, Surulere, Ikeja and more on the Mainland. Ikoyi, Victoria Island and Lekki on the Island. You will see the full list when you book.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>How does pickup work?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Pickup is the first step. Book it here and pay the pickup fee: <span data-price="mainland">₦3,500</span> Mainland or <span data-price="island">₦4,500</span> Island. That one fee covers pickup and delivery back to you. On the next pickup day, a rider collects your laundry. Add Pressd Load or Pressd Care while booking, or just send what you have ready.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>What days do you do pickups?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Pickups run on <strong data-cfg="PICKUP_DAYS_LONG">Tuesdays, Thursdays, and Saturdays.</strong> You are scheduled for the next available day on that rotation.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>How long until I get my clothes back?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Delivery is <strong>48–72 hours after pickup.</strong> Larger orders and detailed Care items can sit at the longer end.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>How does pricing work?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content"><strong>Pickup &amp; delivery:</strong> <span data-price="mainland">₦3,500</span> Mainland · <span data-price="island">₦4,500</span> Island. One fee covers both ways.<br><br><strong>Pressd Load:</strong> per-load pricing, see the pricing section above.<br><br><strong>Pressd Care:</strong> per-item pricing with a <span data-care-min>₦3,000</span> minimum tab. You see the full total before you pay.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Are the laundry services optional?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Yes. Pickup is the only required step. Add Pressd Load and/or Pressd Care while booking, or skip them and we bill you after we sort your laundry.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>How do I get help?<span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq-content">Talk to <strong>Donut</strong>, our 24/7 support agent on Telegram: <a data-tg style="color:var(--brand-primary);text-decoration:underline;">@pressdlagosbot</a>. Or <a data-wa style="color:var(--brand-primary);text-decoration:underline;">WhatsApp us</a>. You can also <a href="/order.html" style="color:var(--brand-primary);text-decoration:underline;">track an order</a> any time.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" style="padding-bottom: var(--s-8);">
+  <div class="container">
+    <div class="final-cta reveal">
+      <h2>Ready to skip <em>laundry day?</em></h2>
+      <p>Your next clean stack of clothes is a few taps away.</p>
+      <button class="btn btn-accent" data-open-pickup>
+        Request Pickup
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (from /js/ui.js) -->
 <div data-pressd-footer></div>
-<script src="/js/thank-you.js"></script>
+
+<!-- =====================================================================
+     BOOKING MODAL
+     ===================================================================== -->
+<div class="modal-overlay" id="pickup-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Request Pickup</h2>
+      <button class="modal-close" data-close-pickup aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="stepper">
+        <div class="step-dot" data-dot="1"></div><div class="step-dot" data-dot="2"></div>
+        <div class="step-dot" data-dot="3"></div><div class="step-dot" data-dot="4"></div>
+        <div class="step-dot" data-dot="5"></div>
+      </div>
+
+      <div class="zone-toggle" id="zone-toggle">
+        <button class="zone-btn active" data-zone="mainland" type="button"><span>Mainland</span><span class="zone-fee">₦3,500</span></button>
+        <button class="zone-btn" data-zone="island" type="button"><span>Island</span><span class="zone-fee">₦4,500</span></button>
+      </div>
+
+      <!-- 1. Email -->
+      <div class="step" data-step="email">
+        <h3 class="step-heading">Request a pickup</h3>
+        <p class="step-sub">Pick your zone above, then enter your email to continue.</p>
+        <div class="field" id="field-email">
+          <label for="i-email">Email address</label>
+          <input type="email" id="i-email" placeholder="you@email.com" autocomplete="email" inputmode="email" />
+          <div class="field-error">Please enter a valid email.</div>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-check-email"><span class="btn-label">Continue</span></button>
+      </div>
+
+      <!-- 2a. Returning -->
+      <div class="step hidden" data-step="returning">
+        <h3 class="step-heading">Welcome back, <span id="rt-name">there</span></h3>
+        <p class="step-sub">Is this you?</p>
+        <div class="user-card">
+          <div class="user-card-row"><span>Phone</span><span id="rt-phone">—</span></div>
+          <div class="user-card-row"><span>Area</span><span id="rt-area">—</span></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-rt-continue">Yes, that's me</button>
+        <button class="btn btn-ghost btn-block" id="btn-rt-notme" style="margin-top: 12px;">Not me</button>
+      </div>
+
+      <!-- 2b. New user -->
+      <div class="step hidden" data-step="newuser">
+        <h3 class="step-heading">Welcome to Pressd</h3>
+        <p class="step-sub">A few details and you are set.</p>
+        <div class="field" id="field-name">
+          <label for="i-name">Full name</label>
+          <input type="text" id="i-name" placeholder="Jane Doe" autocomplete="name" />
+          <div class="field-error">Name is required.</div>
+        </div>
+        <div class="field" id="field-email2">
+          <label for="i-email2">Email</label>
+          <input type="email" id="i-email2" placeholder="you@email.com" autocomplete="email" inputmode="email" />
+          <div class="field-error">Please enter a valid email.</div>
+        </div>
+        <div class="field" id="field-phone-wa">
+          <label for="i-phone-wa">Phone (WhatsApp)</label>
+          <input type="tel" id="i-phone-wa" placeholder="0803 000 0000" autocomplete="tel" inputmode="tel" />
+          <div class="field-error">WhatsApp number is required.</div>
+        </div>
+        <div class="field" id="field-phone-call">
+          <label for="i-phone-call">Phone (Call line)</label>
+          <input type="tel" id="i-phone-call" placeholder="Same as WhatsApp or different" autocomplete="tel" inputmode="tel" />
+          <div class="field-error">Call line is required.</div>
+        </div>
+        <div class="field" id="field-area">
+          <label for="i-area">Area</label>
+          <select id="i-area"><option value="">Select your area</option></select>
+          <div class="field-error">Please select your area.</div>
+        </div>
+        <div class="field" id="field-address1">
+          <label for="i-address1">Pickup address 1, Home</label>
+          <textarea id="i-address1" rows="2" placeholder="Street, building, landmark" autocomplete="street-address"></textarea>
+          <div class="field-error">Home address is required.</div>
+        </div>
+        <div class="field" id="field-address2">
+          <label for="i-address2">Pickup address 2 <span style="color:var(--brand-muted);font-weight:400;">(optional, work or other)</span></label>
+          <textarea id="i-address2" rows="2" placeholder="Leave blank if none"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-save-user"><span class="btn-label">Save &amp; Continue</span></button>
+      </div>
+
+      <!-- 3. Add-ons -->
+      <div class="step hidden" data-step="addons">
+        <h3 class="step-heading">Add laundry (optional)</h3>
+        <p class="step-sub">Pickup is covered. Add services or skip, your call.</p>
+
+        <div class="addon-block" id="addon-load">
+          <div class="addon-head" data-addon-head="load">
+            <div><div class="addon-title">Add Pressd Load</div><div class="addon-sub">Bulk wash, no ironing</div></div>
+            <button type="button" class="addon-toggle" aria-label="Toggle load add-on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <div class="addon-body hidden" id="addon-load-body">
+            <div class="load-pills" id="load-pills"></div>
+          </div>
+        </div>
+
+        <div class="addon-block" id="addon-care">
+          <div class="addon-head" data-addon-head="care">
+            <div><div class="addon-title">Open Pressd Care tab</div><div class="addon-sub">Detailed wash &amp; iron · <span data-care-min>₦3,000</span> minimum</div></div>
+            <button type="button" class="addon-toggle" aria-label="Toggle care add-on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <div class="addon-body hidden" id="addon-care-body">
+            <div class="care-slider-wrap">
+              <div class="care-amount-display"><span class="naira">₦</span><span id="care-display">3,000</span></div>
+              <input type="range" class="care-slider" id="care-slider" min="3000" max="30000" step="500" value="3000" aria-label="Care tab amount" />
+              <div class="care-range-labels"><span data-care-min>₦3,000</span><span>₦30,000+</span></div>
+              <div class="care-input-group">
+                <label for="care-input-exact">Exact</label>
+                <input type="number" id="care-input-exact" min="3000" step="500" value="3000" inputmode="numeric" />
+              </div>
+            </div>
+            <div class="estimator hidden" id="estimator">
+              <button type="button" class="est-toggle" id="est-toggle">Not sure how much? Tell us what you're sending</button>
+              <div class="est-body hidden" id="est-body">
+                <textarea id="est-text" rows="3" maxlength="600" placeholder="e.g. 6 office shirts ironed, 3 trousers, 1 agbada, a duvet"></textarea>
+                <button type="button" class="btn btn-ghost btn-block" id="btn-estimate"><span class="btn-label">Estimate my tab</span></button>
+                <div class="est-result" id="est-result"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btn-addons-next" style="margin-top: var(--s-5);">Continue</button>
+        <button class="btn btn-ghost btn-block" id="btn-addons-skip" style="margin-top: 12px;">Pickup only, bill me after</button>
+        <div class="billing-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>
+          <div>You pay the pickup fee plus anything you add now. If your laundry comes to more than your tab, we send a balance link after sorting.</div>
+        </div>
+      </div>
+
+      <!-- 3b. Address picker (returning users with 2 addresses) -->
+      <div class="step hidden" data-step="pickup-address">
+        <h3 class="step-heading">Where should we collect from?</h3>
+        <p class="step-sub">Pick the address for this pickup.</p>
+        <div class="addr-list" id="addr-list"></div>
+        <button class="btn btn-primary btn-block" id="btn-addr-next">Continue</button>
+      </div>
+
+      <!-- 4a. Window -->
+      <div class="step hidden" data-step="pickup-window">
+        <h3 class="step-heading">When should we come?</h3>
+        <p class="step-sub">Pick a time window. Pickups run <span data-cfg="PICKUP_DAYS">Tue · Thu · Sat</span>.</p>
+        <div class="window-list" id="window-list"></div>
+        <button class="btn btn-primary btn-block" id="btn-window-next" disabled>Continue</button>
+      </div>
+
+      <!-- 4b. Summary -->
+      <div class="step hidden" data-step="summary">
+        <h3 class="step-heading">Order summary</h3>
+        <p class="step-sub">Check it over, then confirm your booking.</p>
+        <div class="summary" id="summary-box"></div>
+        <button class="btn btn-primary btn-block" id="btn-place-order"><span class="btn-label">Confirm booking</span></button>
+        <div class="form-error hidden" id="order-error"></div>
+        <button class="btn btn-ghost btn-block" id="btn-summary-back" style="margin-top: 12px;">Back</button>
+      </div>
+
+      <!-- 5. Booked + pay -->
+      <div class="step hidden" data-step="booked">
+        <div class="booked-head">
+          <div class="booked-tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3 class="step-heading" style="margin:0;">Booking confirmed</h3>
+          <p class="step-sub" style="margin:6px 0 0;">Details are on the way to <strong id="booked-email"></strong></p>
+        </div>
+        <div class="order-id-box">
+          <div class="order-id-label">Your Order ID</div>
+          <div class="order-id-value" id="order-id-display">PRSD00000</div>
+        </div>
+        <div class="pay-panel">
+          <h3>Pay to <em>lock in</em> your pickup</h3>
+          <p>Your slot is held once payment goes through.</p>
+          <div class="pay-amount" id="booked-amount">₦0</div>
+          <button class="btn btn-primary btn-block" id="btn-pay"><span class="btn-label">Pay now</span></button>
+          <div class="pay-secure">Secure payment by Paystack</div>
+        </div>
+        <div class="form-error hidden" id="pay-error"></div>
+        <p class="booked-note">Want to pay later? The pay button is in your email, and on your <a id="booked-order-link" href="/order.html">order page</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var CFG = Pressd.cfg, PATHS = Pressd.paths, fmtNaira = Pressd.fmtNaira, esc = Pressd.esc;
+
+  /* ---------------- Pricing fallback (mirrors the Pricing + Areas tabs) ---------------- */
+  var FALLBACK = {
+    pickup: { mainland: 3500, island: 4500 },
+    loads: [{ qty: 1, price: 5500 }, { qty: 2, price: 10500 }, { qty: 3, price: 15000 }],
+    careMin: 3000,
+    care: [
+      { item: 'T-Shirts / Tops', wash: 300, iron: 400 }, { item: 'Shirts (Formal)', wash: 400, iron: 500 },
+      { item: 'Trousers / Pants', wash: 400, iron: 600 }, { item: 'Jeans', wash: 400, iron: 600 },
+      { item: 'Shorts', wash: 300, iron: 400 }, { item: 'Gowns / Dresses', wash: 500, iron: 700 },
+      { item: 'Skirts', wash: 400, iron: 500 }, { item: 'Jackets / Blazers', wash: 700, iron: 700 },
+      { item: 'Hoodies / Sweatshirts', wash: 500, iron: 700 }, { item: 'Native Attire (2pc)', wash: 700, iron: 1500 },
+      { item: 'Towels (Small)', wash: 600, iron: null }, { item: 'Towels (Large)', wash: 1000, iron: null },
+      { item: 'Bedsheets (per one)', wash: 1000, iron: null }, { item: 'Pillowcases (up to 4)', wash: 500, iron: null },
+      { item: 'Duvet', wash: 3500, iron: null }, { item: 'Underwear (per piece)', wash: 200, iron: null },
+    ],
+    areas: [
+      { area: 'Ilupeju', zone: 'mainland', active: true }, { area: 'Gbagada', zone: 'mainland', active: true },
+      { area: 'Yaba', zone: 'mainland', active: true }, { area: 'Shomolu', zone: 'mainland', active: true },
+      { area: 'Surulere', zone: 'mainland', active: true }, { area: 'Bariga', zone: 'mainland', active: true },
+      { area: 'Ikeja', zone: 'mainland', active: true }, { area: 'Maryland', zone: 'mainland', active: true },
+      { area: 'Ikoyi', zone: 'island', active: true }, { area: 'Victoria Island', zone: 'island', active: true },
+      { area: 'Lekki', zone: 'island', active: true }, { area: 'Ikate', zone: 'island', active: true },
+      { area: 'Ajah', zone: 'island', active: false },
+    ],
+    aiEnabled: false,
+  };
+  var AREA_ALIASES = { vi: 'Victoria Island', 'v.i': 'Victoria Island', 'v.i.': 'Victoria Island' };
+
+  var pricing = JSON.parse(JSON.stringify(FALLBACK));
+  var params = new URLSearchParams(location.search);
+
+  var state = {};
+  function resetState() {
+    state = {
+      zone: 'mainland', email: '', user: null, isReturning: false,
+      pickupAddress: '', pickupAddressLabel: 'Home',
+      loadEnabled: false, loads: 1, careEnabled: false, careAmount: pricing.careMin,
+      pickupWindow: null, pickupOnlyBilledAfter: false,
+      orderId: null, paymentLink: null, accessCode: null, totalAmount: 0,
+    };
+  }
+  resetState();
+
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var modal = $('#pickup-modal');
+  var zoneToggle = $('#zone-toggle');
+
+  /* ---------------- Areas + ad landing (?area=Gbagada) ---------------- */
+  function areaList() { return pricing.areas && pricing.areas.length ? pricing.areas : FALLBACK.areas; }
+  function findArea(name) {
+    if (!name) return null;
+    var key = String(name).trim().toLowerCase();
+    var canonical = AREA_ALIASES[key] || name;
+    var k2 = String(canonical).toLowerCase();
+    return areaList().filter(function (a) { return a.area.toLowerCase() === k2; })[0] || null;
+  }
+  function zoneForArea(name) { var a = findArea(name); return a ? a.zone : null; }
+
+  var landingArea = params.get('area');
+  var landingMatch = findArea(landingArea);
+
+  /* ---------------- Hero rotator ---------------- */
+  (function heroRotator() {
+    var el = $('#hero-area');
+    var words = (CFG.HERO_AREAS || ['Lagos']).slice();
+    if (landingArea) { el.textContent = landingMatch && words.indexOf(landingArea) === -1 ? landingMatch.area : landingArea; return; }
+    el.textContent = words[0];
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (words.length < 2 || reduce) return;
+    var i = 0;
+    setInterval(function () {
+      el.classList.add('is-swapping');
+      setTimeout(function () {
+        i = (i + 1) % words.length;
+        el.textContent = words[i];
+        el.classList.remove('is-swapping');
+      }, 260);
+    }, 2400);
+  })();
+
+  /* ---------------- Steps ---------------- */
+  var ZONE_VISIBLE = { email: 1, returning: 1, newuser: 1, 'pickup-address': 1, addons: 1, 'pickup-window': 1, summary: 1 };
+  var STEP_NUM = { email: 1, returning: 2, newuser: 2, 'pickup-address': 3, addons: 3, 'pickup-window': 4, summary: 4, booked: 5 };
+
+  function showStep(name) {
+    $$('.step', modal).forEach(function (s) { s.classList.add('hidden'); });
+    var t = $('[data-step="' + name + '"]', modal);
+    if (t) t.classList.remove('hidden');
+    var cur = STEP_NUM[name] || 1;
+    $$('.step-dot', modal).forEach(function (d) {
+      var n = +d.dataset.dot;
+      d.classList.toggle('completed', n < cur);
+      d.classList.toggle('active', n === cur);
+    });
+    zoneToggle.style.display = ZONE_VISIBLE[name] ? '' : 'none';
+    $('#modal-title').textContent = name === 'booked' ? 'Almost done' : 'Request Pickup';
+    $('.modal', modal).scrollTop = 0;
+  }
+
+  /* ---------------- Zone ---------------- */
+  zoneToggle.addEventListener('click', function (e) {
+    var b = e.target.closest('.zone-btn');
+    if (b) setZone(b.dataset.zone);
+  });
+  function setZone(zone) {
+    if (!pricing.pickup[zone]) return;
+    state.zone = zone;
+    $$('.zone-btn', zoneToggle).forEach(function (b) { b.classList.toggle('active', b.dataset.zone === zone); });
+    if (!$('[data-step="summary"]', modal).classList.contains('hidden')) buildSummary();
+  }
+  $('#i-area').addEventListener('change', function (e) {
+    var z = zoneForArea(e.target.value);
+    if (z) setZone(z);
+  });
+
+  /* ---------------- Open / close ---------------- */
+  function openModal(source) {
+    resetState();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    $$('input, select, textarea', modal).forEach(function (el) {
+      if (el.type === 'radio' || el.type === 'checkbox') el.checked = false;
+      else if (el.type !== 'range' && el.type !== 'number') el.value = '';
+    });
+    $$('.field', modal).forEach(function (f) { f.classList.remove('has-error'); });
+    ['#order-error', '#pay-error'].forEach(function (s) { $(s).classList.add('hidden'); });
+    ['load', 'care'].forEach(function (w) {
+      $('#addon-' + w).classList.remove('is-active');
+      $('#addon-' + w + '-body').classList.add('hidden');
+    });
+    $('#est-body').classList.add('hidden');
+    $('#est-result').innerHTML = '';
+    setCareAmount(pricing.careMin, null);
+    renderLoadPills();
+    renderWindows();
+    $('#btn-window-next').disabled = true;
+    if (landingMatch) { $('#i-area').value = landingMatch.area; setZone(landingMatch.zone); } else setZone('mainland');
+    showStep('email');
+    Pressd.track('pickup_modal_open', { source: source || 'button' });
+    setTimeout(function () { $('#i-email').focus(); }, 250);
+  }
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    if (location.hash === '#book') history.replaceState(null, '', location.pathname + location.search);
+  }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-open-pickup]')) { e.preventDefault(); openModal('button'); }
+    if (e.target.closest('[data-close-pickup]')) closeModal();
+  });
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+  function hashOpen() { if (location.hash === '#book') openModal('link'); }
+  window.addEventListener('hashchange', hashOpen);
+
+  /* ---------------- Helpers ---------------- */
+  function setLoading(btn, on, label) {
+    var lbl = $('.btn-label', btn);
+    if (on) {
+      btn.disabled = true;
+      if (lbl) { btn.dataset.originalLabel = lbl.textContent; lbl.innerHTML = '<span class="spinner"></span>'; }
+    } else {
+      btn.disabled = false;
+      if (lbl) lbl.textContent = label || btn.dataset.originalLabel || 'Continue';
+    }
+  }
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function showError(id, on) { var f = $(id); if (f) f.classList.toggle('has-error', on); }
+  function maskPhone(p) {
+    var d = String(p || '').replace(/\D/g, '');
+    return d.length < 4 ? (p || '—') : d.slice(0, 3) + ' •••• ' + d.slice(-3);
+  }
+  function loadPriceFor(q) { var t = pricing.loads.filter(function (l) { return l.qty === q; })[0]; return t ? t.price : 0; }
+  function helpLine() {
+    return 'Please try again, or <a href="' + esc(CFG.WHATSAPP_URL) + '" target="_blank" rel="noopener">WhatsApp us</a> and we will book it for you.';
+  }
+
+  /* ---------------- Step 1: email ---------------- */
+  $('#btn-check-email').addEventListener('click', function () {
+    var email = $('#i-email').value.trim().toLowerCase();
+    if (!isValidEmail(email)) { showError('#field-email', true); return; }
+    showError('#field-email', false);
+    state.email = email;
+    var btn = this;
+    setLoading(btn, true);
+    Pressd.api('lookupUser', { email: email }).then(function (res) {
+      if (res && res.exists && res.user) {
+        state.user = res.user; state.isReturning = true;
+        $('#rt-name').textContent = (res.user.name || 'there').split(' ')[0];
+        $('#rt-phone').textContent = maskPhone(res.user.phoneWhatsapp || res.user.phone);
+        $('#rt-area').textContent = res.user.area || '—';
+        showStep('returning');
+      } else {
+        $('#i-email2').value = email;
+        showStep('newuser');
+      }
+    }).catch(function () {
+      $('#i-email2').value = email;
+      showStep('newuser');
+    }).then(function () { setLoading(btn, false, 'Continue'); });
+  });
+  $('#i-email').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('#btn-check-email').click(); });
+
+  /* ---------------- Step 2a: returning ---------------- */
+  $('#btn-rt-continue').addEventListener('click', function () {
+    var z = state.user && zoneForArea(state.user.area);
+    if (z) setZone(z);
+    var u = state.user;
+    if (u && u.pickupAddress2 && String(u.pickupAddress2).trim()) { renderAddressSelector(); showStep('pickup-address'); }
+    else { state.pickupAddress = (u && u.pickupAddress1) || ''; state.pickupAddressLabel = 'Home'; showStep('addons'); }
+  });
+  $('#btn-rt-notme').addEventListener('click', function () {
+    state.user = null; state.isReturning = false;
+    $('#i-email').value = ''; $('#i-email2').value = '';
+    showStep('email');
+    setTimeout(function () { $('#i-email').focus(); }, 100);
+  });
+
+  function renderAddressSelector() {
+    var u = state.user || {};
+    var addrs = [{ label: 'Home', text: u.pickupAddress1 || '' }, { label: 'Other', text: u.pickupAddress2 || '' }].filter(function (a) { return a.text; });
+    $('#addr-list').innerHTML = addrs.map(function (a, i) {
+      return '<div class="addr-opt' + (i === 0 ? ' active' : '') + '" data-i="' + i + '"><div class="addr-label">' + a.label + '</div><div class="addr-text">' + esc(a.text) + '</div></div>';
+    }).join('');
+    $$('.addr-opt', $('#addr-list')).forEach(function (el) {
+      el.addEventListener('click', function () {
+        $$('.addr-opt', $('#addr-list')).forEach(function (x) { x.classList.remove('active'); });
+        el.classList.add('active');
+      });
+    });
+    renderAddressSelector.addrs = addrs;
+  }
+  $('#btn-addr-next').addEventListener('click', function () {
+    var a = $('.addr-opt.active', $('#addr-list'));
+    var pick = renderAddressSelector.addrs[a ? +a.dataset.i : 0];
+    state.pickupAddress = pick.text; state.pickupAddressLabel = pick.label;
+    showStep('addons');
+  });
+
+  /* ---------------- Step 2b: new user ---------------- */
+  function renderAreaSelect() {
+    var sel = $('#i-area');
+    var current = sel.value;
+    var groups = { mainland: [], island: [] };
+    areaList().forEach(function (a) { (groups[a.zone] || groups.mainland).push(a); });
+    var opt = function (a) {
+      return '<option value="' + esc(a.area) + '"' + (a.active ? '' : ' disabled') + '>' + esc(a.area) + (a.active ? '' : ' (coming soon)') + '</option>';
+    };
+    sel.innerHTML = '<option value="">Select your area</option>' +
+      '<optgroup label="Mainland">' + groups.mainland.map(opt).join('') + '</optgroup>' +
+      '<optgroup label="Island">' + groups.island.map(opt).join('') + '</optgroup>';
+    if (current) sel.value = current;
+  }
+
+  $('#btn-save-user').addEventListener('click', function () {
+    var v = {
+      name: $('#i-name').value.trim(),
+      email: $('#i-email2').value.trim().toLowerCase(),
+      phoneWhatsapp: $('#i-phone-wa').value.trim(),
+      phoneCall: $('#i-phone-call').value.trim(),
+      area: $('#i-area').value,
+      pickupAddress1: $('#i-address1').value.trim(),
+      pickupAddress2: $('#i-address2').value.trim(),
+    };
+    var ok = true;
+    [['#field-name', !v.name], ['#field-email2', !isValidEmail(v.email)], ['#field-phone-wa', v.phoneWhatsapp.replace(/\D/g, '').length < 10],
+     ['#field-phone-call', v.phoneCall.replace(/\D/g, '').length < 10], ['#field-area', !v.area], ['#field-address1', !v.pickupAddress1]]
+      .forEach(function (c) { showError(c[0], c[1]); if (c[1]) ok = false; });
+    if (!ok) { var first = $('.field.has-error input, .field.has-error select, .field.has-error textarea', modal); if (first) first.focus(); return; }
+
+    v.zone = zoneForArea(v.area) || state.zone;
+    var btn = this;
+    setLoading(btn, true);
+    Pressd.api('createUser', { user: v, attribution: Pressd.attribution() }).catch(function () {}).then(function () {
+      state.user = v; state.email = v.email;
+      state.pickupAddress = v.pickupAddress1; state.pickupAddressLabel = 'Home';
+      setLoading(btn, false, 'Save & Continue');
+      Pressd.track('lead_details_saved', { pickup_area: v.area, pickup_zone: v.zone });
+      showStep('addons');
+    });
+  });
+
+  /* ---------------- Step 3: add-ons ---------------- */
+  $$('[data-addon-head]').forEach(function (head) {
+    head.addEventListener('click', function () {
+      var w = head.dataset.addonHead;
+      var open = $('#addon-' + w).classList.toggle('is-active');
+      $('#addon-' + w + '-body').classList.toggle('hidden', !open);
+      if (w === 'load') state.loadEnabled = open;
+      if (w === 'care') state.careEnabled = open;
+    });
+  });
+
+  function renderLoadPills() {
+    $('#load-pills').innerHTML = pricing.loads.slice(0, 6).map(function (l) {
+      return '<button type="button" class="load-pill' + (l.qty === state.loads ? ' active' : '') + '" data-loads="' + l.qty + '">' +
+        l.qty + ' Load' + (l.qty > 1 ? 's' : '') + '<span class="load-pill-amt">' + fmtNaira(l.price) + '</span></button>';
+    }).join('');
+  }
+  $('#load-pills').addEventListener('click', function (e) {
+    var p = e.target.closest('.load-pill');
+    if (!p) return;
+    $$('.load-pill').forEach(function (x) { x.classList.remove('active'); });
+    p.classList.add('active');
+    state.loads = +p.dataset.loads;
+  });
+
+  var careSlider = $('#care-slider'), careExact = $('#care-input-exact'), careDisplay = $('#care-display');
+  function setCareAmount(v, src) {
+    var n = parseInt(v, 10);
+    if (isNaN(n) || n < pricing.careMin) n = pricing.careMin;
+    state.careAmount = n;
+    careDisplay.textContent = n.toLocaleString('en-NG');
+    if (src !== careSlider) careSlider.value = Math.min(n, +careSlider.max);
+    if (src !== careExact) careExact.value = n;
+  }
+  careSlider.addEventListener('input', function (e) { setCareAmount(e.target.value, careSlider); });
+  careExact.addEventListener('input', function (e) {
+    var n = parseInt(e.target.value, 10);
+    if (!isNaN(n)) { state.careAmount = Math.max(n, pricing.careMin); careDisplay.textContent = state.careAmount.toLocaleString('en-NG'); careSlider.value = Math.min(state.careAmount, +careSlider.max); }
+  });
+  careExact.addEventListener('blur', function (e) { setCareAmount(e.target.value, null); });
+
+  /* AI estimator (DeepSeek, via Apps Script) */
+  $('#est-toggle').addEventListener('click', function () { $('#est-body').classList.toggle('hidden'); $('#est-text').focus(); });
+  $('#btn-estimate').addEventListener('click', function () {
+    var text = $('#est-text').value.trim();
+    var out = $('#est-result');
+    if (text.length < 3) { out.innerHTML = '<p class="est-note">List a few items, e.g. "5 shirts, 2 trousers ironed".</p>'; return; }
+    var btn = this;
+    setLoading(btn, true);
+    Pressd.api('estimateCare', { text: text }).then(function (r) {
+      if (!r || !r.ok) { out.innerHTML = '<p class="est-note">' + esc((r && r.error) || 'Estimator unavailable right now. Use the slider above.') + '</p>'; return; }
+      if (!r.lines.length) { out.innerHTML = '<p class="est-note">We could not match those items. Try naming them like the price list.</p>'; return; }
+      out.innerHTML = r.lines.map(function (l) {
+        return '<div class="est-line"><span>' + l.qty + ' × ' + esc(l.item) + (l.service === 'iron' ? ', wash &amp; iron' : '') + '</span><span>' + fmtNaira(l.subtotal) + '</span></div>';
+      }).join('') +
+        '<div class="est-total"><span>Estimated</span><span>' + fmtNaira(r.total) + '</span></div>' +
+        (r.unmatched && r.unmatched.length ? '<p class="est-note">Not priced: ' + esc(r.unmatched.join(', ')) + '. We will price these after sorting.</p>' : '') +
+        (r.note ? '<p class="est-note">' + esc(r.note) + '</p>' : '') +
+        (r.suggestLoad ? '<p class="est-note">That is a lot of everyday wear. Pressd Load may work out cheaper.</p>' : '') +
+        '<button type="button" class="btn btn-primary est-use" id="btn-use-est">Use ' + fmtNaira(r.careAmount) + ' as my Care tab</button>';
+      $('#btn-use-est').addEventListener('click', function () { setCareAmount(r.careAmount, null); Pressd.track('care_estimate_used', { value: r.careAmount }); });
+      Pressd.track('care_estimate', { value: r.careAmount, lines: r.lines.length });
+    }).catch(function () {
+      out.innerHTML = '<p class="est-note">Estimator unavailable right now. Use the slider above.</p>';
+    }).then(function () { setLoading(btn, false, 'Estimate my tab'); });
+  });
+
+  $('#btn-addons-next').addEventListener('click', function () {
+    if (state.careEnabled) setCareAmount(state.careAmount, null);
+    state.pickupOnlyBilledAfter = !state.loadEnabled && !state.careEnabled;
+    showStep('pickup-window');
+  });
+  $('#btn-addons-skip').addEventListener('click', function () {
+    state.loadEnabled = false; state.careEnabled = false; state.pickupOnlyBilledAfter = true;
+    showStep('pickup-window');
+  });
+
+  /* ---------------- Step 4: window + summary ---------------- */
+  var WIN_ICONS = {
+    morning: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>',
+    afternoon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
+    evening: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+  };
+  function renderWindows() {
+    $('#window-list').innerHTML = Object.keys(Pressd.WINDOWS).map(function (k) {
+      var w = Pressd.WINDOWS[k];
+      return '<button type="button" class="window-opt" data-window="' + k + '"><div class="window-icon">' + WIN_ICONS[k] + '</div>' +
+        '<div class="window-text" style="text-align:left;"><div class="window-label">' + w.label + '</div><div class="window-time">' + w.time + '</div></div><div class="window-radio"></div></button>';
+    }).join('');
+  }
+  $('#window-list').addEventListener('click', function (e) {
+    var o = e.target.closest('.window-opt');
+    if (!o) return;
+    $$('.window-opt').forEach(function (x) { x.classList.remove('active'); });
+    o.classList.add('active');
+    state.pickupWindow = o.dataset.window;
+    $('#btn-window-next').disabled = false;
+  });
+  $('#btn-window-next').addEventListener('click', function () {
+    if (!state.pickupWindow) return;
+    buildSummary();
+    showStep('summary');
+  });
+
+  function buildSummary() {
+    var rows = [], total = 0;
+    var fee = pricing.pickup[state.zone];
+    rows.push(['Pickup &amp; delivery (' + (state.zone === 'island' ? 'Island' : 'Mainland') + ')', fmtNaira(fee)]);
+    total += fee;
+    if (state.loadEnabled) { var s = loadPriceFor(state.loads); rows.push(['Pressd Load × ' + state.loads, fmtNaira(s)]); total += s; }
+    if (state.careEnabled) { rows.push(['Pressd Care (tab)', fmtNaira(state.careAmount)]); total += state.careAmount; }
+    if (state.pickupOnlyBilledAfter) rows.push(['Laundry', 'Billed after sorting']);
+    rows.push(['Pickup address', esc(state.pickupAddress)]);
+    rows.push(['Pickup window', Pressd.fmtWindow(state.pickupWindow)]);
+    $('#summary-box').innerHTML = rows.map(function (r) {
+      return '<div class="summary-row"><span>' + r[0] + '</span><span style="text-align:right;max-width:60%;">' + r[1] + '</span></div>';
+    }).join('') + '<div class="summary-row total"><span>Total to pay</span><span class="amt">' + fmtNaira(total) + '</span></div>';
+    state.totalAmount = total;
+  }
+  $('#btn-summary-back').addEventListener('click', function () { showStep('pickup-window'); });
+
+  /* ---------------- Place order ---------------- */
+  $('#btn-place-order').addEventListener('click', function () {
+    var btn = this, err = $('#order-error');
+    err.classList.add('hidden');
+    setLoading(btn, true);
+    var u = state.user || {};
+    Pressd.api('createOrder', {
+      email: u.email || state.email,
+      user: u,
+      zone: state.zone,
+      area: u.area,
+      pickupAddress: state.pickupAddress,
+      pickupAddressLabel: state.pickupAddressLabel,
+      pickupWindow: state.pickupWindow,
+      loadEnabled: state.loadEnabled,
+      loads: state.loadEnabled ? state.loads : 0,
+      careEnabled: state.careEnabled,
+      careAmount: state.careEnabled ? state.careAmount : 0,
+      pickupOnlyBilledAfter: state.pickupOnlyBilledAfter,
+      attribution: Pressd.attribution(),
+    }).then(function (res) {
+      if (!res || !res.ok || !res.orderId) throw new Error((res && res.error) || 'Booking failed');
+      state.orderId = res.orderId;
+      state.totalAmount = res.total;
+      state.paymentLink = res.paymentLink;
+      state.accessCode = res.accessCode;
+
+      /* Booking conversion event. Name kept so existing GTM triggers keep firing. */
+      Pressd.track('order_created_before_payment', {
+        order_id: res.orderId, order_total: res.total, value: res.total, currency: 'NGN',
+        pickup_zone: state.zone, pickup_area: u.area || '', pickup_only: state.pickupOnlyBilledAfter,
+        is_returning: state.isReturning,
+      });
+
+      $('#order-id-display').textContent = res.orderId;
+      $('#booked-email').textContent = u.email || state.email;
+      $('#booked-amount').textContent = fmtNaira(res.total);
+      $('.btn-label', $('#btn-pay')).textContent = 'Pay ' + fmtNaira(res.total) + ' now';
+      $('#booked-order-link').href = (PATHS.ORDER || '/order.html') + '?id=' + encodeURIComponent(res.orderId);
+      showStep('booked');
+    }).catch(function (e) {
+      err.innerHTML = 'We could not place your booking. ' + helpLine();
+      err.classList.remove('hidden');
+      console.error(e);
+    }).then(function () { setLoading(btn, false, 'Confirm booking'); });
+  });
+
+  /* ---------------- Pay ---------------- */
+  function goThankYou(ref) {
+    location.href = (PATHS.THANK_YOU_PAYMENT || '/thank-you/payment/') +
+      '?order=' + encodeURIComponent(state.orderId) + '&reference=' + encodeURIComponent(ref || state.orderId);
+  }
+  function openCheckout() {
+    var err = $('#pay-error');
+    err.classList.add('hidden');
+    Pressd.track('payment_started', { order_id: state.orderId, value: state.totalAmount, currency: 'NGN' });
+    Pressd.pay({
+      accessCode: state.accessCode,
+      authorizationUrl: state.paymentLink,
+      onSuccess: goThankYou,
+      onCancel: function () {
+        err.innerHTML = 'Payment window closed. Your booking is saved, pay whenever you are ready.';
+        err.classList.remove('hidden');
+      },
+    });
+  }
+  $('#btn-pay').addEventListener('click', function () {
+    if (state.accessCode || state.paymentLink) { openCheckout(); return; }
+    var btn = this;
+    setLoading(btn, true);
+    Pressd.api('resumePayment', { orderId: state.orderId }).then(function (r) {
+      if (r && r.alreadyPaid) { goThankYou(state.orderId); return; }
+      if (!r || !r.ok) throw new Error(r && r.error);
+      state.paymentLink = r.paymentLink; state.accessCode = r.accessCode;
+      openCheckout();
+    }).catch(function () {
+      $('#pay-error').innerHTML = 'Payment could not open. ' + helpLine();
+      $('#pay-error').classList.remove('hidden');
+    }).then(function () { setLoading(btn, false, 'Pay ' + fmtNaira(state.totalAmount) + ' now'); });
+  });
+
+  /* ---------------- Pricing render ---------------- */
+  function applyPricing() {
+    $$('[data-price="mainland"]').forEach(function (n) { n.textContent = fmtNaira(pricing.pickup.mainland); });
+    $$('[data-price="island"]').forEach(function (n) { n.textContent = fmtNaira(pricing.pickup.island); });
+    var zf = $$('.zone-fee');
+    zf[0].textContent = fmtNaira(pricing.pickup.mainland);
+    zf[1].textContent = fmtNaira(pricing.pickup.island);
+    $$('[data-care-min]').forEach(function (n) { n.textContent = fmtNaira(pricing.careMin); });
+    careSlider.min = pricing.careMin; careExact.min = pricing.careMin;
+
+    $('#load-pricing-cards').innerHTML = pricing.loads.map(function (l) {
+      return '<div class="load-card"><div class="load-card-name">' + l.qty + ' Load' + (l.qty > 1 ? 's' : '') + '</div>' +
+        '<div class="load-card-price">' + fmtNaira(l.price) + '</div><div class="load-card-meta">' + (l.qty === 1 ? 'One full machine' : 'Bundled rate') + '</div></div>';
+    }).join('');
+    $('#care-pricing-table').innerHTML =
+      '<div class="care-table-row head"><span>Item</span><span style="text-align:right;">Wash Only</span><span style="text-align:right;">Wash &amp; Iron</span></div>' +
+      pricing.care.map(function (c) {
+        return '<div class="care-table-row"><span class="care-item">' + esc(c.item) + '</span>' +
+          '<span class="care-price' + (c.wash == null ? ' empty' : '') + '">' + (c.wash == null ? '—' : fmtNaira(c.wash)) + '</span>' +
+          '<span class="care-price' + (c.iron == null ? ' empty' : '') + '">' + (c.iron == null ? '—' : fmtNaira(c.iron)) + '</span></div>';
+      }).join('');
+
+    var active = areaList().filter(function (a) { return a.active; });
+    var ml = active.filter(function (a) { return a.zone === 'mainland'; }).map(function (a) { return a.area; });
+    var il = active.filter(function (a) { return a.zone === 'island'; }).map(function (a) { return a.area; });
+    $('#faq-areas').textContent = 'Mainland: ' + ml.join(', ') + '. Island: ' + il.join(', ') + '. More areas are coming.';
+
+    renderAreaSelect();
+    renderLoadPills();
+    $('#estimator').classList.toggle('hidden', !pricing.aiEnabled);
+    landingMatch = findArea(landingArea);
+  }
+
+  applyPricing();
+  Pressd.get('getPricing').then(function (res) {
+    if (res && res.pricing) {
+      var n = res.pricing;
+      pricing = {
+        pickup: n.pickup || FALLBACK.pickup, loads: (n.loads && n.loads.length) ? n.loads : FALLBACK.loads,
+        care: (n.care && n.care.length) ? n.care : FALLBACK.care, careMin: n.careMin || FALLBACK.careMin,
+        areas: (n.areas && n.areas.length) ? n.areas : FALLBACK.areas, aiEnabled: !!n.aiEnabled,
+      };
+      applyPricing();
+    }
+  }).catch(function () { /* fallback already rendered */ });
+
+  hashOpen();
+})();
+</script>
 </body>
 </html>
